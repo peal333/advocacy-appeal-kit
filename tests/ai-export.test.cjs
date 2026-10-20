@@ -59,10 +59,10 @@ test('generated editable ZIP imports through real editor handler in simulated DO
  editor.ids.import.files=[{name:'generated-editable-backup.zip',size:generated.editable.length,arrayBuffer:async()=>generated.editable.buffer}];
  await editor.ids.import.onchange.call(editor.ids.import);
  assert.equal(editor.ids.status.textContent,'Project opened. Your campaign text and images are ready to edit.');
- await editor.ids['download-backup'].onclick();const restored=Zip.read(await editor.downloads.at(-1).blob.arrayBuffer());
+ await editor.ids['download-project'].onclick();const restored=entries(await editor.downloads.at(-1).blob.arrayBuffer());
  assert.deepEqual(JSON.parse(Buffer.from(restored['campaign.json']).toString()),c);
  for(const asset of c.assets)assert.deepEqual(Buffer.from(restored[asset.path]),png);
- await editor.ids['download-site'].onclick();const site=entries(await editor.downloads.at(-1).blob.arrayBuffer());
+ const site=entries(Zip.write(require('../src/project.js').websiteFiles(c,Object.fromEntries(c.assets.map(a=>[a.path,restored[a.path]])),fs.readFileSync(path.join(__dirname,'../src/site.css'),'utf8'))));
  assert.deepEqual(site,entries(generated.website));
 });
 function extractProject(bytes,target){
@@ -104,12 +104,12 @@ test('portable editor boots with customized data and all embedded images without
  declarations=declarations.replace('function setup(){','function setup(bundle){').replace("vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../setup/editor.js'),'utf8'),ctx);", "ctx.KitBundle=bundle;ctx.atob=binary=>Buffer.from(binary,'base64').toString('binary');vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../setup/editor.js'),'utf8'),ctx);");
  const context={Buffer,require:require('node:module').createRequire(file),__dirname,module:{exports:{}},structuredClone,setTimeout,clearTimeout,TextEncoder,TextDecoder,Blob,queueMicrotask};
  vm.runInNewContext(declarations+'\nmodule.exports={setup};',context);const editor=context.module.exports.setup(boot.KitBundle);
- assert.equal(editor.ids.workspace.inert,true);assert.equal(editor.ids.import.disabled,true);assert.equal(editor.ids['download-site'].disabled,true);
- await editor.ids['download-backup'].onclick();assert.equal(editor.downloads.length,0);
+ assert.equal(editor.ids.workspace.inert,true);assert.equal(editor.ids.import.disabled,true);assert.equal(editor.ids['download-project'].disabled,true);
+ await editor.ids['download-project'].onclick();assert.equal(editor.downloads.length,0);
  for(let i=0;i<20&&editor.ids.workspace.inert;i++)await new Promise(resolve=>setImmediate(resolve));
  assert.equal(editor.ids.workspace.inert,false);assert.equal(editor.field('title').value,c.title);assert.match(editor.ids.status.textContent,/bundled images are ready/);
  assert(editor.ids.preview.srcdoc.includes('data:image/png;base64,'));
- await editor.ids['download-backup'].onclick();const restored=Zip.read(await editor.downloads.at(-1).blob.arrayBuffer());
+ await editor.ids['download-project'].onclick();const restored=entries(await editor.downloads.at(-1).blob.arrayBuffer());
  assert.deepEqual(JSON.parse(Buffer.from(restored['campaign.json']).toString()),c);for(const a of c.assets)assert.deepEqual(Buffer.from(restored[a.path]),a.path==='assets/unused.png'?large:png);
 });
 test('portable project preserves approved conventional legal notices when present and rejects symlink notices',t=>{

@@ -2,7 +2,9 @@
 /* Real editor handlers in a simulated DOM, not a browser or image-decoding test. */
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
-const Zip=require('../src/archive.js');
+const Zip=require('../src/archive.js'),Project=require('../src/project.js');
+const css=fs.readFileSync(path.join(__dirname,'../src/site.css'),'utf8');
+function publicFiles(campaign,image){return websiteFiles(Zip.write(Project.websiteFiles(campaign,Object.fromEntries(campaign.assets.map(a=>[a.path,image])),css)));}
 function setup(){
  const file=path.join(__dirname,'editor-integration.test.cjs');
  const declarations=fs.readFileSync(file,'utf8').split("test('editor boots")[0];
@@ -35,8 +37,7 @@ async function importedProject(poster='assets/hero.png',socialImage='assets/soci
 }
 test('public export excludes unused image files and metadata while backup and editor retain originals',async()=>{
  const {editor:e,campaign,image}=await importedProject();
- await e.ids['download-site'].onclick();
- const files=websiteFiles(await e.downloads.at(-1).blob.arrayBuffer());
+ const files=publicFiles(campaign,image);
  assert.deepEqual(Object.keys(files).sort(),['assets/hero.png','assets/social.png','index.html','styles/site.css','scripts/site.js'].sort());
  assert.deepEqual(files['assets/hero.png'],Buffer.from(image));
  assert.deepEqual(files['assets/social.png'],Buffer.from(image));
@@ -45,19 +46,15 @@ test('public export excludes unused image files and metadata while backup and ed
   for(const absent of ['assets/unused.png','unused creator','unused permission'])assert(!text.includes(absent),name+' disclosed '+absent);
   assert(text.includes('assets/hero.png'));assert(text.includes('assets/social.png'));
  }
- assert(e.ids.status.textContent.includes('Image metadata is preserved'));
- await e.ids['download-json'].onclick();
- assert.deepEqual(JSON.parse(await e.downloads.at(-1).blob.text()),campaign);
- await e.ids['download-backup'].onclick();
- const backup=Zip.read(await e.downloads.at(-1).blob.arrayBuffer());
+ await e.ids['download-project'].onclick();
+ const backup=websiteFiles(await e.downloads.at(-1).blob.arrayBuffer());
  assert.deepEqual(JSON.parse(new TextDecoder().decode(backup['campaign.json'])),campaign);
- for(const asset of campaign.assets)assert.deepEqual(backup[asset.path],image);
+ for(const asset of campaign.assets)assert.deepEqual(backup[asset.path],Buffer.from(image));
 });
 test('public export retains a social-only image and exports no unused images when references are empty',async()=>{
  for(const social of ['assets/social.png','']){
-  const {editor:e}=await importedProject('',social);
-  await e.ids['download-site'].onclick();
-  const files=websiteFiles(await e.downloads.at(-1).blob.arrayBuffer());
+  const {campaign,image}=await importedProject('',social);
+  const files=publicFiles(campaign,image);
   assert(!files['assets/unused.png']);assert(!files['assets/hero.png']);
   assert.equal(!!files['assets/social.png'],!!social);
   if(!social)assert(files['assets/']);

@@ -22,7 +22,7 @@ If you cannot run the exporter or attach files, explain the specific limitation 
 
 ## Two files to open
 
-Extract the whole ZIP and keep its folders together. Open root `index.html` to see the cause website, or root `editor.html` to change it. **Save as ZIP** downloads an updated complete package, including the refreshed root website. The source repository starts with a generic instructional site, not a real case.
+Extract the whole ZIP and keep its folders together. Open root `index.html` to see the cause website, or root `editor.html` to change it. **Save to ZIP** downloads an updated complete package, including the refreshed root website. The source repository starts with a generic instructional site, not a real case.
 
 ## What you should receive
 
@@ -33,10 +33,10 @@ Extract the whole ZIP and keep its folders together. Open root `index.html` to s
 
 **Carry the project ZIP; publish only the website ZIP.** The project and backup contain unused media too, so do not upload them as your public site. The project is rebuilt from an explicit toolkit file inventory, not everything lying around the assistant's working folder. It includes only supported campaign files, not private chat history or notes.
 
-After making manual editor changes, choose **Save as ZIP**. Check the download completed, then carry that newest ZIP into either route: extract it and open its `editor.html`, or upload it alone to your next AI conversation. Saving downloads a new file; it does not rewrite the original ZIP or extracted folder. Keep older copies until you verify the new one opens correctly. If you edited root JSON or source files outside the editor, run `node tools/build.cjs` first so its embedded data and portable source template match; the AI exporter does this in every returned project ZIP.
+After making manual editor changes, choose **Save to ZIP**. Check the download completed, then carry that newest ZIP into either route: extract it and open its `editor.html`, or upload it alone to your next AI conversation. Saving downloads a new file; it does not rewrite the original ZIP or extracted folder. Keep older copies until you verify the new one opens correctly. If you edited root JSON or source files outside the editor, run `node tools/build.cjs` first so its embedded data and portable source template match; the AI exporter does this in every returned project ZIP.
 
 ## Prefer not to use AI?
 
-Extract the whole toolkit, keep its folders together, and open `editor.html` in a desktop browser. Use the visual editor, choose **Save as ZIP**, and export the website ZIP. No install, terminal or server is required for this route.
+Extract the whole toolkit, keep its folders together, and open `editor.html` in a desktop browser. Use the visual editor and choose **Save to ZIP** to download your updated complete project. No install, terminal or server is required for this route.
 
 Before uploading material to any assistant, check that you are comfortable sharing it with that service. Do not upload confidential evidence, credentials or unpublished sensitive information. Review facts, public contacts, permissions and the full website yourself before publication. This is a development prototype; see [verification status](workflow/verification.md) for outstanding acceptance tests.

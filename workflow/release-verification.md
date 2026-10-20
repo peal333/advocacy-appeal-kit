@@ -13,7 +13,7 @@ Date: 20 October 2026. Environment: Linux workspace, Node.js **v24.19.0**. This 
 ## Root website/editor layout revision
 
 - Root `index.html` is the generated cause website, with relative `styles/`, `scripts/` and selected public media; root `editor.html` is the full local visual editor. Legacy `setup/index.html` remains compatible. No iframe wrapper or remote runtime is used for the root editor.
-- **Save as ZIP** and CLI project export regenerate the root website and offline editor seed from the current campaign. The shared public website builder filters unused asset records; complete projects retain all listed media and toolkit files. Only the separate website ZIP is intended for public hosting.
+- **Save to ZIP** and CLI project export regenerate the root website and offline editor seed from the current campaign. The shared public website builder filters unused asset records; complete projects retain all listed media and toolkit files. Only the separate website ZIP is intended for public hosting.
 - The 69-test suite checks direct root resources/script ordering, legacy parity, saved root-site edits, independent reopening and CLI regeneration, and media/checksum preservation. These are file inspections and DOM simulations, not real-browser acceptance.
 - The release checker now verifies generated root website files and rejects distribution files outside the explicit source/generated/media inventory. Generated site output stays outside the source template to prevent stale campaign data or recursive packaging.
 
@@ -37,7 +37,7 @@ The workspace now includes release documentation, the AI/portable-project workfl
 - Browser and CLI now share `src/project.js` for canonical project packaging. The source template excludes itself, current campaign/media, the campaign bundle, generated schema and checksums; those are regenerated rather than nested. Four-generation tests confirm template stability without recursive growth.
 - Browser-save tests capture the latest queued inline edit, preserve all images, verify hashes with native SHA-256, extract/check the project, reopen/resave it and regenerate with its own CLI. Startup and pending-upload locks block saving until ready; a failed save retains unsaved state. Pure-JS SHA-256 requires no secure-context Web Crypto, and independently matches Node crypto at padding boundaries and inputs up to 5 MiB.
 - The project-save handler uses its own 50 MiB ZIP ceiling rather than the website/backup 20 MiB cap. A 19 MiB-media project larger than 20 MiB packs successfully, and an oversized source inventory is rejected. These are automated/simulated checks, not browser download acceptance.
-- No actual ChatGPT/Claude upload/download session or real-browser project startup was performed. The instructions require capability checks and distinguish the main carry-forward project, public website and smaller editable backup. Browser **Save as ZIP** returns a new complete project for the next session; the old ZIP/folder is not overwritten. If only a newer editable backup was saved, supply it alongside the old project and identify it as current.
+- No actual ChatGPT/Claude upload/download session or real-browser project startup was performed. The instructions require capability checks and distinguish the main carry-forward project, public website and smaller editable backup. Browser **Save to ZIP** returns a new complete project for the next session; the old ZIP/folder is not overwritten. If only a newer editable backup was saved, supply it alongside the old project and identify it as current.
 
 ## Privacy and provenance inspection
 
@@ -54,3 +54,7 @@ The workspace now includes release documentation, the AI/portable-project workfl
 - No new distribution archive, Git operation, upload, repository creation, publication, outgoing email or provider-account change was performed.
 
 Follow [the release checklist](release-checklist.md) before describing a candidate as ready to distribute.
+
+## Single-save editor refinement
+
+The editor now has one download action, **Save to ZIP**, in both root and legacy entrypoints. It downloads the full portable project, including the updated root website, editor/source, current campaign and all listed media. Separate website, editable-backup and JSON download controls/handlers were removed; older imports and advanced CLI outputs remain supported. Required labels use an explicit red `*required` marker, and group/contact deletion is immediate with preserved unrelated data. The generic automated suite passes **72/72**; these remain DOM/source tests, not real-browser acceptance.

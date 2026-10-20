@@ -30,15 +30,40 @@ function harness(){
  const file=path.join(__dirname,'editor-integration.test.cjs');
  const code=fs.readFileSync(file,'utf8').split("test('editor boots")[0];
  const context={require:require('node:module').createRequire(file),__dirname,module:{exports:{}},structuredClone,setTimeout,clearTimeout,TextEncoder,TextDecoder,Blob,queueMicrotask};
- vm.runInNewContext(code+'\nmodule.exports={setup,descendants,Element};',context);return context.module.exports;
+ vm.runInNewContext(code+'\nmodule.exports={setup,descendants,Element,projectEntries};',context);return context.module.exports;
 }
-async function saved(e){await e.ids['download-json'].onclick();return JSON.parse(await e.downloads.at(-1).blob.text());}
+async function saved(e){await e.ids['download-project'].onclick();return JSON.parse(new TextDecoder().decode(harness().projectEntries(await e.downloads.at(-1).blob.arrayBuffer())['campaign.json']));}
 
-test('empty group creation and confirmed deletion preserve contacts and hidden override fields',async()=>{
- const {setup}=harness(),e=setup();await e.ids['nav-contacts'].onclick();e.field('new-group').value='Independent empty group';await e.button('+ Add group').onclick();let data=await saved(e);assert(data.groups.includes('Independent empty group'));
- let confirmed=false;e.ctx.confirm=()=>{confirmed=true;return false;};await e.button('Delete group Independent empty group').onclick();assert(confirmed);data=await saved(e);assert(data.groups.includes('Independent empty group'));
- e.ctx.confirm=()=>true;await e.button('Delete group Independent empty group').onclick();data=await saved(e);assert(!data.groups.includes('Independent empty group'));
- const group=data.contacts[0].group;if(group){const before=structuredClone(data.contacts[0]);await e.button('Delete group '+group).onclick();data=await saved(e);assert.deepEqual(data.contacts[0],{...before,group:''});}
+test('empty and populated groups delete without confirmation and preserve contacts and overrides',async()=>{
+ const {setup}=harness(),e=setup(),c=clone();c.groups=['Populated','Keep empty'];c.contacts[0].group='Populated';c.contacts[0].subject='Override {{recipient}}';c.contacts[0].body='Override {{name}}';
+ const json=JSON.stringify(c);e.ids.import.files=[{name:'fixture.json',size:json.length,text:async()=>json}];await e.ids.import.onchange();
+ e.ctx.confirm=()=>{assert.fail('Group deletion must not call confirm');};await e.ids['nav-contacts'].onclick();e.field('new-group').value='Independent empty group';await e.button('+ Add group').onclick();
+ await e.button('Delete group Independent empty group').onclick();let data=await saved(e);assert.deepEqual(data.groups,c.groups);assert.deepEqual(data.contacts,c.contacts);
+ await e.button('Delete group Populated').onclick();assert.equal(e.ids.status.textContent,'Group deleted. All contacts were kept in Ungrouped.');data=await saved(e);assert.deepEqual(data.groups,['Keep empty']);assert.deepEqual(data.contacts,[{...c.contacts[0],group:''}]);
+});
+
+test('contact deletion is immediate in visual and all-fields modes and preserves remaining data',async()=>{
+ const {setup,descendants}=harness();
+ for(const mode of ['visual','form']){
+  const e=setup(),c=clone();c.groups=['Keep group','Keep empty'];c.contacts[0].group='Keep group';c.contacts.push({...c.contacts[0],id:'second-recipient',name:'Second fixture',subject:'Kept subject',body:'Kept body'});
+  const json=JSON.stringify(c);e.ids.import.files=[{name:'fixture.json',size:json.length,text:async()=>json}];await e.ids.import.onchange();e.ctx.confirm=()=>{assert.fail('Contact deletion must not call confirm');};
+  if(mode==='visual'){await e.ids['nav-contacts'].onclick();const contact=descendants(e.ids.properties).find(x=>x.tagName==='BUTTON'&&x.textContent.startsWith(c.contacts[0].name));await contact.onclick();await e.button('Remove contact').onclick();}
+  else{await e.ids['mode-form'].onclick();const field=descendants(e.ids.editor).find(x=>x.dataset.path==='contacts.0.name');const remove=descendants(field.parentElement.parentElement).find(x=>x.tagName==='BUTTON'&&x.textContent==='Remove entry');await remove.onclick();}
+  assert.equal(e.ids.status.textContent,'Contact deleted. Choose Save to ZIP to keep your changes.');const data=await saved(e);assert.deepEqual(data,{...c,contacts:[c.contacts[1]]});
+ }
+});
+
+test('required markers use explicit text in separate spans and retain accessible required controls',async()=>{
+ const {setup,descendants}=harness(),e=setup();
+ function check(root){const inputs=descendants(root).filter(x=>x.getAttribute('aria-required')==='true');assert(inputs.length);for(const input of inputs){const label=input.parentElement,markers=label.children.filter(x=>x.className==='required-marker');assert.equal(markers.length,1);assert.equal(markers[0].textContent,'*required');assert(!label.textContent.includes('(required)'));assert.notEqual(label.className,'required-marker');assert.notEqual(input.parentElement,markers[0]);}}
+ check(e.ids.properties);await e.ids['nav-content'].onclick();await e.button('Add event').onclick();check(e.ids.properties);assert.equal(e.field('event.sourceId').tagName,'SELECT');
+ await e.ids['mode-form'].onclick();check(e.ids.editor);
+ const css=fs.readFileSync(path.join(__dirname,'../setup/editor.css'),'utf8');assert(css.includes('.required-marker{color:#a12727}'));
+});
+
+test('other visual destructive confirmations remain cancellable',async()=>{
+ const {setup}=harness(),e=setup();let confirmations=0;e.ctx.confirm=()=>{confirmations++;return false;};await e.ids['nav-content'].onclick();await e.button(clone().sections[0].heading).onclick();await e.button('Remove section').onclick();assert.equal(confirmations,1);assert.deepEqual((await saved(e)).sections,clone().sections);
+ await e.ids['nav-content'].onclick();await e.button('Add event').onclick();await e.button('Remove event').onclick();assert.equal(confirmations,2);assert(e.field('event.label'));assert.equal(e.ids['selection-title'].textContent,'Event details');
 });
 
 test('new contact starts with required guidance but no premature field errors and focuses its name',async()=>{

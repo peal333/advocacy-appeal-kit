@@ -4,7 +4,17 @@ Date: 20 October 2026. This is a local prototype, not a production-readiness or 
 
 ## Current release-preparation checks
 
-On Node.js v24.19.0, the generic-toolkit suite now passes **69 tests, 69 passed**, including root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save as ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+On Node.js v24.19.0, the generic-toolkit suite now passes **72 tests, 72 passed**, including root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+
+## Single-save, required-label and deletion refinement
+
+- Both root and legacy editors expose exactly one download control, labelled `Save to ZIP`. Removed backup, website and JSON download handlers are not retained as hidden controls.
+- The save still flushes pending edits and downloads the complete portable project with current campaign data, all media, a refreshed root website, editor and checksums. Older backup/JSON import compatibility and advanced CLI outputs remain supported. Public-export tests exercise the shared website builder rather than removed UI buttons.
+
+- Required fields use an explicit red `*required` text span, not a color-only indicator. The label and control keep their own colors, and `aria-required` is retained in both visual and all-fields modes, including source-reference selects.
+- Group and contact deletions do not call browser confirmation dialogs. Empty and populated group deletion preserves member contacts and overrides as Ungrouped; contact deletion preserves remaining contacts, overrides and the group catalog. Both contact editing modes report deletion status.
+- Other visual section/event removal confirmations remain cancellable. Import replacement confirmation is unchanged.
+- Automated evidence is Node DOM simulation and source/style checks, not browser rendering or an accessibility certification. The user separately reported that image upload works; no image handling code was changed in this refinement.
 
 ## Original visual-editor revision baseline
 
@@ -20,7 +30,7 @@ Revision-specific checks cover:
 
 - Optional provenance absent, blank, valid and invalid, with no empty public-source links or false verification labels.
 - Missing alternative text warns without blocking preview/export; missing image files still block export.
-- Empty named groups survive backup, dropdown assignment, rename, deletion cancellation and confirmed deletion. Deletion preserves contacts and individual message overrides as Ungrouped.
+- Empty named groups survive backup, dropdown assignment and rename. Immediate group deletion preserves contacts and individual message overrides as Ungrouped.
 - Old imports infer groups from contacts. An oversized normalized catalog fails before replacing current data.
 - Add contact focuses and scrolls to Name, required labels are shown, untouched fields are not styled as errors, and clickable review issues focus the affected field.
 - Image preview serialization uses validated raster data URLs in both edit and visitor previews. Website ZIPs retain relative asset paths and backups retain the original bytes. SVG, mismatched signatures and simulated decode errors are rejected.
@@ -46,6 +56,6 @@ The DOM and Image simulations test state transitions and data preservation, not 
 - Version 1 only; unrelated website migration is outside this MVP.
 - Backup import accepts the kit's uncompressed ZIPs, not arbitrary repacked/compressed archives.
 - PNG/JPEG/WebP only; 5 MiB/40 megapixels per image, 19 MiB total image bytes, 1 MiB campaign JSON, 20 MiB archive/import limit.
-- Incomplete required content blocks website and editable-backup exports. JSON-only preserves text without media and may require correction before reimport.
+- Incomplete required content blocks Save to ZIP. Complete or remove incomplete entries before saving; no separate JSON-only draft download is offered.
 - No autosave, backend, scraping, analytics, account, provider credential, automatic sending, publication or GitHub integration.
 - GPLv3-only versus GPLv3-or-later remains unresolved; no final license grant is claimed.

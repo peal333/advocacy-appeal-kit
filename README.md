@@ -1,6 +1,6 @@
 # Advocacy Appeal Kit
 
-**An easy way for nontechnical people to create an appeals website.** Download the ZIP, upload it to ChatGPT, and talk through your cause, or use the visual editor yourself. No coding experience needed.
+Make it easy for anyone to create an appeals website.
 
 **[Download the latest ZIP](https://github.com/peal333/advocacy-appeal-kit/archive/refs/heads/main.zip)**
 
@@ -15,7 +15,7 @@ Add your story, images, sources and a call to action. Visitors can prepare an em
 After extracting the ZIP, open either file in the main folder:
 
 - **`index.html` is your cause’s website.** Open it to see the visitor-facing page.
-- **`editor.html` is your visual editor.** Open it to make changes, then choose **Save as ZIP** to download the updated package, including the website.
+- **`editor.html` is your visual editor.** Open it to make changes, then choose **Save to ZIP** to download the updated package, including the website.
 
 Keep the whole folder together so both pages can find their supporting files.
 
@@ -43,17 +43,17 @@ No installation, terminal, server or AI account is needed. **All fields** opens 
 
 ## Save now. Pick it up later.
 
-Choose **Save as ZIP** and make sure the download finishes before closing or refreshing. It saves a **new, complete project ZIP** with the toolkit, source, your current campaign, all your images and an updated `index.html` website. Keep that newest ZIP: it is the one file you need for either workflow.
+Choose **Save to ZIP** and make sure the download finishes before closing or refreshing. It saves a **new, complete project ZIP** with the toolkit, source, your current campaign, all your images and an updated `index.html` website. Keep that newest ZIP: it is the one file you need for either workflow.
 
 - **Reopen in the editor:** extract your saved project ZIP, keep its folders together, and open `editor.html`. Your campaign and images load automatically.
 - **Continue with AI:** upload your saved project ZIP and explain what you want to change. Ask for an updated project ZIP to keep afterward.
-- **Make an extra backup:** **Save editable backup** saves campaign data and images without the toolkit. Restore that smaller backup with **Open backup**; do not use Open backup for a whole project ZIP.
+The editor has one save/download action: **Save to ZIP**. **Open backup** remains available for older data/media backups or supported JSON; reopen a whole project by extracting it and opening its `editor.html`.
 
 Saving downloads a new file; it does not overwrite your original ZIP or extracted folder. Unsaved changes can be lost when you close or refresh the editor. Always continue from your newest saved project.
 
 ## Ready to share your website?
 
-Choose **Export website ZIP**. This is the file for hosting, not your project ZIP or editable backup. Exporting downloads files; it does not publish your site.
+**Save to ZIP** keeps your complete editable project. It does not publish anything. Do not upload the whole project to a public host: it includes editor/source files and every listed image, including unused ones. For a site-only hosting package, ask your AI assistant to prepare it from your saved ZIP, or use the advanced [CLI workflow](workflow/ai.md).
 
 Before publishing, replace all example content and review the facts, public contacts, message wording, image permissions and full visitor preview. Treat campaign data as public. Do not include confidential evidence, private contact details or sensitive image metadata, or upload them to an AI service.
 

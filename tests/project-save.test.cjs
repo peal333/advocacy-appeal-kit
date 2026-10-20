@@ -68,7 +68,7 @@ test('pending image decoding blocks project Save until upload completes',async()
 test('root entries are a rendered cause website and directly usable local editor, with legacy editor parity',()=>{
  const main=fs.readFileSync(path.join(root,'index.html'),'utf8'),page=fs.readFileSync(path.join(root,'editor.html'),'utf8'),legacy=fs.readFileSync(path.join(root,'setup/index.html'),'utf8');
  assert.match(main,/<title>Your campaign title<\/title>/);assert(!main.includes('id="download-project"'));assert(!main.includes('<iframe'));
- assert.match(page,/id="download-project"[^>]*>Save as ZIP</);assert.match(page,/id="properties"/);assert(!/type="module"|https?:\/\/|<base/.test(page));
+ assert.match(page,/id="download-project"[^>]*>Save to ZIP</);assert.match(page,/id="properties"/);for(const source of [page,fs.readFileSync(path.join(root,'setup/index.html'),'utf8')]){assert.equal((source.match(/id="download-[^"]+"/g)||[]).length,1);assert.match(source,/id="download-project"[^>]*>Save to ZIP</);assert(!/download-(backup|site|json)|advanced-save/.test(source));}assert(!/type="module"|https?:\/\/|<base/.test(page));
  const scripts=[...page.matchAll(/<script src="([^"]+)"/g)].map(m=>m[1]);
  assert.deepEqual(scripts,['src/schema.js','src/core.js','src/archive.js','src/project.js','setup/project-template.js','setup/bundle.js','setup/visual.js','setup/editor.js']);
  for(const entry of ['index.html','editor.html','setup/index.html']){
