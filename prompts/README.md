@@ -27,4 +27,4 @@ File reading, a compatible Node.js runtime and downloadable-file tools are requi
 
 The repository's generic starter and automated fixtures remain fictional, with reserved example addresses. The real-cause brief lives only in prompt documentation; merely adding or reading these files does not publish a campaign or establish affiliation with any organization.
 
-[General starter prompt](../START-HERE.md) · [Detailed AI workflow](../app/workflow/ai.md) · [Manual editor guide](../app/workflow/manual.md) · [Verification limitations](../app/workflow/verification.md)
+[Start with the README](../README.md) · [Detailed AI workflow](../app/workflow/ai.md) · [Manual editor guide](../app/workflow/manual.md) · [Verification limitations](../app/workflow/verification.md)

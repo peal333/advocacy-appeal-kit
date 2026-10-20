@@ -1,6 +1,6 @@
 # Customize with AI: upload, talk, receive your website ZIP
 
-Upload the **whole repository/toolkit ZIP** to ChatGPT or Claude and paste the prompt in [START-HERE.md](../../START-HERE.md). Explain your cause in ordinary language. The assistant should ask a few questions, prepare a draft with you, and return a cause-specific **portable project ZIP, website ZIP and editable backup**, not just tell you how to code. Codex can work from an extracted copy using the same files.
+Upload the **whole repository/toolkit ZIP** to ChatGPT or Claude and paste the prompt in [the guided workflow](../../prompts/GUIDED_WORKFLOW.md). Explain your cause in ordinary language. The assistant should ask a few questions, prepare a draft with you, and return a cause-specific **portable project ZIP, website ZIP and editable backup**, not just tell you how to code. Codex can work from an extracted copy using the same files.
 
 This is a supported workflow, not a promise about any provider's current tools. The session needs archive/file reading, Node.js execution for the included exporter, and downloadable-file output for the complete in-chat route. The assistant checks those capabilities at the start. There is no AI integration, model dependency, API key or paid account requirement inside the toolkit. You do not need Node for the manual editor.
 
@@ -63,7 +63,7 @@ Choose **Save to ZIP** before revision. Upload that newest project ZIP alone and
 
 ## Carrying the project into the next session
 
-The **project ZIP is required**, not an optional third-party dependency or an archive of the chat. Each successful exporter run returns a freshly rebuilt self-contained project. For a later AI change, upload that project ZIP, follow START-HERE.md, and say what to change. Extract it, edit its campaign data/media, and run its bundled exporter. Preserve unrelated fields and media; the new project ZIP is the next complete handoff.
+The **project ZIP is required**, not an optional third-party dependency or an archive of the chat. Each successful exporter run returns a freshly rebuilt self-contained project. For a later AI change, upload that project ZIP, follow README.md and the guided prompt, and say what to change. Extract it, edit its campaign data/media, and run its bundled exporter. Preserve unrelated fields and media; the new project ZIP is the next complete handoff.
 
 If you changed the campaign in the browser, choose **Save to ZIP**. The downloaded ZIP is the current self-contained version, so upload that file alone. The browser does not overwrite the original ZIP or extracted folder. Extract the new download and open its editor to continue locally. Preserve the old copy until you verify the download. If you only have a newer editable backup, upload it with the project and identify it as current; the exporter can rebuild the project from that backup.
 

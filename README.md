@@ -33,18 +33,16 @@ Choose either path below. Both produce the same kind of complete project ZIP: yo
 
 1. Upload the **whole project ZIP** to ChatGPT Chat / Work, **or paste the repository URL** and ask it to read the project:
    https://github.com/peal333/advocacy-appeal-kit.git
-2. Copy the prompt from **[Start here](START-HERE.md)** into the chat, then talk through your cause and the changes you want.
+2. Open **[GUIDED_WORKFLOW.md](prompts/GUIDED_WORKFLOW.md)** and paste its entire prompt block into the chat. It will guide you through your cause and the changes you want.
 3. Review the result and ask for an **updated project ZIP** to download and keep.
 
 The URL option works when the chat can access or clone the repository. Private repositories require authorized access; pasting a link does not grant it. If URL access is unavailable, download the ZIP yourself and upload it instead.
 
-The chat needs tools that can read the project, run the included exporter and return downloadable files; the starter prompt asks it to check first. If those tools are unavailable, it can help with wording and you can finish using Path 2.
+The chat needs tools that can read the project, run the included exporter and return downloadable files; the guided prompt asks it to check first. If those tools are unavailable, it can help with wording and you can finish using Path 2.
 
 Starting from this repository gives you the toolkit example. For later changes to **your campaign**, upload your newest saved project ZIP, or use a repository URL that contains that same up-to-date customized project.
 
-[Open the AI starter prompt →](START-HERE.md)
-
-Want to test the ZIP-to-campaign workflow? Use the ready-filled **[one-shot example](prompts/BRISTOL_COMMUNITY_CLEANUP.md)**, or the **[guided prompt](prompts/GUIDED_WORKFLOW.md)** for your own cause. The **[prompts guide](prompts/README.md)** explains both and how to check the returned ZIP.
+Prefer a ready-filled example? Paste the complete **[Bristol Community Cleanup prompt](prompts/BRISTOL_COMMUNITY_CLEANUP.md)** instead. The **[prompts guide](prompts/README.md)** explains both options and how to check the returned files.
 
 ### Path 2: Visual Builder in editor.html
 
@@ -66,7 +64,7 @@ No installation, terminal, server or AI account is needed. **All fields** opens 
 - `prompts/`: copy-and-paste one-shot and guided AI workflow prompts.
 - `app/`: the editor, tools, tests and detailed guides. You do not need to open it for everyday editing.
 
-Keep the whole folder together. `AGENTS.md` and `START-HERE.md` stay at the top level so AI assistants can find the instructions.
+Keep the whole folder together. This README is the starting point; `AGENTS.md` contains guidance for assistants working on the toolkit.
 
 ## Keep one ZIP. Continue with either path.
 
@@ -76,6 +74,10 @@ Your newest project ZIP is the portable handoff for both workflows. Next time:
 - **Use the Visual Builder:** extract that ZIP and open `editor.html`. Your saved campaign and images load automatically. Edit, then choose **Save to ZIP** again.
 
 Saving downloads a **new file**; it does not overwrite your original ZIP or extracted folder. Unsaved editor changes can be lost when you close or refresh. Always continue from your newest saved project ZIP.
+
+### What else does the AI export?
+
+Alongside the complete **project ZIP**, the AI workflow returns a **website ZIP** for hosting, an **editable-backup ZIP** containing campaign data and all listed images, and a separate review/change summary. Keep the project ZIP as your main handoff. Use **Open backup** only for the editable backup or campaign JSON; to open a project ZIP, extract it and open its own `editor.html`. JSON alone does not include images. See the [prompt guide](prompts/README.md) for the acceptance check and [technical workflow](app/workflow/ai.md) for build and export details.
 
 ### Which HTML file should I open?
 
