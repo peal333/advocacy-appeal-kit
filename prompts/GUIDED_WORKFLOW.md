@@ -25,7 +25,7 @@ Propose the title, summary, introduction, concrete action, useful sections, reci
 
 MAKE IT LOOK GOOD WITH THE EXISTING KIT
 Use the supported schema/renderer, not a replacement website or application-code changes. Recommend a legible light background/dark accent and a clear reading order. Omit unsupported or unnecessary features. Leave siteUrl, petitionUrl, socialLinks, timeline and event empty/null unless supplied or verified.
-Use permitted supplied images or an original illustration if available and appropriate, with accurate provenance and meaningful alt text. Follow the kit's raster format/size limits. Do not copy logos, hotlink images or invent rights. If tools or permissions are unavailable, offer a polished text-only layout. Preserve existing revision media unless I approve removing it.
+Use permitted supplied images or an original illustration if available and appropriate, with accurate provenance and meaningful alt text. Follow the kit's raster format/size limits. Do not copy logos, hotlink images or invent rights. If tools or permissions are unavailable, use the existing image-free layout with its decorative hero panel (“Small voices. Shared ground. Real possibility.”) intact, not a redesigned or removed panel. I can add a hero image later in the editor. Preserve existing revision media unless I approve removing it.
 
 BUILD AND DELIVER
 Follow app/workflow/ai.md and use app/tools/export-campaign.cjs with the working campaign directory and a fresh output directory outside the toolkit. Return actual downloadable files:
