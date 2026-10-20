@@ -94,19 +94,24 @@ Keep the whole folder together so both pages can find their supporting files.
 
 ### Easiest options
 
-- **Cloudflare Pages — recommended:** upload your site-only ZIP or extracted website folder. No build setup is needed for this static site. [Our walkthrough](app/workflow/publish-cloudflare.md) · [Cloudflare drag-and-drop guide](https://developers.cloudflare.com/pages/get-started/direct-upload/#drag-and-drop).
-- **Netlify Drop:** extract the site-only ZIP and drag the website folder into Netlify. A simple alternative with a free tier subject to usage credits. [Deploy with drag and drop](https://docs.netlify.com/deploy/create-deploys/).
-- **AWS Amplify Hosting:** deploy a site-only ZIP without connecting Git. Managed hosting with HTTPS; usage charges and free-tier eligibility apply. [Manual upload guide](https://docs.aws.amazon.com/amplify/latest/userguide/manual-deploys.html).
+- **Cloudflare Pages Direct Upload — recommended:** sign in to Cloudflare and upload your site-only ZIP or extracted website folder. No build setup is needed for this static site. [Our walkthrough](app/workflow/publish-cloudflare.md) · [Direct Upload guide](https://developers.cloudflare.com/pages/get-started/direct-upload/#drag-and-drop).
+- **Netlify Drop:** extract the site-only ZIP, sign in to the intended Netlify team and drag the website folder into [Netlify Drop](https://app.netlify.com/drop). [Drag-and-drop guide](https://docs.netlify.com/deploy/create-deploys/#drag-and-drop). Account plan and usage limits apply.
+- **Vercel Drop:** upload the site-only ZIP or extracted website folder at [Vercel Drop](https://vercel.com/drop), select your team/project name and deploy. It accepts files, folders and ZIPs; static sites need no build step or Git repository. Each drop creates a new project. [Official introduction](https://vercel.com/changelog/vercel-drop). Use your Vercel account and an eligible plan; Hobby is restricted to non-commercial personal use under its [fair-use guidelines](https://vercel.com/docs/limits/fair-use-guidelines).
 
 ### Other good options
 
-- **Git-based hosting:** [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site), [Render Static Sites](https://render.com/docs/static-sites) and [DigitalOcean App Platform](https://www.digitalocean.com/pricing/app-platform) are useful if you prefer updating a dedicated website repository.
-- **File upload or command-line hosting:** [Neocities](https://neocities.org/supporter), [Surge](https://surge.sh/docs/getting-started) and [Firebase Hosting](https://firebase.google.com/docs/hosting/quickstart) can host static files. Upload methods, custom-domain support and free limits differ.
-- **Amazon S3:** can serve a static website, but its website endpoint does not support HTTPS. Use CloudFront for HTTPS, or choose Amplify for a simpler managed setup. [S3 website endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html).
+- **Amazon S3:** can serve a static website, but its website endpoint does not support HTTPS. Add CloudFront for HTTPS. [S3 website endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html).
+- **GitHub Pages:** useful if you prefer updating a dedicated website repository. [Create a GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site).
+- **Render Static Sites:** another option for a website maintained in Git. [Static-site guide](https://render.com/docs/static-sites).
+- **DigitalOcean App Platform:** supports static-site hosting from a repository. [Plans and pricing](https://www.digitalocean.com/pricing/app-platform).
+- **Neocities:** file-upload hosting for static sites. [Features and plans](https://neocities.org/supporter).
+- **Surge:** command-line publishing for static websites. [Getting started](https://surge.sh/docs/getting-started).
+- **Firebase Hosting:** static hosting with a command-line workflow. [Quickstart](https://firebase.google.com/docs/hosting/quickstart).
+- **AWS Amplify Hosting:** upload a site-only ZIP without connecting Git. [Manual upload guide](https://docs.aws.amazon.com/amplify/latest/userguide/manual-deploys.html). Hosting is usage-priced, not permanently free. New-customer offers include a free plan for up to six months and eligible credits; older accounts may have different allowances. Check your account's eligibility and [current pricing](https://aws.amazon.com/amplify/pricing/).
 - **Existing shared or managed hosting:** upload the website files into the host’s public website folder, such as `public_html`. No WordPress or database is required.
 - **A small VPS:** works with a web server such as Nginx or Caddy, but you manage security updates, HTTPS and backups yourself. It is usually unnecessary for this site.
 
-Check each provider’s current limits, pricing and acceptable-use terms before deploying. A custom domain may cost extra. If considering [Vercel Hobby](https://vercel.com/docs/limits/fair-use-guidelines), check its non-commercial personal-use restrictions rather than assuming an organization’s campaign qualifies.
+Check each provider’s current account requirements, limits, pricing and acceptable-use terms before deploying. Free allowances can change or run out; a custom domain may cost extra. Do not assume an organization’s campaign qualifies for a personal-use plan.
 
 Whichever host you choose, upload only the **website package**, with `index.html` at the deployment root. Keep the complete editable project ZIP separately for future changes.
 

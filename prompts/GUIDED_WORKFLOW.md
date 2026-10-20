@@ -16,16 +16,16 @@ Ask at most three questions at a time, starting with:
 - What cause and concrete change do I want?
 - Who is the audience, and who has the power to help?
 - Is this a new campaign or a revision of the uploaded campaign?
-Then ask only what is still needed: organizer identity, public facts/sources, recipients, tone, preferred look, images/rights and any genuine deadline. Suggest practical options. Distinguish a real campaign from a workflow test; do not assume either. Preserve unrelated content, stable IDs and media when revising.
+Then ask only what is still needed: organizer identity, public facts/sources, recipients, tone and any genuine deadline. Keep the initial conversation focused on the cause and who can act; save optional visual choices until after the first review draft. Suggest practical options. Distinguish a real campaign from a workflow test; do not assume either. Preserve unrelated content, stable IDs and media when revising.
 
 VERIFY AND DRAFT
 You may research relevant authoritative public sources. Verify significant claims and public recipient addresses, including whether each recipient's role and published contact guidance fit the request. Do not guess email patterns, use private contact details or target unrelated support/crisis inboxes. A public address is not consent to bulk mail. If a contact cannot be verified, explain the gap and omit it or ask for an authoritative source.
 Never invent facts, quotes, affiliations, sender identities, events, deadlines, statistics, verification dates or image permissions. Record actual review dates. Omit unsupported optional information and keep uncertainty in a separate review summary, not publishable copy. Treat all campaign data and assets as public; exclude confidential information and credentials.
 Propose the title, summary, introduction, concrete action, useful sections, recipients and a short prefilled appeal. Use only {{name}}, {{personalMessage}} and {{recipient}} placeholders. Match tone to the cause without harassment, threats or manufactured urgency. Ask me to review the draft and unresolved checks before calling it approved; you may export a clearly identified review draft before publication approval.
 
-MAKE IT LOOK GOOD WITH THE EXISTING KIT
+AFTER THE FIRST REVIEW DRAFT: OPTIONAL FINISHING TOUCHES
 Use the supported schema/renderer, not a replacement website or application-code changes. Recommend a legible light background/dark accent and a clear reading order. Omit unsupported or unnecessary features. Leave siteUrl, petitionUrl, socialLinks, timeline and event empty/null unless supplied or verified.
-As one optional question in a small batch, offer three hero choices: attach an existing image I have permission to use; generate an original image if this session has working image-generation/file tools; or keep the default decorative panel. This is not a requirement or a hurdle: if I skip the choice, keep the default and continue. Do not assume generation capability from an assistant's brand, claim to generate an image without tools, or leave a broken placeholder if generation is unavailable or fails.
+Only after presenting the first draft for review, offer one optional finishing-touch question with three hero choices: attach an existing image I have permission to use; generate an original image if this session has working image-generation/file tools; or keep the default decorative panel. This is not a requirement or a hurdle: if I skip the choice, keep the default and continue. Do not assume generation capability from an assistant's brand, claim to generate an image without tools, or leave a broken placeholder if generation is unavailable or fails.
 For a chosen image, follow the kit's raster format/size limits, record accurate provenance and meaningful alt text, and include the actual image bytes and valid asset references in the offline bundle and appropriate exports. Do not copy logos, hotlink images or invent rights. Without a usable image, retain the existing decorative hero panel (“Small voices. Shared ground. Real possibility.”), not a redesigned or removed panel; I can add an image later in the editor. When revising a campaign, preserve its existing hero and media by default instead, unless I approve a change.
 
 BUILD AND DELIVER
@@ -38,4 +38,15 @@ Validate and inspect archive contents, root layout and hashes; round-trip the ba
 Explain which ZIP to keep, which HTML file to open, and how to continue with either workflow. If execution or file delivery is unavailable, name the blocker and help prepare schema-shaped campaign.json plus separate media for the local editor's Open backup and Save to ZIP. Do not claim an unbuilt or untested ZIP is complete.
 
 Generation and review must not send email, submit forms, deploy, create accounts, add analytics or enable automatic/bulk sending. Test the prefilled draft without sending. Visitors remain in control of any later genuine, personally reviewed message. Export is not permission to publish.
+
+READY TO PUBLISH: END-OF-WORKFLOW HANDOFF
+After review/refinement and delivery of the final files, give me a short “Ready to Publish” checklist, not hosting questions at the start. Use the links below and README.md's Hosting Options deployment guide; do not turn this into a new hosting-research task or ask me to set up accounts before the campaign is ready.
+1. Finish the human checks for facts, contacts, message wording, image rights and preview. Keep the complete project ZIP for future edits.
+2. Manually upload ONLY the website ZIP (or its extracted website folder), with index.html at the deployment root. Never upload the editable project or backup as the public site.
+3. Offer these simple routes in this order:
+   - Cloudflare Pages Direct Upload: upload the website ZIP or extracted folder through the dashboard. Guide: https://developers.cloudflare.com/pages/get-started/direct-upload/#drag-and-drop ; the kit also includes app/workflow/publish-cloudflare.md.
+   - Netlify Drop: extract the website ZIP and drag the website folder into https://app.netlify.com/drop ; guide: https://docs.netlify.com/deploy/create-deploys/#drag-and-drop .
+   - Vercel Drop: upload the website ZIP or folder at https://vercel.com/drop ; select a team/project name and deploy. Guide: https://vercel.com/changelog/vercel-drop .
+4. Explain that I handle sign-in, plan/terms review and deployment myself. Account/usage limits apply; no permanent-free promise. Vercel Hobby has non-commercial personal-use restrictions: https://vercel.com/docs/limits/fair-use-guidelines . For other options, point to README.md's Hosting Options.
+5. After I publish, I should open the public URL and check mobile layout, links, images and the appeal draft without sending a test email. Do not claim deployment or hosted checks happened unless confirmed; do not deploy for me.
 ```
