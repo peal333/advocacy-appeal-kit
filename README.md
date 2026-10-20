@@ -86,7 +86,7 @@ Before publishing, replace all example content and review the facts, public cont
 
 Your project and backup retain unused images. The website export includes only the selected hero and social-sharing images, but included image metadata is not removed. Review the files before uploading.
 
-[Review before publishing](app/workflow/review-and-recovery.md) · [Publish with Cloudflare Pages](app/workflow/publish-cloudflare.md)
+[Review before publishing](app/workflow/review-and-recovery.md) · [Publish with Cloudflare Pages](app/workflow/publish-cloudflare.md) · [Cloudflare upload guide](https://developers.cloudflare.com/pages/get-started/direct-upload/#drag-and-drop)
 
 ## About this version
 

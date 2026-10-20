@@ -16,7 +16,7 @@ Use your own Cloudflare account. Review any terms, plan, and charges presented b
 4. Check the file list, then choose **Deploy site** and any **Save and Deploy** confirmation shown.
 5. Open the resulting `pages.dev` address.
 
-Cloudflare's dashboard accepts a ZIP or folder. Its documented drag-and-drop limits are 1,000 files and 25 MiB per file. Resolve rejected files and upload the whole export again. A Direct Upload project cannot later switch to Git integration; that requires a new project. See [official Direct Upload instructions](https://developers.cloudflare.com/pages/get-started/direct-upload/).
+Cloudflare's dashboard accepts a ZIP or folder. Its documented drag-and-drop limits are 1,000 files and 25 MiB per file. Resolve rejected files and upload the whole export again. A Direct Upload project cannot later switch to Git integration; that requires a new project. See [official Direct Upload instructions](https://developers.cloudflare.com/pages/get-started/direct-upload/#drag-and-drop).
 
 ## Check the public result
 

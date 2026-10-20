@@ -1,5 +1,5 @@
 d35b909bba5dfb3ed5c1f142f5a53a1fac35cd0606b5157740e5b6d01287b1b5  ./AGENTS.md
-faf0cd9a668eb6321731664271de6d5664c6ec92c223b06e74a5f53960739201  ./README.md
+0e0e7788ffa18f2f2add0d7920f1fa84d025668ca6b2aac678c0475c7bc183fe  ./README.md
 7317ba3968db533273a731552ec710b1da0f7da8c33f047522531a3390f1df6a  ./SECURITY.md
 f22e3b4415eadfc3539f63c9372d51a388ed2bced9d17d853c02746215d6811b  ./START-HERE.md
 11690f393a776041c1e6c1e262ea04155f4838a86750725b56d92ee4bec68509  ./app/CONTRIBUTING.md
@@ -7,7 +7,7 @@ a1d884f6e5715955a42508d22d3bf791aea6b595040b337a3c1e1eca0e94b8c3  ./app/setup/bu
 6f014a1d93b8200e8357c82c096e7251b32929929bcb4f3bb26113e24cb9976f  ./app/setup/editor.css
 6fd52c45edf22364574979441af311424a464d1c84f4105fb1b82352a6408181  ./app/setup/editor.js
 c666548d8ec1b7269cceb5961351c07b6d0e2e4c3e07bb213d3425153e217669  ./app/setup/index.html
-df4b6a6837ebe22291dae4446ac60bda6249744b2ea0d163064233f0f25b5125  ./app/setup/project-template.js
+53fa9fa946c840d0c5bd01dae74c4608c4b26f0b1aa737361d7b39eb997eb4c8  ./app/setup/project-template.js
 c5b1db80b693a5967fe83e6e6c0c44096ab70aa1e67e75a2af2659606f8c2f70  ./app/setup/visual.js
 f6862ae90625283c804754fd26fab4fe0fbde716b2587b586d4c8c796c1648bb  ./app/src/archive.js
 2e4708dd2450801f03a5403a77d3fcf072783b4e1517308b675cd945ce0d00d0  ./app/src/core.js
@@ -31,7 +31,7 @@ c5aa6bae53ce66982f4f3726b7e13d314cfc2441dca4e013b0dc5acd7e3e58c1  ./app/tools/pr
 65985893b869128d1aafcf09c0b7aa9d969c3f8d25c09e5d1bc6a658aa467d71  ./app/workflow/ai.md
 861edee560def8fabb7deeec7bbab1260276152fad9af779ed7094ea28af1aab  ./app/workflow/campaign-format.md
 a0164ca56745db699b5d2e1f82d5f06a9b71599b5859032a680b1bdf372ef172  ./app/workflow/manual.md
-7946dbb49c3ffbabc36d053aa72d650ebcf99181efa4ac6fb637c137f2df126b  ./app/workflow/publish-cloudflare.md
+9bcd4978915d08992b5c9558d56c080dd2eb092cf5daf3abae2a32fa32174d59  ./app/workflow/publish-cloudflare.md
 20320a8889f98810b750224dc938b339115f7199d6b3ae523705d79e2720abb4  ./app/workflow/release-checklist.md
 dc2027dbd34cf30b4803bf7b64e2fef9e37110d2250a50790f0f142bd4a943d9  ./app/workflow/release-verification.md
 fbc1431e6d8f18098ead9470441ffe086966722c6cb8321f9d9160b1ae2f422a  ./app/workflow/review-and-recovery.md
