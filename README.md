@@ -44,6 +44,8 @@ Starting from this repository gives you the toolkit example. For later changes t
 
 [Open the AI starter prompt →](START-HERE.md)
 
+Want to test the ZIP-to-campaign workflow? Use the ready-filled **[one-shot example](prompts/BRISTOL_COMMUNITY_CLEANUP.md)**, or the **[guided prompt](prompts/GUIDED_WORKFLOW.md)** for your own cause. The **[prompts guide](prompts/README.md)** explains both and how to check the returned ZIP.
+
 ### Path 2: Visual Builder in editor.html
 
 1. Extract the **whole project ZIP** and keep its folders together.
@@ -61,6 +63,7 @@ No installation, terminal, server or AI account is needed. **All fields** opens 
 - `editor.html`: open this to edit your campaign offline.
 - `campaign.json` and `campaign.schema.json`: campaign data and its format.
 - `assets/`, `styles/` and `scripts/`: supporting website files.
+- `prompts/`: copy-and-paste one-shot and guided AI workflow prompts.
 - `app/`: the editor, tools, tests and detailed guides. You do not need to open it for everyday editing.
 
 Keep the whole folder together. `AGENTS.md` and `START-HERE.md` stay at the top level so AI assistants can find the instructions.

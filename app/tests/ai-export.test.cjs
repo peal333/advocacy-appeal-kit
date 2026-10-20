@@ -78,12 +78,16 @@ test('portable project carries only allowlisted toolkit and media, then regenera
  const r=Export.generate(root),portable=path.join(dir,'portable'),files=extractProject(r.project,portable);
  assert(!files['PRIVATE-NOTES.txt']);assert(!files['assets/stale.png']);assert(!Object.keys(files).some(name=>name.endsWith('.zip')));
  for(const name of Export.PROJECT_FILES)assert(files[name]);
+ const promptNames=['README.md','BRISTOL_COMMUNITY_CLEANUP.md','GUIDED_WORKFLOW.md'].map(name=>'prompts/'+name);
+ for(const name of promptNames)assert.equal(files[name].toString(),fs.readFileSync(path.join(__dirname,'../..',name),'utf8'));
+ assert(!Object.keys(entries(r.website)).some(name=>name.startsWith('prompts/')));
  let check=cp.spawnSync(process.execPath,['app/tools/check-release.cjs'],{cwd:portable,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
  const loaded=JSON.parse(files['campaign.json']);assert.deepEqual(loaded,c);
  loaded.contacts[0].email='updated@example.com';fs.writeFileSync(path.join(portable,'campaign.json'),JSON.stringify(loaded));
  const output=path.join(dir,'second');const run=cp.spawnSync(process.execPath,['app/tools/export-campaign.cjs','.',output],{cwd:portable,encoding:'utf8'});assert.equal(run.status,0,run.stderr);
  const second=entries(fs.readFileSync(path.join(output,c.id+'-project.zip')));assert.deepEqual(JSON.parse(second['campaign.json']),loaded);
  for(const a of c.assets)assert.deepEqual(second[a.path],png);
+ for(const name of promptNames)assert.deepEqual(second[name],files[name]);
  const publicFiles=entries(fs.readFileSync(path.join(output,c.id+'-website.zip')));assert(publicFiles['scripts/site.js'].toString().includes('updated@example.com'));assert(!publicFiles['assets/unused.png']);
  const thirdRoot=path.join(dir,'second-project');extractProject(fs.readFileSync(path.join(output,c.id+'-project.zip')),thirdRoot);
  check=cp.spawnSync(process.execPath,['app/tools/check-release.cjs'],{cwd:thirdRoot,encoding:'utf8'});assert.equal(check.status,0,check.stderr);

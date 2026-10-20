@@ -3,6 +3,7 @@
 const enc=new TextEncoder();
 const PROJECT_FILES=[
  'AGENTS.md','app/CONTRIBUTING.md','README.md','SECURITY.md','START-HERE.md',
+ 'prompts/README.md','prompts/BRISTOL_COMMUNITY_CLEANUP.md','prompts/GUIDED_WORKFLOW.md',
  'campaign.schema.json','editor.html','app/setup/editor.css','app/setup/editor.js','app/setup/index.html','app/setup/visual.js',
  'app/src/archive.js','app/src/core.js','app/src/project.js','app/src/site.css',
  'app/tests/TEST-REPORT.md','app/tests/ai-export.test.cjs','app/tests/core.test.cjs','app/tests/editor-integration.test.cjs',

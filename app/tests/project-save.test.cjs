@@ -37,9 +37,12 @@ test('browser Save flushes latest canvas edits; extracted project reopens and re
  assert(first['app/tools/export-campaign.cjs']);assert(first['app/setup/editor.js']);assert(first['app/src/core.js']);
  const check=cp.spawnSync(process.execPath,['app/tools/check-release.cjs'],{cwd:dir,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
  const restored={};vm.runInNewContext(first['app/setup/bundle.js'].toString(),{window:restored});vm.runInNewContext(first['app/setup/project-template.js'].toString(),{window:restored});
+ const promptNames=['README.md','BRISTOL_COMMUNITY_CLEANUP.md','GUIDED_WORKFLOW.md'].map(name=>'prompts/'+name);
+ for(const name of promptNames){assert.equal(first[name].toString(),fs.readFileSync(path.join(root,name),'utf8'));assert.equal(restored.KitProjectSources[name],first[name].toString());}
  const secondEditor=editor(restored.KitBundle,restored.KitProjectSources);for(let i=0;i<30&&secondEditor.ids.workspace.inert;i++)await new Promise(resolve=>setImmediate(resolve));
  secondEditor.queued.title='Second independent save';await secondEditor.ids['download-project'].onclick();const second=entries(await secondEditor.downloads[0].blob.arrayBuffer());verifyManifest(second);
  assert.equal(JSON.parse(second['campaign.json']).title,'Second independent save');assert.match(second['index.html'].toString(),/Second independent save/);assert.deepEqual(first['app/setup/project-template.js'],second['app/setup/project-template.js']);for(const a of c.assets)assert.deepEqual(second[a.path],png);
+ for(const name of promptNames)assert.deepEqual(second[name],first[name]);
  const out=path.join(dir,'cli-output');const run=cp.spawnSync(process.execPath,['app/tools/export-campaign.cjs','.',out],{cwd:dir,encoding:'utf8'});assert.equal(run.status,0,run.stderr);const cli=entries(fs.readFileSync(path.join(out,c.id+'-project.zip')));verifyManifest(cli);assert.match(cli['index.html'].toString(),/Latest inline text before Save/);assert(cli['editor.html']);assert.deepEqual(cli['assets/unused.png'],png);const publicSite=entries(fs.readFileSync(path.join(out,c.id+'-website.zip')));assert(!publicSite['editor.html']);assert(!publicSite['assets/unused.png']);
 });
 test('failed project save leaves unsaved edits and download guards intact',async()=>{
