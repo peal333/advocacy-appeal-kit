@@ -1,6 +1,6 @@
 # Contributing
 
-This is a development prototype in a private repository, being prepared for a possible open-source release. Authorized collaborators can propose changes through the repository; this guide does not grant repository access or establish a public security-reporting channel. The final license grant and ownership notices are pending; do not assume this draft authorizes redistribution. See the [release checklist](app/workflow/release-checklist.md).
+This is an early-release/public-beta candidate. Repository publication and the final license decision remain pending. Authorized collaborators can propose changes through the repository; this guide does not grant repository access or establish a private vulnerability-reporting channel. The final license grant and ownership notices are pending; do not assume this draft authorizes redistribution. See the [release checklist](app/workflow/release-checklist.md).
 
 ## Start here
 

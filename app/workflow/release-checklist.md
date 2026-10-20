@@ -1,14 +1,14 @@
 # Open-source release checklist
 
-Status: **not release-ready**, 20 October 2026. This checklist does not authorize publication. Keep the delivered visual-editor v2 and portable-save v4 ZIPs unchanged while its editor is being tested.
+Status: **early-release/public-beta candidate; publication, license and reporting decisions pending**, 20 October 2026. This checklist does not authorize publication or certify comprehensive acceptance. Preserve previously delivered test archives; prepare any new candidate separately.
 
 ## Decisions and evidence required before release
 
 - [ ] Choose GPL version 3 only or GPL version 3 or later; confirm who can authorize the code license and the correct copyright notices. Then add the approved license text/notices. The current note is not a license grant.
 - [ ] Review code, CSS, documentation and any assets for origin, permissions and attribution. No bundled image files or package dependencies were found in this pass, but absence is not proof of ownership or a completed provenance audit.
-- [ ] Choose the official project/contribution destination and release approver. Configure and verify a private security-reporting route and a supported-version/triage policy before inviting public reports. Update [SECURITY.md](../../SECURITY.md) and [CONTRIBUTING.md](../../CONTRIBUTING.md); do not invent contacts or support promises.
-- [ ] Complete the [real-browser acceptance checks](verification.md) against the exact candidate archive after fresh extraction. Record browser/OS versions, date, archive hash, actual outcomes and failures. User feedback on v2 is pending; no browser pass is claimed here.
-- [ ] Fix or explicitly document any acceptance failures before selecting a release version/name. Schema version 1 is a data-format version, not the toolkit's release version.
+- [ ] Confirm the approved project/contribution destination and release approver. Configure and verify a private security-reporting route and a supported-version/triage policy before inviting public reports. Update [SECURITY.md](../../SECURITY.md) and [CONTRIBUTING.md](../../CONTRIBUTING.md); do not invent contacts or support promises.
+- [ ] Complete the [real-browser acceptance checks](verification.md) against the exact candidate archive after fresh extraction. Record browser/OS versions, date, archive hash, actual outcomes and failures. The maintainer has reported guided AI creation, a correct exported hero and a deployed example, as recorded in the verification guide. That limited result is not a full checklist pass.
+- [ ] Before selecting an early-release/public-beta version/name, explicitly document unperformed checks and known failures. Do not label an incomplete checklist as comprehensive browser acceptance. Schema version 1 is a data-format version, not the toolkit's release version.
 
 ## Build and validate the exact candidate
 

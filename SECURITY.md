@@ -2,7 +2,7 @@
 
 ## Current status
 
-This prototype has no published supported-version policy, private vulnerability-reporting channel, security contact or response-time commitment. Establish and verify a private reporting route before public release. Do not treat an invented email address, ordinary public issue or campaign recipient as that route.
+This early-release/public-beta candidate has no published supported-version policy, verified private vulnerability-reporting channel, security contact or response-time commitment. Establish and verify a private reporting route before public release; publication and reporting configuration are still pending. Do not treat an invented email address, ordinary public issue or campaign recipient as that route.
 
 Until a route is configured, do not post exploit details, live campaign backups, personal data or credentials publicly. Keep a minimal reproduction using fictional data locally. If you obtained the toolkit directly from its distributor, ask that distributor for a verified private reporting route before transmitting sensitive details. This document does not assert that any particular channel is monitored.
 

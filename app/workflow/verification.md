@@ -1,6 +1,6 @@
 # Verification status
 
-Checked 20 October 2026. This is a visual-editor prototype, not a production-readiness or accessibility certification. See [the detailed test report](../tests/TEST-REPORT.md).
+Checked 20 October 2026. This is an early-release/public-beta candidate, not a production-readiness or accessibility certification. See [the detailed test report](../tests/TEST-REPORT.md).
 
 ## Verified with automated checks
 
@@ -11,9 +11,15 @@ Checked 20 October 2026. This is a visual-editor prototype, not a production-rea
 
 The generic-toolkit suite currently passes **84/84** on Node.js v24.19.0. New checks cover static recipient cards, preview/export parity, radio-change drafting and restored checked-state initialization, contextual edit targets, toolbar label/control alignment contracts, contact disclosure/back-button spacing and redundant-helper removal, immediate required-field styling in both editing modes, contact More details disclosure and hidden-issue focus, portable-project export, second-generation editing from the extracted project, media preservation, checksum consistency, failed-write cleanup, simulated offline bundled-image startup, and browser-handler Save to ZIP with queued inline edits, upload locks, complete media, nonrecursive source packaging and independent reopening. See [the release-preparation record](release-verification.md). These do not establish that an AI provider can accept/return ZIPs in every session or that a real browser passed.
 
-## Real browser checks remain blocked
+## User-reported end-to-end check
 
-The earlier Chromium launch was denied by a socket restriction. In this pass, the cloud browser rejected a local `file://` URL by protocol policy; its connection to the local HTTP preview server returned `ERR_CONNECTION_REFUSED`. Those restrictions were not bypassed. No real browser workflow or screenshot is claimed.
+On 20 October 2026, the maintainer reported successfully using the guided AI workflow to create a campaign, confirmed that the actual exported hero image was correct, and deployed the [Bristol Community Cleanup example](https://bristol-community-cleanup.pages.dev). This is useful end-to-end feedback, not an independent audit or a complete browser acceptance run. No browser/OS version, exact candidate archive hash or full checklist results were recorded for that report. It does not establish all providers' image-generation capabilities or success on every upload/session.
+
+The report does not mark offline editor startup, repeated manual saves, import recovery, keyboard/screen-reader operation, mobile browsers, clipboard failures or email-client behavior as tested. No outgoing email test is claimed.
+
+## Comprehensive browser acceptance remains incomplete
+
+During earlier automated review attempts, the Chromium launch was denied by a socket restriction. The cloud browser also rejected a local `file://` URL by protocol policy; its connection to the local HTTP preview server returned `ERR_CONNECTION_REFUSED`. Those restrictions were not bypassed. Those attempts did not produce real-browser acceptance evidence; they do not negate the later, limited user-reported result above.
 
 On a desktop browser, extract the toolkit and open `editor.html`. Prefer an offline test with the instructional starter:
 
@@ -27,7 +33,7 @@ On a desktop browser, extract the toolkit and open `editor.html`. Prefer an offl
 8. In Visitor preview and the finished website, inspect all contact cards at desktop and narrow widths, including long names, roles and addresses. Tab to the radio group and use arrow keys and Space to change the recipient; confirm the selected summary, draft, overrides, copied address and mailto all match. Check source links separately. Disable JavaScript and verify all card details remain readable. In Edit page, selecting a card should open the correct contact sidebar without changing radio choices or opening external links.
 9. Prepare a site-only ZIP through the AI/CLI workflow, extract it, open root `index.html` and inspect relative assets. Confirm no editor outlines, controls or scripts appear in the exported site. Review the email draft without sending.
 
-Still unverified: actual `file://` startup, file pickers/downloads, image decoding, visual layout, real clipboard denial, keyboard-only and screen-reader behavior, mobile browsers, real email clients and long mailto links. No deployment, provider-account change, publication or outgoing email was performed.
+Still without comprehensive recorded acceptance evidence: actual `file://` startup, file pickers/downloads, image decoding and visual layout across supported browsers, real clipboard denial, keyboard-only and screen-reader behavior, mobile browsers, real email clients and long mailto links. The maintainer reported deploying the example above; the earlier automated checks did not perform deployment, provider-account changes or outgoing email.
 
 ## Release decisions still open
 

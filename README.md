@@ -132,6 +132,17 @@ Your project and backup retain unused images. The website export includes only t
 
 [Review before publishing](app/workflow/review-and-recovery.md) · [Publish with Cloudflare Pages](app/workflow/publish-cloudflare.md) · [Cloudflare upload guide](https://developers.cloudflare.com/pages/get-started/direct-upload/#drag-and-drop)
 
+## Disclaimer
+
+This toolkit is provided **as is, without warranty**. Use it at your own risk. Automated checks and successful examples do not guarantee correctness, availability, security or suitability for your campaign.
+
+## Responsible use
+
+- Verify facts, public contact details and image/content permissions. Personally review your campaign before publishing and every message before sending.
+- Keep private information, confidential evidence and credentials out of campaign files and uploads. Review image metadata and remember that backups retain unused media.
+- Do not use the toolkit for harassment, impersonation or unsolicited bulk email. Respect recipients' contact guidance and applicable rules.
+- You are responsible for your hosting accounts, published content and messages. The toolkit does not automatically send messages or provide a security guarantee.
+
 ## Credits and contributions
 
 Created and maintained by **Panupan Sriautharawong (peal333)**, with AI assistance from **ChatGPT**.
@@ -140,7 +151,7 @@ Bug reports, focused improvements and pull requests are welcome from collaborato
 
 ## About this version
 
-This is a **development prototype**, not a release certified for live campaigns. Automated checks have been run; real desktop-browser acceptance testing is still outstanding. See [verification status](app/workflow/verification.md) for the evidence and remaining checks.
+This is an **early release / public-beta candidate**, not a production or accessibility certification. Automated checks pass, and the maintainer has reported a successful guided AI campaign build, correctly exported hero image and deployed example. Comprehensive desktop/mobile browser, accessibility and recovery acceptance testing remains incomplete. See [verification status](app/workflow/verification.md) for the evidence and remaining checks. Repository publication and the final license decision remain pending.
 
 GPLv3 is the intended licensing direction, but the exact version choice, final license text and copyright notices are still pending. This note is not a completed license grant. See [contributor guidance](CONTRIBUTING.md) and the [release checklist](app/workflow/release-checklist.md).
 
