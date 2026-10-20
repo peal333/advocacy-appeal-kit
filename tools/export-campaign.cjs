@@ -52,11 +52,7 @@ const {PROJECT_FILES,OPTIONAL_PROJECT_FILES,PROJECT_MAX}=Project;
 function projectFiles(c,assets,css,source=toolkit){return Project.projectFiles(c,assets,css,readSources(source));}
 function generate(input){
  const {campaign:c,assets,warnings}=load(input),css=fs.readFileSync(path.join(toolkit,'src/site.css'),'utf8');
- const publicCampaign=structuredClone(c),used=new Set([c.poster,c.socialImage].filter(Boolean));
- publicCampaign.assets=publicCampaign.assets.filter(a=>used.has(a.path));
- const site=Object.fromEntries(publicCampaign.assets.map(a=>[a.path,assets[a.path]]));
- if(!Object.keys(site).length)site['assets/']=new Uint8Array();
- site['index.html']=Kit.html(publicCampaign,css);site['styles/site.css']=css;site['scripts/site.js']=Kit.script(publicCampaign);
+ const site=Project.websiteFiles(c,assets,css);
  const backup={...assets,'campaign.json':JSON.stringify(c,null,2)};
  const website=Zip.write(site),editable=Zip.write(backup);
  const project=Zip.write(projectFiles(c,assets,css));if(project.length>PROJECT_MAX)fail('Portable project ZIP exceeds 50 MiB.');
@@ -72,11 +68,11 @@ function generate(input){
   '','## Human checks still required',
   '- Approve the copy, facts, quotations, public recipients, source checks/dates, consent and image permissions.',
   '- Inspect every public field and image metadata. Included image bytes are unchanged; other campaign fields are public.',
-  '- Open the backup in setup/index.html and inspect Visitor preview. Node checks image headers, not decoding or the browser’s 40-megapixel limit.',
+  '- Open the backup in editor.html and inspect Visitor preview. Node checks image headers, not decoding or the browser’s 40-megapixel limit.',
   '- Extract the website ZIP and inspect index.html, images, layout, links and visitor-controlled email/copy behavior.',
   '- No browser, factual verification, delivery, deployment or publication has been performed by this command.',
   '','## Validator warnings',...warnings.map(w=>'- '+w),'',
-  '## Files',`- ${c.id}-project.zip: MAIN reusable project. Reupload this to an assistant, or extract and open setup/index.html. Includes toolkit, campaign, all media and refreshed checksums. Never publish this ZIP.`,
+  '## Files',`- ${c.id}-project.zip: MAIN reusable project. Reupload this to an assistant, or extract and open editor.html. Includes toolkit, campaign, all media and refreshed checksums. Never publish this ZIP.`,
   `- ${c.id}-website.zip: public hosting upload; index.html is at the root.`,
   `- ${c.id}-editable-backup.zip: private editing handoff; contains campaign.json and ALL listed media. Do not publish it.`,
   '- This review file is separate from the ZIPs. It does not certify that the campaign is ready to publish.',''

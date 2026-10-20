@@ -10,7 +10,7 @@ This is a supported workflow, not a promise about any provider's current tools. 
 2. Agree on the title, story, action, optional sections and look. Contacts are optional: leave them out if no verified public recipient is available. The assistant must not guess addresses, facts, quotes, dates or permissions. `sourceUrl` and `verified` on contacts are optional; unsupported provenance stays blank. Sources require a genuine checked date, so ask rather than fabricate it. Confirm the campaign's updated date too.
 3. Review the draft and a separate list of unresolved facts, contacts, source checks and image permissions. Remove instructional/example text. A fictional placeholder is not a real campaign fact. The assistant may export review drafts but must not describe them as approved or ready to publish without your review.
 4. Receive the actual project ZIP, website ZIP, editable backup ZIP and separate review/change summary. A successful validation checks structure and safety, not truth or permission. Retain your original inputs until you have opened the returned files.
-5. Extract your returned project ZIP and open `setup/index.html`; your campaign and images load automatically. Inspect **Visitor preview**. The separate editable backup can also be opened with **Open backup** in any compatible toolkit. Use **Save project ZIP** after further manual changes, extract and reopen that new project, inspect the extracted website and complete the [publication review](review-and-recovery.md). You approve publication separately; no export command publishes.
+5. Extract your returned project ZIP and open `editor.html`; your campaign and images load automatically. Inspect **Visitor preview**. The separate editable backup can also be opened with **Open backup** in any compatible toolkit. Use **Save as ZIP** after further manual changes, extract and reopen that new project, inspect the extracted website and complete the [publication review](review-and-recovery.md). You approve publication separately; no export command publishes.
 
 ## Instructions for the assistant or Codex
 
@@ -34,7 +34,7 @@ For a revision from a kit-created editable backup, the first argument may instea
 
 The dependency-free tool uses the same `src/core.js`, schema, CSS and `src/archive.js` as the editor. It writes:
 
-- `<campaign-id>-project.zip`: **the main reusable handoff**. Contains the full explicitly allowlisted toolkit, customized `campaign.json`, all listed media, rebuilt offline editor bundle and schema, and regenerated `SHA256SUMS`. Reupload this ZIP for your next revision, or extract and open `setup/index.html`. No original toolkit is needed. Never publish it as the site.
+- `<campaign-id>-project.zip`: **the main reusable handoff**. Contains the full explicitly allowlisted toolkit, customized `campaign.json`, all listed media, rebuilt offline editor bundle and schema, and regenerated `SHA256SUMS`. Reupload this ZIP for your next revision, or extract and open `editor.html`. No original toolkit is needed. Never publish it as the site.
 - `<campaign-id>-website.zip`: root-level `index.html`, `styles/site.css`, `scripts/site.js`, and only selected poster/social-image files and records. With no images it includes an empty `assets/` directory.
 - `<campaign-id>-editable-backup.zip`: the original campaign data and every listed image, including unused ones. Compatible with **Open backup**. It is not a public hosting artifact.
 - `REVIEW.md`: automated checks and mandatory human/browser checks, outside the ZIPs. Supplement this with an accurate change summary and unresolved source/permission questions; do not put private notes in campaign data.
@@ -55,17 +55,17 @@ Inspect the generated archive entries and restore the editable backup. Report ch
 
 ### If the session cannot execute Node or return files
 
-Say exactly what is unavailable before promising a ZIP. Continue helping with the campaign conversation and schema-shaped JSON, but do not generate an unrelated HTML implementation or claim it passed the kit's tests. If downloads are available, return `campaign.json` plus unchanged media; otherwise provide JSON text the organizer can save. The organizer extracts the toolkit, opens `setup/index.html`, imports the JSON using **Open backup**, adds matching image files, resolves validation errors, reviews the site and exports both ZIPs. Preserve the original media and explain that JSON alone does not contain it. A file-capable Codex/other compatible session is another option, not a requirement or a promised connection.
+Say exactly what is unavailable before promising a ZIP. Continue helping with the campaign conversation and schema-shaped JSON, but do not generate an unrelated HTML implementation or claim it passed the kit's tests. If downloads are available, return `campaign.json` plus unchanged media; otherwise provide JSON text the organizer can save. The organizer extracts the toolkit, opens `editor.html`, imports the JSON using **Open backup**, adds matching image files, resolves validation errors, reviews the site and exports both ZIPs. Preserve the original media and explain that JSON alone does not contain it. A file-capable Codex/other compatible session is another option, not a requirement or a promised connection.
 
 ## Revising and switching routes
 
-Choose **Save project ZIP** before revision. Upload that newest project ZIP alone and request specific changes, preserving unrelated content and media. After AI edits, extract the returned project ZIP and open its editor. You can continue manually at any time and carry a newly saved project back to the assistant. The optional smaller editable backup is still supported with a compatible toolkit. There is no separate AI-only campaign format.
+Choose **Save as ZIP** before revision. Upload that newest project ZIP alone and request specific changes, preserving unrelated content and media. After AI edits, extract the returned project ZIP and open its editor. You can continue manually at any time and carry a newly saved project back to the assistant. The optional smaller editable backup is still supported with a compatible toolkit. There is no separate AI-only campaign format.
 
 ## Carrying the project into the next session
 
 The **project ZIP is required**, not an optional third-party dependency or an archive of the chat. Each successful exporter run returns a freshly rebuilt self-contained project. For a later AI change, upload that project ZIP, follow START-HERE.md, and say what to change. Extract it, edit its campaign data/media, and run its bundled exporter. Preserve unrelated fields and media; the new project ZIP is the next complete handoff.
 
-If you changed the campaign in the browser, choose **Save project ZIP**. The downloaded ZIP is the current self-contained version, so upload that file alone. The browser does not overwrite the original ZIP or extracted folder. Extract the new download and open its editor to continue locally. Preserve the old copy until you verify the download. If you only have a newer editable backup, upload it with the project and identify it as current; the exporter can rebuild the project from that backup.
+If you changed the campaign in the browser, choose **Save as ZIP**. The downloaded ZIP is the current self-contained version, so upload that file alone. The browser does not overwrite the original ZIP or extracted folder. Extract the new download and open its editor to continue locally. Preserve the old copy until you verify the download. If you only have a newer editable backup, upload it with the project and identify it as current; the exporter can rebuild the project from that backup.
 
 When editing root campaign or source files outside the browser, `node tools/build.cjs` refreshes both the offline campaign bundle and the distributable source template. Run `node tools/check-release.cjs --write-checksums` after review. The exporter rebuilds these generated files in returned projects automatically. Browser Save packages the source snapshot included at build time, not arbitrary later filesystem edits: rebuild before using the editor after code changes.
 
@@ -76,3 +76,7 @@ Limits: each image is at most 5 MiB, all listed image bytes total at most 19 MiB
 Do not import a project ZIP using the editor’s **Open backup** button. That button accepts kit editable backups or campaign JSON. Extract a project ZIP and open its own editor instead.
 
 The generated source template excludes itself, the campaign/media bundle and checksums. Each save recreates those outputs from the current campaign and the same source inventory, so repeated saves do not recursively embed older projects. SHA-256 checksums are generated locally without a network or Web Crypto requirement. They detect changes, not authorship or trust.
+
+## Root entry points
+
+The complete project has a rendered cause website at `index.html` and the working visual editor at `editor.html`. The exporter and editor’s **Save as ZIP** regenerate both the root website and editor seed data. Keep all relative folders together. Do not put private notes in the package. Publish only the separate website ZIP, never the whole project, which retains unused media and source files. `node tools/build.cjs` refreshes root website output after external campaign edits.

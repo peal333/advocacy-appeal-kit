@@ -8,7 +8,7 @@ For whole-toolkit ZIP customization, follow [START-HERE.md](START-HERE.md) and [
 
 - The non-AI form editor and AI-assisted data workflow are equally supported. Both use the same `campaign.json`, versioned schema, validation, renderer, and backup format.
 - Ordinary campaign changes belong in data and media. Do not fork the renderer or embed a particular real campaign in application code.
-- The organizer starts by extracting the toolkit and opening `setup/index.html` via `file://`. No installs, terminal, local server, remote dependency, module fetch, or provider credential may be required.
+- The organizer starts by extracting the toolkit and opening `editor.html` via `file://`. No installs, terminal, local server, remote dependency, module fetch, or provider credential may be required.
 - Keep data fields aligned with the schema. Preserve stable IDs, supported placeholders, references, and assets across imports/exports. Reject unsupported versions; migrations must be explicit and tested. Never silently discard unsupported data.
 - Website exports contain root-level `index.html` and relative `styles/`, `scripts/`, and `assets/`. Full backups preserve editable settings and media. JSON-only is optional and must warn that media is separate.
 

@@ -20,19 +20,23 @@ When the draft is ready, use the included exporter and shared validator to produ
 If you cannot run the exporter or attach files, explain the specific limitation early. Help me prepare campaign.json and preserve my media for import into the local editor instead; do not pretend an untested ZIP is complete. No second renderer is needed. Do not deploy, send messages, create accounts, add analytics or request provider keys. Exporting is not permission to publish.
 ```
 
+## Two files to open
+
+Extract the whole ZIP and keep its folders together. Open root `index.html` to see the cause website, or root `editor.html` to change it. **Save as ZIP** downloads an updated complete package, including the refreshed root website. The source repository starts with a generic instructional site, not a real case.
+
 ## What you should receive
 
-1. **Your-cause-project.zip: your main take-away file.** It carries your campaign, every listed image, the editor, schema, tools and AI instructions. Reupload this ZIP later and say “update these contacts” or “change this section.” You do not need the original toolkit. To edit without AI, extract it and open `setup/index.html`; your campaign and images load automatically.
+1. **Your-cause-project.zip: your main take-away file.** It carries your campaign, every listed image, the editor, schema, tools and AI instructions. Reupload this ZIP later and say “update these contacts” or “change this section.” You do not need the original toolkit. To edit without AI, extract it and open `editor.html`; your campaign and images load automatically.
 2. **Your-cause-website.zip:** the generated public site. Extract it to preview `index.html`; its root also contains `styles/`, `scripts/` and `assets/`. This is the ZIP for hosting after your review.
 3. **Your-cause-editable-backup.zip:** a smaller `campaign.json` plus all listed media. Use **Open backup** in any compatible toolkit editor. It does not carry the editor or AI tools by itself.
 4. **A separate review checklist:** changes made, unresolved sources/permissions, checks actually run and browser checks still needed. Keep private working notes out of all public output.
 
 **Carry the project ZIP; publish only the website ZIP.** The project and backup contain unused media too, so do not upload them as your public site. The project is rebuilt from an explicit toolkit file inventory, not everything lying around the assistant's working folder. It includes only supported campaign files, not private chat history or notes.
 
-After making manual editor changes, choose **Save project ZIP**. Check the download completed, then carry that newest ZIP into either route: extract it and open its `setup/index.html`, or upload it alone to your next AI conversation. Saving downloads a new file; it does not rewrite the original ZIP or extracted folder. Keep older copies until you verify the new one opens correctly. If you edited root JSON or source files outside the editor, run `node tools/build.cjs` first so its embedded data and portable source template match; the AI exporter does this in every returned project ZIP.
+After making manual editor changes, choose **Save as ZIP**. Check the download completed, then carry that newest ZIP into either route: extract it and open its `editor.html`, or upload it alone to your next AI conversation. Saving downloads a new file; it does not rewrite the original ZIP or extracted folder. Keep older copies until you verify the new one opens correctly. If you edited root JSON or source files outside the editor, run `node tools/build.cjs` first so its embedded data and portable source template match; the AI exporter does this in every returned project ZIP.
 
 ## Prefer not to use AI?
 
-Extract the whole toolkit, keep its folders together, and open `setup/index.html` in a desktop browser. Use the visual editor, choose **Save project ZIP**, and export the website ZIP. No install, terminal or server is required for this route.
+Extract the whole toolkit, keep its folders together, and open `editor.html` in a desktop browser. Use the visual editor, choose **Save as ZIP**, and export the website ZIP. No install, terminal or server is required for this route.
 
 Before uploading material to any assistant, check that you are comfortable sharing it with that service. Do not upload confidential evidence, credentials or unpublished sensitive information. Review facts, public contacts, permissions and the full website yourself before publication. This is a development prototype; see [verification status](workflow/verification.md) for outstanding acceptance tests.

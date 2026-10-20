@@ -1,12 +1,23 @@
 # Advocacy Appeal Kit
 
+**An easy way for nontechnical people to create an appeals website.** Download the ZIP, upload it to ChatGPT, and talk through your cause, or use the visual editor yourself. No coding experience needed.
+
 **[Download the latest ZIP](https://github.com/peal333/advocacy-appeal-kit/archive/refs/heads/main.zip)**
 
 *The ZIP contains the latest version on `main`. While this repository is private, you need authorized GitHub access to download it.*
 
-Build a website for your cause, with AI help or by editing it yourself. Add your story, images, sources and a call to action. Visitors can prepare an email or copy a message, then decide whether to send it themselves.
+Add your story, images, sources and a call to action. Visitors can prepare an email or copy a message, then decide whether to send it themselves.
 
 **Keep the whole project with you.** It carries the toolkit and its source, your campaign and your images, so you can switch between AI-assisted work and the visual editor. You do not need to choose one route forever.
+
+## Two files to know
+
+After extracting the ZIP, open either file in the main folder:
+
+- **`index.html` is your cause’s website.** Open it to see the visitor-facing page.
+- **`editor.html` is your visual editor.** Open it to make changes, then choose **Save as ZIP** to download the updated package, including the website.
+
+Keep the whole folder together so both pages can find their supporting files.
 
 ## Choose how to start
 
@@ -16,14 +27,14 @@ Build a website for your cause, with AI help or by editing it yourself. Add your
 2. Copy the prompt from **[Start here](START-HERE.md)** into the chat.
 3. Talk through your cause, review the draft, and ask for your customized **project ZIP** to keep.
 
-The assistant should also return a website ZIP and an editable backup. It needs tools that can read the ZIP, run the included exporter and return downloadable files; the starter prompt asks it to check first. If your chat cannot do that, it can still help with the wording and you can finish in the editor.
+It needs tools that can read the ZIP, run the included exporter and return downloadable files; the starter prompt asks it to check first. If your chat cannot do that, it can still help with the wording and you can finish in the editor.
 
 [Open the AI starter prompt →](START-HERE.md)
 
 ### Edit it yourself
 
 1. Extract the **whole ZIP** and keep its folders together.
-2. Open **`setup/index.html`** in a desktop browser, not inside a ZIP viewer.
+2. Open **`editor.html`** in a desktop browser, not inside a ZIP viewer.
 3. Click the outlined text to edit it. Use the sidebar for images, contacts and page settings, then check **Visitor preview**.
 
 No installation, terminal, server or AI account is needed. **All fields** opens the full form if you prefer that way of editing.
@@ -32,9 +43,9 @@ No installation, terminal, server or AI account is needed. **All fields** opens 
 
 ## Save now. Pick it up later.
 
-Choose **Save project ZIP** and make sure the download finishes before closing or refreshing. It saves a **new, complete project ZIP** with the toolkit, source, your current campaign and all your images. Keep that newest ZIP: it is the one file you need for either workflow.
+Choose **Save as ZIP** and make sure the download finishes before closing or refreshing. It saves a **new, complete project ZIP** with the toolkit, source, your current campaign, all your images and an updated `index.html` website. Keep that newest ZIP: it is the one file you need for either workflow.
 
-- **Reopen in the editor:** extract your saved project ZIP, keep its folders together, and open `setup/index.html`. Your campaign and images load automatically.
+- **Reopen in the editor:** extract your saved project ZIP, keep its folders together, and open `editor.html`. Your campaign and images load automatically.
 - **Continue with AI:** upload your saved project ZIP and explain what you want to change. Ask for an updated project ZIP to keep afterward.
 - **Make an extra backup:** **Save editable backup** saves campaign data and images without the toolkit. Restore that smaller backup with **Open backup**; do not use Open backup for a whole project ZIP.
 

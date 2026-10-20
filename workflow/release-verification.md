@@ -4,11 +4,18 @@ Date: 20 October 2026. Environment: Linux workspace, Node.js **v24.19.0**. This 
 
 ## Completed checks
 
-- The baseline automated suite passed **50/50**. The public-export privacy revision passed **52/52**. After the AI/portable-project workflow, browser project saving and boundary fixes, the generic-toolkit suite passed **68 tests, 68 passed, 0 failed**. These cover validation, rendering, archive defenses, data preservation and simulated editor behavior. See [the test report](../tests/TEST-REPORT.md) for their scope and limitations.
+- The baseline automated suite passed **50/50**. The public-export privacy revision passed **52/52**. After the AI/portable-project workflow, browser project saving and boundary fixes, the generic-toolkit suite passed **69 tests, 69 passed, 0 failed**. These cover validation, rendering, archive defenses, data preservation and simulated editor behavior. See [the test report](../tests/TEST-REPORT.md) for their scope and limitations.
 - `node --check` passed for all `src/*.js`, `setup/*.js`, `tools/*.cjs` and `tests/*.cjs` files.
 - `node tools/build.cjs` reproduced the starter `setup/bundle.js` and `src/schema.js` byte-for-byte and refreshed the generated `setup/project-template.js` to match the current explicit source inventory. No generated-file drift was found. A separate, narrowly scoped public-export privacy correction was made as described below.
 - `node tools/check-release.cjs` passed after refreshing `SHA256SUMS`: generated files match their inputs, local Markdown file references and editor entry-page resources exist, and the manifest covers the current regular files except itself. Markdown fragments and external URLs are outside this script's scope. Hidden entries other than the ignored `.git` directory and symlinks are rejected for review.
 - Official [Cloudflare Direct Upload](https://developers.cloudflare.com/pages/get-started/direct-upload/) and [rollback documentation](https://developers.cloudflare.com/pages/configuration/rollbacks/) resolved during this pass. The [dashboard URL](https://dash.cloudflare.com/) resolved, but no dashboard flow or authenticated deployment was exercised. The local `#import-limits` target and external `#create-a-new-deployment` heading were separately inspected.
+
+## Root website/editor layout revision
+
+- Root `index.html` is the generated cause website, with relative `styles/`, `scripts/` and selected public media; root `editor.html` is the full local visual editor. Legacy `setup/index.html` remains compatible. No iframe wrapper or remote runtime is used for the root editor.
+- **Save as ZIP** and CLI project export regenerate the root website and offline editor seed from the current campaign. The shared public website builder filters unused asset records; complete projects retain all listed media and toolkit files. Only the separate website ZIP is intended for public hosting.
+- The 69-test suite checks direct root resources/script ordering, legacy parity, saved root-site edits, independent reopening and CLI regeneration, and media/checksum preservation. These are file inspections and DOM simulations, not real-browser acceptance.
+- The release checker now verifies generated root website files and rejects distribution files outside the explicit source/generated/media inventory. Generated site output stays outside the source template to prevent stale campaign data or recursive packaging.
 
 ## Existing v2 artifact audit
 
@@ -30,7 +37,7 @@ The workspace now includes release documentation, the AI/portable-project workfl
 - Browser and CLI now share `src/project.js` for canonical project packaging. The source template excludes itself, current campaign/media, the campaign bundle, generated schema and checksums; those are regenerated rather than nested. Four-generation tests confirm template stability without recursive growth.
 - Browser-save tests capture the latest queued inline edit, preserve all images, verify hashes with native SHA-256, extract/check the project, reopen/resave it and regenerate with its own CLI. Startup and pending-upload locks block saving until ready; a failed save retains unsaved state. Pure-JS SHA-256 requires no secure-context Web Crypto, and independently matches Node crypto at padding boundaries and inputs up to 5 MiB.
 - The project-save handler uses its own 50 MiB ZIP ceiling rather than the website/backup 20 MiB cap. A 19 MiB-media project larger than 20 MiB packs successfully, and an oversized source inventory is rejected. These are automated/simulated checks, not browser download acceptance.
-- No actual ChatGPT/Claude upload/download session or real-browser project startup was performed. The instructions require capability checks and distinguish the main carry-forward project, public website and smaller editable backup. Browser **Save project ZIP** returns a new complete project for the next session; the old ZIP/folder is not overwritten. If only a newer editable backup was saved, supply it alongside the old project and identify it as current.
+- No actual ChatGPT/Claude upload/download session or real-browser project startup was performed. The instructions require capability checks and distinguish the main carry-forward project, public website and smaller editable backup. Browser **Save as ZIP** returns a new complete project for the next session; the old ZIP/folder is not overwritten. If only a newer editable backup was saved, supply it alongside the old project and identify it as current.
 
 ## Privacy and provenance inspection
 

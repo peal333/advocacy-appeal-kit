@@ -2,9 +2,11 @@
 
 You need the extracted toolkit, a desktop browser, public source material, and any images you have permission to publish.
 
+The root `index.html` is your cause website. The root `editor.html` is the visual editor. Keep the whole extracted folder together. The older `setup/index.html` entry still works.
+
 ## Open and edit
 
-1. Extract the **whole toolkit ZIP** and open `setup/index.html` in your browser. Keep its folders together. Do not open it from inside a ZIP viewer. No install, terminal, server or online account is required.
+1. Extract the **whole toolkit ZIP** and open `editor.html` in your browser. Keep its folders together. Do not open it from inside a ZIP viewer. No install, terminal, server or online account is required.
 2. Start with the instructional template (`Your campaign title`), or choose **Open backup** to load this kit's editable backup ZIP or version-1 campaign JSON. JSON does not contain images; restore the image files with their original filenames through **All fields → Images & permissions**.
 3. In **Edit page**, click outlined page text and type directly. The selected item gets a blue outline and pencil label. The right sidebar shows that item's properties. Inline editing uses plain text. Press Escape to leave a text field; use the sidebar for dates, URLs and other structured details.
 4. Click **Page settings** for the campaign ID, language, updated date, appearance, optional petition URL and sharing metadata. Desktop preview is a 1,100-pixel viewport; Mobile is 390 pixels. The canvas scales down to fit your editor window.
@@ -23,7 +25,7 @@ You need the extracted toolkit, a desktop browser, public source material, and a
 
 1. Open **Review before export** in the sidebar. Complete required fields and fix errors. The edit canvas stays available while a new entry is incomplete, but project, website and editable-backup exports remain blocked until validation passes. Warnings still require human review; validation cannot verify truth, consent or permissions. Missing poster alternative text is a warning, and blank contact source/verification fields are allowed. Neither blocks preview or export.
 2. Switch to **Visitor preview**. Editor outlines and pencil labels disappear. Review both widths, recipient-specific messages and all links. Opening an email app does not send a message. Do not send test messages to real recipients.
-3. Choose **Save project ZIP** and check that the download finished. This is your main take-away file: it contains this toolkit, your current campaign, every listed image, an updated offline bundle and fresh checksums. Extract the downloaded ZIP into a new folder and open its `setup/index.html` to verify it. Your campaign and images load automatically. Upload this one ZIP to an AI chat for later changes, or continue manually in the extracted editor. You do not need the original toolkit.
+3. Choose **Save as ZIP** and check that the download finished. This is your main take-away file: it contains the regenerated root website, this toolkit, your current campaign, every listed image, an updated offline bundle and fresh checksums. Extract the downloaded ZIP into a new folder and open its `editor.html` to verify it. Your campaign and images load automatically. Upload this one ZIP to an AI chat for later changes, or continue manually in the extracted editor. You do not need the original toolkit.
    - **Save editable backup** is a smaller optional data/media backup, not the full toolkit. Restore it with **Open backup**. That importer accepts backups/JSON, not whole project ZIPs.
 4. Choose **Export website ZIP**. Its `index.html`, `styles/`, `scripts/` and `assets/` are at the root, ready for hosting. This is different from your project ZIP and editable backup, and exporting does not publish anything.
 5. Complete the [publication review](review-and-recovery.md), then follow the [hosting guide](publish-cloudflare.md) only when you approve publication.

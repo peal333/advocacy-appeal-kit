@@ -3,7 +3,7 @@
 const enc=new TextEncoder();
 const PROJECT_FILES=[
  'AGENTS.md','CONTRIBUTING.md','README.md','SECURITY.md','START-HERE.md',
- 'campaign.schema.json','setup/editor.css','setup/editor.js','setup/index.html','setup/visual.js',
+ 'campaign.schema.json','editor.html','setup/editor.css','setup/editor.js','setup/index.html','setup/visual.js',
  'src/archive.js','src/core.js','src/project.js','src/site.css',
  'tests/TEST-REPORT.md','tests/ai-export.test.cjs','tests/core.test.cjs','tests/editor-integration.test.cjs',
  'tests/project-save.test.cjs','tests/public-export.test.cjs','tests/revision-data.test.cjs','tests/revision-review.test.cjs','tests/visual-review.test.cjs',
@@ -37,6 +37,15 @@ function sha256(value){
  }
  return h.map(v=>v.toString(16).padStart(8,'0')).join('');
 }
+function websiteFiles(c,assets,css){
+ const kit=root.Kit||(typeof require!=='undefined'?require('./core.js'):null);
+ const publicCampaign=JSON.parse(JSON.stringify(c)),used=new Set([c.poster,c.socialImage].filter(Boolean));
+ publicCampaign.assets=publicCampaign.assets.filter(a=>used.has(a.path));
+ const files=Object.fromEntries(publicCampaign.assets.map(a=>[a.path,assets[a.path]]));
+ if(!Object.keys(files).length)files['assets/']=new Uint8Array();
+ files['index.html']=kit.html(publicCampaign,css);files['styles/site.css']=css;files['scripts/site.js']=kit.script(publicCampaign);
+ return files;
+}
 function projectFiles(c,assets,css,sources){
  const files=Object.create(null),clean=Object.create(null),allowed=new Set([...PROJECT_FILES,...OPTIONAL_PROJECT_FILES]);
  for(const name of PROJECT_FILES)if(typeof sources[name]!=='string')throw Error('Missing project source: '+name);
@@ -48,6 +57,8 @@ function projectFiles(c,assets,css,sources){
  const kit=root.Kit||(typeof require!=='undefined'?require('./core.js'):null),check=kit.validate(c,assets);if(check.errors.length)throw Error(check.errors.join('\n'));
  if(bytes(JSON.stringify(c)).length>1024*1024)throw Error('Campaign JSON exceeds 1 MiB.');
  let mediaSize=0;for(const a of c.assets){const b=bytes(assets[a.path]);mediaSize+=b.length;if(b.length>kit.MAX_IMAGE)throw Error('Image exceeds 5 MiB: '+a.path);files[a.path]=b;}if(mediaSize>19*1024*1024)throw Error('Project media exceeds 19 MiB.');
+ // The root is the current cause website; full media remains in this private toolkit.
+ const website=websiteFiles(c,assets,css);delete website['assets/'];Object.assign(files,website);
  files['campaign.json']=JSON.stringify(c,null,2);
  if(bytes(files['campaign.json']).length>1024*1024)throw Error('Campaign JSON exceeds 1 MiB.');
  files['setup/bundle.js']=bundle(c,css,assets);
@@ -59,5 +70,5 @@ function projectFiles(c,assets,css,sources){
  if(Object.values(files).reduce((n,value)=>n+bytes(value).length,0)>PROJECT_MAX)throw Error('Portable project contents exceed 50 MiB.');
  return files;
 }
-root.KitProject={PROJECT_FILES,OPTIONAL_PROJECT_FILES,PROJECT_MAX,bundle,template,projectFiles,sha256};if(typeof module!=='undefined')module.exports=root.KitProject;
+root.KitProject={PROJECT_FILES,OPTIONAL_PROJECT_FILES,PROJECT_MAX,bundle,template,websiteFiles,projectFiles,sha256};if(typeof module!=='undefined')module.exports=root.KitProject;
 })(globalThis);

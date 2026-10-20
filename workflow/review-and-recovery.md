@@ -17,13 +17,13 @@
 
 Keep the last working website ZIP and full backup with a date in their filenames. Import the backup, make changes, recheck affected sources and contacts, and review the whole preview. Export a new backup and website ZIP. Upload the complete website export to the existing hosting project; do not mix files from different versions. Check the live site after each upload.
 
-To recover local editing, reopen `setup/index.html` and import the last good backup. A JSON file restores settings only; it needs the referenced media too. Keep the broken or newer file separately until you have recovered what you need. Do not remove validation checks to force an incompatible file through.
+To recover local editing, reopen `editor.html` and import the last good backup. A JSON file restores settings only; it needs the referenced media too. Keep the broken or newer file separately until you have recovered what you need. Do not remove validation checks to force an incompatible file through.
 
 To recover the public site, restore a previous production deployment using your host's controls, or upload your last known-good website ZIP. Confirm the public result. Hosting recovery does not restore unsaved editor work. See the [Cloudflare guide](publish-cloudflare.md).
 
 ## Troubleshooting
 
-- **Editor is blank or buttons fail:** extract the whole toolkit again into a new folder and open its `setup/index.html` in a current desktop browser. Keep the original backup. If it still fails, record browser/version and the exact error for a maintainer; do not upload private campaign data in a bug report.
+- **Editor is blank or buttons fail:** extract the whole toolkit again into a new folder and open its `editor.html` in a current desktop browser. Keep the original backup. If it still fails, record browser/version and the exact error for a maintainer; do not upload private campaign data in a bug report.
 - **Import rejected:** read the error. Use an original toolkit-created backup or valid supported JSON. Unsupported schema versions need an explicit migration, not a hand-edited version number. Use only this kit's original, unmodified backup ZIP: compressed or repacked archives and comments are rejected. See [format limits](campaign-format.md#import-limits).
 - **Images missing:** JSON does not carry media. Re-add the matching files or restore a full backup. Check that filenames and references agree.
 - **Copy fails:** browser clipboard permissions vary, particularly on local pages. Select the displayed text and copy it manually.
