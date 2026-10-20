@@ -15,7 +15,7 @@ A useful sanitized report includes the toolkit version or archive hash, affected
 - Import validation, archive limits, text escaping, URL restrictions and the isolated editor preview reduce risk. Automated tests are evidence for specific cases, not a security audit or guarantee.
 - Visitor email drafting/copying remains under visitor control. External links, email clients and hosting providers have their own behavior and privacy practices.
 
-If an import seems unsafe, stop using it and preserve a known-good backup separately. Do not upload suspected sensitive material to a public issue, public scanner or hosted demo. For known limitations and unperformed checks, see [verification status](workflow/verification.md).
+If an import seems unsafe, stop using it and preserve a known-good backup separately. Do not upload suspected sensitive material to a public issue, public scanner or hosted demo. For known limitations and unperformed checks, see [verification status](app/workflow/verification.md).
 
 ## Maintainer release gate
 

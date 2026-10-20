@@ -24,7 +24,7 @@ function websiteFiles(bytes){
  return files;
 }
 async function importedProject(poster='assets/hero.png',socialImage='assets/social.png'){
- const editor=setup(),campaign=structuredClone(require('../campaign.json'));
+ const editor=setup(),campaign=structuredClone(require('../../campaign.json'));
  campaign.assets=['unused','hero','social'].map(name=>({path:'assets/'+name+'.png',creator:name+' creator',sourceUrl:'',permission:name+' permission'}));
  campaign.poster=poster;campaign.socialImage=socialImage;campaign.siteUrl='https://example.com/';
  // Image is only simulated-decoded by the shared harness.

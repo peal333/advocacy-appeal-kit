@@ -4,7 +4,7 @@ const fs=require('node:fs'),path=require('node:path');
 const Kit=require('../src/core.js'),Zip=require('../src/archive.js');
 const {readSources}=require('./project-bundle.cjs');
 const Project=require('../src/project.js');
-const toolkit=path.resolve(__dirname,'..');
+const toolkit=path.resolve(__dirname,'../..');
 function fail(message){throw Error(message);}
 function regular(file,max){
  const stat=fs.lstatSync(file);
@@ -51,7 +51,7 @@ function load(input){
 const {PROJECT_FILES,OPTIONAL_PROJECT_FILES,PROJECT_MAX}=Project;
 function projectFiles(c,assets,css,source=toolkit){return Project.projectFiles(c,assets,css,readSources(source));}
 function generate(input){
- const {campaign:c,assets,warnings}=load(input),css=fs.readFileSync(path.join(toolkit,'src/site.css'),'utf8');
+ const {campaign:c,assets,warnings}=load(input),css=fs.readFileSync(path.join(toolkit,'app/src/site.css'),'utf8');
  const site=Project.websiteFiles(c,assets,css);
  const backup={...assets,'campaign.json':JSON.stringify(c,null,2)};
  const website=Zip.write(site),editable=Zip.write(backup);
@@ -80,7 +80,7 @@ function generate(input){
  return {id:c.id,website,editable,project,report};
 }
 function main(args){
- if(args.length!==2)fail('Usage: node tools/export-campaign.cjs <project-directory-or-editable-backup.zip> <NEW-output-directory>');
+ if(args.length!==2)fail('Usage: node app/tools/export-campaign.cjs <project-directory-or-editable-backup.zip> <NEW-output-directory>');
  const result=generate(args[0]),out=path.resolve(args[1]);
  // Exclusive creation owns only this new directory. Roll back our own writes on any failure.
  fs.mkdirSync(out);const created=[];

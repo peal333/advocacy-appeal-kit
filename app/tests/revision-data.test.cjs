@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),vm=require('node:vm');
-const Kit=require('../src/core.js'),Zip=require('../src/archive.js'),schema=require('../campaign.schema.json'),sample=require('../campaign.json');
+const Kit=require('../src/core.js'),Zip=require('../src/archive.js'),schema=require('../../campaign.schema.json'),sample=require('../../campaign.json');
 const clone=()=>structuredClone(sample);
 const contact=c=>c.contacts[0];
 

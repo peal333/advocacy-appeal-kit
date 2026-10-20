@@ -13,8 +13,8 @@ function readSources(root){
  const sources=Object.create(null);
  const stat=fs.lstatSync(root);if(!stat.isDirectory()||stat.isSymbolicLink())throw Error('Expected a directory, not a symlink: '+root);
  for(const name of [...Project.PROJECT_FILES,...Project.OPTIONAL_PROJECT_FILES].sort()){
+  const segments=name.split('/');let parent='';for(const segment of segments.slice(0,-1)){parent=parent?parent+'/'+segment:segment;const d=fs.lstatSync(path.join(root,parent));if(!d.isDirectory()||d.isSymbolicLink())throw Error('Source directory must not be a symlink: '+parent);}
   const file=path.join(root,name);let stat;try{stat=fs.lstatSync(file);}catch(error){if(error.code==='ENOENT'&&Project.OPTIONAL_PROJECT_FILES.includes(name))continue;throw error;}
-  const parent=path.dirname(name);if(parent!=='.'){const d=fs.lstatSync(path.join(root,parent));if(!d.isDirectory()||d.isSymbolicLink())throw Error('Source directory must not be a symlink: '+parent);}
   if(!stat.isFile()||stat.isSymbolicLink()||stat.size>2*1024*1024)throw Error('Expected a regular source file, not a symlink or oversized file: '+name);
   sources[name]=new TextDecoder('utf-8',{fatal:true}).decode(fs.readFileSync(file));
  }

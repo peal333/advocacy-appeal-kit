@@ -48,7 +48,17 @@ The chat needs tools that can read the ZIP, run the included exporter and return
 
 No installation, terminal, server or AI account is needed. **All fields** opens the full form if you prefer that way of editing.
 
-[See the step-by-step editor guide →](workflow/manual.md)
+[See the step-by-step editor guide →](app/workflow/manual.md)
+
+## What is in the folder?
+
+- `index.html`: your campaign website.
+- `editor.html`: open this to edit your campaign offline.
+- `campaign.json` and `campaign.schema.json`: campaign data and its format.
+- `assets/`, `styles/` and `scripts/`: supporting website files.
+- `app/`: the editor, tools, tests and detailed guides. You do not need to open it for everyday editing.
+
+Keep the whole folder together. `AGENTS.md` and `START-HERE.md` stay at the top level so AI assistants can find the instructions.
 
 ## Keep one ZIP. Continue with either path.
 
@@ -70,18 +80,18 @@ Keep the whole folder together so both pages can find their supporting files.
 
 ## Ready to share your website?
 
-**Save to ZIP** keeps your complete editable project. It does not publish anything. Do not upload the whole project to a public host: it includes editor/source files and every listed image, including unused ones. For a site-only hosting package, ask your AI assistant to prepare it from your saved ZIP, or use the advanced [CLI workflow](workflow/ai.md).
+**Save to ZIP** keeps your complete editable project. It does not publish anything. Do not upload the whole project to a public host: it includes editor/source files and every listed image, including unused ones. For a site-only hosting package, ask your AI assistant to prepare it from your saved ZIP, or use the advanced [CLI workflow](app/workflow/ai.md).
 
 Before publishing, replace all example content and review the facts, public contacts, message wording, image permissions and full visitor preview. Treat campaign data as public. Do not include confidential evidence, private contact details or sensitive image metadata, or upload them to an AI service.
 
 Your project and backup retain unused images. The website export includes only the selected hero and social-sharing images, but included image metadata is not removed. Review the files before uploading.
 
-[Review before publishing](workflow/review-and-recovery.md) · [Publish with Cloudflare Pages](workflow/publish-cloudflare.md)
+[Review before publishing](app/workflow/review-and-recovery.md) · [Publish with Cloudflare Pages](app/workflow/publish-cloudflare.md)
 
 ## About this version
 
-This is a **development prototype**, not a release certified for live campaigns. Automated checks have been run; real desktop-browser acceptance testing is still outstanding. See [verification status](workflow/verification.md) for the evidence and remaining checks.
+This is a **development prototype**, not a release certified for live campaigns. Automated checks have been run; real desktop-browser acceptance testing is still outstanding. See [verification status](app/workflow/verification.md) for the evidence and remaining checks.
 
-GPLv3 is the intended licensing direction, but the exact version choice, final license text and copyright notices are still pending. This note is not a completed license grant. See [contributor guidance](CONTRIBUTING.md) and the [release checklist](workflow/release-checklist.md).
+GPLv3 is the intended licensing direction, but the exact version choice, final license text and copyright notices are still pending. This note is not a completed license grant. See [contributor guidance](app/CONTRIBUTING.md) and the [release checklist](app/workflow/release-checklist.md).
 
-For technical work: [AI workflow](workflow/ai.md) · [Campaign data reference](workflow/campaign-format.md) · [Code-editing guidance](AGENTS.md) · [Security information](SECURITY.md)
+For technical work: [AI workflow](app/workflow/ai.md) · [Campaign data reference](app/workflow/campaign-format.md) · [Code-editing guidance](AGENTS.md) · [Security information](SECURITY.md)

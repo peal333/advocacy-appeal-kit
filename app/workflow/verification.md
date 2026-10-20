@@ -4,12 +4,12 @@ Checked 20 October 2026. This is a visual-editor prototype, not a production-rea
 
 ## Verified with automated checks
 
-- `node --test tests/*.test.cjs`: core data validation, safe public rendering, message placeholders, optional content, image-byte/JSON backup round trips, archive safety, deployment-root layout and bundle consistency.
+- `node --test app/tests/*.test.cjs`: core data validation, safe public rendering, message placeholders, optional content, image-byte/JSON backup round trips, archive safety, deployment-root layout and bundle consistency.
 - Security checks cover hostile text, URL schemes, malformed structures, cross-references, preserved contact groups/overrides/images, edit-message tokens and path allowlists, non-mutating preview sanitation, inert edit-mode links and exclusion of editor code from public exports.
 - A small simulated DOM exercises visual-editor startup, contextual selection, queued inline text flushed into the project ZIP, contacts added in an incomplete state, all-fields fallback, visitor-mode switching, distinct preview widths and failed-import recovery.
 - JavaScript syntax checks pass. These checks do not launch a browser, decode actual images or establish visual/accessibility correctness.
 
-The generic-toolkit suite currently passes **80/80** on Node.js v24.19.0. New checks cover toolbar label/control alignment contracts, contact disclosure/back-button spacing and redundant-helper removal, immediate required-field styling in both editing modes, contact More details disclosure and hidden-issue focus, portable-project export, second-generation editing from the extracted project, media preservation, checksum consistency, failed-write cleanup, simulated offline bundled-image startup, and browser-handler Save to ZIP with queued inline edits, upload locks, complete media, nonrecursive source packaging and independent reopening. See [the release-preparation record](release-verification.md). These do not establish that an AI provider can accept/return ZIPs in every session or that a real browser passed.
+The generic-toolkit suite currently passes **81/81** on Node.js v24.19.0. New checks cover toolbar label/control alignment contracts, contact disclosure/back-button spacing and redundant-helper removal, immediate required-field styling in both editing modes, contact More details disclosure and hidden-issue focus, portable-project export, second-generation editing from the extracted project, media preservation, checksum consistency, failed-write cleanup, simulated offline bundled-image startup, and browser-handler Save to ZIP with queued inline edits, upload locks, complete media, nonrecursive source packaging and independent reopening. See [the release-preparation record](release-verification.md). These do not establish that an AI provider can accept/return ZIPs in every session or that a real browser passed.
 
 ## Real browser checks remain blocked
 

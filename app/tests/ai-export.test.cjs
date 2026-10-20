@@ -1,7 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path'),cp=require('node:child_process');
 const Export=require('../tools/export-campaign.cjs'),Zip=require('../src/archive.js'),Kit=require('../src/core.js');
-const starter=require('../campaign.json');
+const starter=require('../../campaign.json');
 const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a9xkAAAAASUVORK5CYII=','base64');
 function fixture(t){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'appeal-ai-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
@@ -78,15 +78,15 @@ test('portable project carries only allowlisted toolkit and media, then regenera
  const r=Export.generate(root),portable=path.join(dir,'portable'),files=extractProject(r.project,portable);
  assert(!files['PRIVATE-NOTES.txt']);assert(!files['assets/stale.png']);assert(!Object.keys(files).some(name=>name.endsWith('.zip')));
  for(const name of Export.PROJECT_FILES)assert(files[name]);
- let check=cp.spawnSync(process.execPath,['tools/check-release.cjs'],{cwd:portable,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
+ let check=cp.spawnSync(process.execPath,['app/tools/check-release.cjs'],{cwd:portable,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
  const loaded=JSON.parse(files['campaign.json']);assert.deepEqual(loaded,c);
  loaded.contacts[0].email='updated@example.com';fs.writeFileSync(path.join(portable,'campaign.json'),JSON.stringify(loaded));
- const output=path.join(dir,'second');const run=cp.spawnSync(process.execPath,['tools/export-campaign.cjs','.',output],{cwd:portable,encoding:'utf8'});assert.equal(run.status,0,run.stderr);
+ const output=path.join(dir,'second');const run=cp.spawnSync(process.execPath,['app/tools/export-campaign.cjs','.',output],{cwd:portable,encoding:'utf8'});assert.equal(run.status,0,run.stderr);
  const second=entries(fs.readFileSync(path.join(output,c.id+'-project.zip')));assert.deepEqual(JSON.parse(second['campaign.json']),loaded);
  for(const a of c.assets)assert.deepEqual(second[a.path],png);
  const publicFiles=entries(fs.readFileSync(path.join(output,c.id+'-website.zip')));assert(publicFiles['scripts/site.js'].toString().includes('updated@example.com'));assert(!publicFiles['assets/unused.png']);
  const thirdRoot=path.join(dir,'second-project');extractProject(fs.readFileSync(path.join(output,c.id+'-project.zip')),thirdRoot);
- check=cp.spawnSync(process.execPath,['tools/check-release.cjs'],{cwd:thirdRoot,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
+ check=cp.spawnSync(process.execPath,['app/tools/check-release.cjs'],{cwd:thirdRoot,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
 });
 test('failed output write removes only this invocation’s files and new directory',t=>{
  const {dir,root}=fixture(t),out=path.join(dir,'output'),originalWrite=fs.writeFileSync;let calls=0;
@@ -100,7 +100,7 @@ test('portable editor boots with customized data and all embedded images without
  const large=Buffer.alloc(Kit.MAX_IMAGE);png.copy(large);fs.writeFileSync(path.join(root,'assets/unused.png'),large);
  const files=entries(Export.generate(root).project),vm=require('node:vm');
  const file=path.join(__dirname,'editor-integration.test.cjs');let declarations=fs.readFileSync(file,'utf8').split("test('editor boots")[0];
- const boot={};vm.runInNewContext(files['setup/bundle.js'].toString(),{window:boot});
+ const boot={};vm.runInNewContext(files['app/setup/bundle.js'].toString(),{window:boot});
  declarations=declarations.replace('function setup(){','function setup(bundle){').replace("vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../setup/editor.js'),'utf8'),ctx);", "ctx.KitBundle=bundle;ctx.atob=binary=>Buffer.from(binary,'base64').toString('binary');vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../setup/editor.js'),'utf8'),ctx);");
  const context={Buffer,require:require('node:module').createRequire(file),__dirname,module:{exports:{}},structuredClone,setTimeout,clearTimeout,TextEncoder,TextDecoder,Blob,queueMicrotask};
  vm.runInNewContext(declarations+'\nmodule.exports={setup};',context);const editor=context.module.exports.setup(boot.KitBundle);
@@ -114,10 +114,22 @@ test('portable editor boots with customized data and all embedded images without
 });
 test('portable project preserves approved conventional legal notices when present and rejects symlink notices',t=>{
  const {dir,root,c}=fixture(t),generated=Export.generate(root),source=path.join(dir,'source');extractProject(generated.project,source);
- const css=fs.readFileSync(path.join(source,'src/site.css'),'utf8'),assets=Object.fromEntries(c.assets.map(a=>[a.path,png]));
+ const css=fs.readFileSync(path.join(source,'app/src/site.css'),'utf8'),assets=Object.fromEntries(c.assets.map(a=>[a.path,png]));
  let files=Export.projectFiles(c,assets,css,source);assert(!files.LICENSE);
  const notice='Synthetic packaging-test notice. Not a license grant.';fs.writeFileSync(path.join(source,'LICENSE'),notice);
  files=Export.projectFiles(c,assets,css,source);assert.equal(files.LICENSE.toString(),notice);assert(files.SHA256SUMS.includes('./LICENSE\n'));
  fs.unlinkSync(path.join(source,'LICENSE'));fs.symlinkSync(path.join(source,'README.md'),path.join(source,'LICENSE'));
  assert.throws(()=>Export.projectFiles(c,assets,css,source),/symlink/);
+});
+
+test('portable source reader rejects symlinks at every app directory level',t=>{
+ const {dir,root}=fixture(t),generated=Export.generate(root),source=path.join(dir,'nested-source');extractProject(generated.project,source);
+ const {readSources}=require('../tools/project-bundle.cjs');
+ for(const relative of ['app/setup','app']){
+  const original=path.join(source,relative),outside=path.join(dir,relative.replaceAll('/','-')+'-outside');
+  fs.renameSync(original,outside);fs.symlinkSync(outside,original,'dir');
+  assert.throws(()=>readSources(source),/Source directory must not be a symlink/);
+  fs.unlinkSync(original);fs.renameSync(outside,original);
+ }
+ assert(readSources(source)['app/setup/editor.js']);
 });

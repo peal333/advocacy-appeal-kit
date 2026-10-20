@@ -5,7 +5,7 @@ const test=require('node:test');
 const assert=require('node:assert/strict');
 const Kit=require('../src/core.js');
 const Zip=require('../src/archive.js');
-const sample=require('../campaign.json');
+const sample=require('../../campaign.json');
 // Synthetic test-only source and timeline keep the instructional starter free of fabricated source dates.
 const clone=()=>({...structuredClone(sample),sources:[{id:'example-source',title:'Synthetic test source',url:'https://example.com/test-source',publisher:'Test fixture',checked:'2026-01-01'}],timeline:[{date:'Test date label',text:'Synthetic test timeline entry',sourceId:'example-source'}]});
 

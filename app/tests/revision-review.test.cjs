@@ -3,7 +3,7 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const Kit=require('../src/core.js'),Zip=require('../src/archive.js');
-const clone=()=>structuredClone(require('../campaign.json'));
+const clone=()=>structuredClone(require('../../campaign.json'));
 
 test('optional contact provenance accepts omitted or blank values but rejects malformed supplied values',()=>{
  for(const omit of [true,false]){const c=clone();for(const key of ['sourceUrl','verified']){if(omit)delete c.contacts[0][key];else c.contacts[0][key]='';}assert.deepEqual(Kit.validate(c).errors,[]);assert(!Kit.render(c).includes('href="undefined"'));assert(!Kit.render(c).includes('href=""'));}
@@ -162,8 +162,8 @@ test('toolbar upload labels share button metrics without inheriting form-label s
  assert(css.includes('.mode-switch,.file-actions,.device-switch{display:flex;gap:6px;align-items:center;flex-wrap:wrap}'));
  assert(css.includes('.file-button input{width:1px;height:1px;min-height:0;margin:0;padding:0;border:0;position:absolute;opacity:0}'));
  assert(css.includes('.file-button:focus-within,:focus-visible{outline:3px solid var(--focus);'));
- for(const entry of ['editor.html','setup/index.html']){
-  const html=fs.readFileSync(path.join(__dirname,'..',entry),'utf8');
+ for(const entry of ['editor.html','app/setup/index.html']){
+  const html=fs.readFileSync(path.join(__dirname,'../..',entry),'utf8');
   assert(html.includes('<label class="file-button">Open backup<input id="import" type="file"'));
   assert.equal((html.match(/id="download-project"/g)||[]).length,1);
  }

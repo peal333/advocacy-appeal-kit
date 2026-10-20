@@ -2,7 +2,7 @@
 
 You need the extracted toolkit, a desktop browser, public source material, and any images you have permission to publish.
 
-The root `index.html` is your cause website. The root `editor.html` is the visual editor. Keep the whole extracted folder together. The older `setup/index.html` entry still works.
+The root `index.html` is your cause website. The root `editor.html` is the visual editor. Keep the whole extracted folder together. The older `app/setup/index.html` entry still works.
 
 ## Open and edit
 

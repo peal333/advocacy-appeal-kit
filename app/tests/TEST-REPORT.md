@@ -4,7 +4,7 @@ Date: 20 October 2026. This is a local prototype, not a production-readiness or 
 
 ## Current release-preparation checks
 
-On Node.js v24.19.0, the generic-toolkit suite now passes **80 tests, 80 passed**, including root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+On Node.js v24.19.0, the generic-toolkit suite now passes **81 tests, 81 passed**, including app-folder source packaging and ancestor-symlink rejection, root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
 
 ## Single-save, required-label and deletion refinement
 
@@ -26,8 +26,8 @@ On Node.js v24.19.0, the generic-toolkit suite now passes **80 tests, 80 passed*
 
 ## Original visual-editor revision baseline
 
-- `node --test tests/*.test.cjs`: **50 tests, 50 passed**.
-- `node --check` for every file in `src/*.js`, `setup/*.js` and `tools/*.cjs`.
+- `node --test app/tests/*.test.cjs`: **50 tests, 50 passed**.
+- `node --check` for every file in `app/src/*.js`, `app/setup/*.js` and `app/tools/*.cjs`.
 - Shared version-1 data supports optional contact source URL/date, advisory poster alternative text, and an optional persisted group catalog. Old version-1 imports remain supported. Keep this revision of the toolkit for editing backups that include the new group catalog; older toolkit versions may reject that additional field.
 - Instructional starter uses `my-campaign`, “Your campaign title,” and a non-real recipient at example.com. No invented source or verification date is supplied.
 - Original delivered ZIP is preserved separately. No Git operation or publication was performed.

@@ -2,7 +2,7 @@
 
 ## AI chat and Codex entrypoint
 
-For whole-toolkit ZIP customization, follow [START-HERE.md](START-HERE.md) and [workflow/ai.md](workflow/ai.md). Check file/runtime/download capabilities; use `tools/export-campaign.cjs` and the shared renderer to produce a self-contained cause-specific project ZIP (the main reuploadable handoff), website ZIP and complete editable backup. Do not assume every chat auto-discovers this file. Export drafts are not human content approval or permission to publish.
+For whole-toolkit ZIP customization, follow [START-HERE.md](START-HERE.md) and [app/workflow/ai.md](app/workflow/ai.md). Check file/runtime/download capabilities; use `app/tools/export-campaign.cjs` and the shared renderer to produce a self-contained cause-specific project ZIP (the main reuploadable handoff), website ZIP and complete editable backup. Do not assume every chat auto-discovers this file. Export drafts are not human content approval or permission to publish.
 
 ## Preserve the two pathways
 

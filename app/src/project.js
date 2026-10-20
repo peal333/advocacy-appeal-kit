@@ -2,14 +2,14 @@
 (function(root){'use strict';
 const enc=new TextEncoder();
 const PROJECT_FILES=[
- 'AGENTS.md','CONTRIBUTING.md','README.md','SECURITY.md','START-HERE.md',
- 'campaign.schema.json','editor.html','setup/editor.css','setup/editor.js','setup/index.html','setup/visual.js',
- 'src/archive.js','src/core.js','src/project.js','src/site.css',
- 'tests/TEST-REPORT.md','tests/ai-export.test.cjs','tests/core.test.cjs','tests/editor-integration.test.cjs',
- 'tests/project-save.test.cjs','tests/public-export.test.cjs','tests/revision-data.test.cjs','tests/revision-review.test.cjs','tests/visual-review.test.cjs',
- 'tools/build.cjs','tools/check-release.cjs','tools/export-campaign.cjs','tools/project-bundle.cjs',
- 'workflow/ai.md','workflow/campaign-format.md','workflow/manual.md','workflow/publish-cloudflare.md',
- 'workflow/release-checklist.md','workflow/release-verification.md','workflow/review-and-recovery.md','workflow/verification.md'
+ 'AGENTS.md','app/CONTRIBUTING.md','README.md','SECURITY.md','START-HERE.md',
+ 'campaign.schema.json','editor.html','app/setup/editor.css','app/setup/editor.js','app/setup/index.html','app/setup/visual.js',
+ 'app/src/archive.js','app/src/core.js','app/src/project.js','app/src/site.css',
+ 'app/tests/TEST-REPORT.md','app/tests/ai-export.test.cjs','app/tests/core.test.cjs','app/tests/editor-integration.test.cjs',
+ 'app/tests/project-save.test.cjs','app/tests/public-export.test.cjs','app/tests/revision-data.test.cjs','app/tests/revision-review.test.cjs','app/tests/visual-review.test.cjs',
+ 'app/tools/build.cjs','app/tools/check-release.cjs','app/tools/export-campaign.cjs','app/tools/project-bundle.cjs',
+ 'app/workflow/ai.md','app/workflow/campaign-format.md','app/workflow/manual.md','app/workflow/publish-cloudflare.md',
+ 'app/workflow/release-checklist.md','app/workflow/release-verification.md','app/workflow/review-and-recovery.md','app/workflow/verification.md'
 ];
 const OPTIONAL_PROJECT_FILES=['LICENSE','LICENSE.md','LICENSE.txt','NOTICE','NOTICE.md','NOTICE.txt','COPYING','COPYING.md','COPYING.txt'];
 const PROJECT_MAX=50*1024*1024;
@@ -61,10 +61,10 @@ function projectFiles(c,assets,css,sources){
  const website=websiteFiles(c,assets,css);delete website['assets/'];Object.assign(files,website);
  files['campaign.json']=JSON.stringify(c,null,2);
  if(bytes(files['campaign.json']).length>1024*1024)throw Error('Campaign JSON exceeds 1 MiB.');
- files['setup/bundle.js']=bundle(c,css,assets);
- files['setup/project-template.js']=template(clean);
+ files['app/setup/bundle.js']=bundle(c,css,assets);
+ files['app/setup/project-template.js']=template(clean);
  const schema=JSON.parse(files['campaign.schema.json']);
- files['src/schema.js']='/* Generated from campaign.schema.json. */\n(function(r){r.KitSchema='+JSON.stringify(schema)+';if(typeof module!=="undefined")module.exports=r.KitSchema;})(globalThis);\n';
+ files['app/src/schema.js']='/* Generated from campaign.schema.json. */\n(function(r){r.KitSchema='+JSON.stringify(schema)+';if(typeof module!=="undefined")module.exports=r.KitSchema;})(globalThis);\n';
  if(Object.values(files).reduce((n,value)=>n+bytes(value).length,0)>PROJECT_MAX)throw Error('Portable project contents exceed 50 MiB.');
  files.SHA256SUMS=Object.keys(files).sort().map(name=>sha256(files[name])+'  ./'+name).join('\n')+'\n';
  if(Object.values(files).reduce((n,value)=>n+bytes(value).length,0)>PROJECT_MAX)throw Error('Portable project contents exceed 50 MiB.');
