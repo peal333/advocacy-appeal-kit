@@ -42,7 +42,7 @@ The chat needs tools that can read the project, run the included exporter and re
 
 Starting from this repository gives you the toolkit example. For later changes to **your campaign**, upload your newest saved project ZIP, or use a repository URL that contains that same up-to-date customized project.
 
-Prefer a ready-filled example? Paste the complete **[Bristol Community Cleanup prompt](prompts/BRISTOL_COMMUNITY_CLEANUP.md)** instead. The **[prompts guide](prompts/README.md)** explains both options and how to check the returned files.
+Prefer a ready-filled example? Paste the complete **[Bristol Community Cleanup prompt](prompts/BRISTOL_COMMUNITY_CLEANUP.md)** instead, or **[view the deployed Bristol example](https://bristol-community-cleanup.pages.dev)**. The **[prompts guide](prompts/README.md)** explains both options and how to check the returned files.
 
 #### For assistants receiving this kit
 
