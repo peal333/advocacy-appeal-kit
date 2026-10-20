@@ -33,7 +33,7 @@ Choose either path below. Both produce the same kind of complete project ZIP: yo
 
 1. Upload the **whole project ZIP** to ChatGPT Chat / Work, **or paste the repository URL** and ask it to read the project:
    https://github.com/peal333/advocacy-appeal-kit.git
-2. Open **[GUIDED_WORKFLOW.md](prompts/GUIDED_WORKFLOW.md)** and paste its entire prompt block into the chat. It will guide you through your cause and the changes you want.
+2. Say what you want, for example: “Use this kit to help me build a new campaign site. Read prompts/GUIDED_WORKFLOW.md and begin the questions.” If the assistant does not read the bundled prompt, open **[GUIDED_WORKFLOW.md](prompts/GUIDED_WORKFLOW.md)** and paste its entire prompt block instead.
 3. Review the result and ask for an **updated project ZIP** to download and keep.
 
 The URL option works when the chat can access or clone the repository. Private repositories require authorized access; pasting a link does not grant it. If URL access is unavailable, download the ZIP yourself and upload it instead.
@@ -43,6 +43,14 @@ The chat needs tools that can read the project, run the included exporter and re
 Starting from this repository gives you the toolkit example. For later changes to **your campaign**, upload your newest saved project ZIP, or use a repository URL that contains that same up-to-date customized project.
 
 Prefer a ready-filled example? Paste the complete **[Bristol Community Cleanup prompt](prompts/BRISTOL_COMMUNITY_CLEANUP.md)** instead. The **[prompts guide](prompts/README.md)** explains both options and how to check the returned files.
+
+#### For assistants receiving this kit
+
+When the user uploads this kit and makes an ordinary request to build a site or website without enough details (for example, “I need to build a site” or “Help me build a website”; no cause/campaign keyword is required), **read [prompts/GUIDED_WORKFLOW.md](prompts/GUIDED_WORKFLOW.md) yourself and begin its initial questions**. Use this kit, not an unrelated website implementation. Do not merely send the user away to copy the prompt.
+
+If it is unclear whether they want a new campaign or edits to the uploaded one, ask first and preserve the existing data. A ZIP with no request is not authorization to build or replace anything: ask what they want to do. Honor an explicitly unrelated request rather than forcing this kit. Follow an explicit complete brief, pasted prompt or revision request instead of restarting an unnecessary interview; preserve unrelated content and media during revisions.
+
+Not every assistant automatically reads bundled instructions or has file tools. If it cannot read the kit, explain that limitation; the user can paste the guided prompt or use the local editor. Uploading files alone does not grant publication or outreach permission.
 
 ### Path 2: Visual Builder in editor.html
 

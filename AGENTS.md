@@ -4,6 +4,14 @@
 
 For whole-toolkit ZIP customization, follow [README.md](README.md) and the canonical [guided prompt](prompts/GUIDED_WORKFLOW.md) and [app/workflow/ai.md](app/workflow/ai.md). Check file/runtime/download capabilities; use `app/tools/export-campaign.cjs` and the shared renderer to produce a self-contained cause-specific project ZIP (the main reuploadable handoff), website ZIP and complete editable backup. Do not assume every chat auto-discovers this file. Export drafts are not human content approval or permission to publish.
 
+### Route the user's request before building
+
+- **New site, incomplete brief:** if the user supplies this kit and makes an ordinary request to build a site or website (including “I need to build a site” or “Help me build a website”; no cause/campaign keyword is required), read `prompts/GUIDED_WORKFLOW.md` yourself and begin its initial questions. Do not merely tell the user to copy it, and do not switch to an unrelated website implementation.
+- **Unclear new versus revise:** ask which they intend before replacing anything; preserve existing campaign data and media.
+- **ZIP alone:** ask what the user wants to do. The upload is not authorization to build, overwrite, publish or contact anyone.
+- **Explicit brief, pasted prompt or revision:** follow that request, asking only necessary missing questions. Do not force a fresh interview or overwrite unrelated content. Honor explicitly unrelated requests rather than forcing this kit. The bundled example is opt-in, never an automatic replacement campaign.
+- **Cannot read files:** disclose the limitation and offer the copy-and-paste guided prompt or manual editor fallback. Do not claim all assistants auto-discover these instructions or can execute/export files.
+
 ## Preserve the two pathways
 
 - The non-AI form editor and AI-assisted data workflow are equally supported. Both use the same `campaign.json`, versioned schema, validation, renderer, and backup format.
