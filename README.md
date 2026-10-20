@@ -1,8 +1,8 @@
 # Advocacy Appeal Kit
 
-Make it easy for anyone to create an appeals website.
+Use this repo to create an appeals website for your mission or cause. Upload it to ChatGPT for AI-assisted workflow. Open editor.html to manage campaign and contacts with Visual Builder.
 
-**[Download the latest ZIP](https://github.com/peal333/advocacy-appeal-kit/archive/refs/heads/main.zip)**
+**[Download ZIP](https://github.com/peal333/advocacy-appeal-kit/archive/refs/heads/main.zip)**
 
 *The ZIP contains the latest version on `main`. While this repository is private, you need authorized GitHub access to download it.*
 
