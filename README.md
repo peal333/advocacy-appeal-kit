@@ -8,48 +8,67 @@ Use this repo to create an appeals website for your mission or cause. Upload it 
 
 Add your story, images, sources and a call to action. Visitors can prepare an email or copy a message, then decide whether to send it themselves.
 
-**Keep the whole project with you.** It carries the toolkit and its source, your campaign and your images, so you can switch between AI-assisted work and the visual editor. You do not need to choose one route forever.
+## Two workflows. One portable project ZIP.
 
-## Two files to know
+Choose either path below. Both produce the same kind of complete project ZIP: your campaign, images, updated website, visual builder and toolkit source. You can switch paths whenever you want.
 
-After extracting the ZIP, open either file in the main folder:
+```text
+                       Downloaded project ZIP
+                                 |
+                 +---------------+---------------+
+                 |                               |
+        PATH 1: AI-ASSISTED             PATH 2: VISUAL BUILDER
+        Upload ZIP to ChatGPT          Extract the whole ZIP
+                 |                               |
+        Converse, update and review    Open editor.html and edit
+                 |                               |
+        Ask for updated project ZIP    Choose Save to ZIP
+                 |                               |
+                 +---------------+---------------+
+                                 |
+                       Updated project ZIP
+                                 |
+                 Keep it and reopen with EITHER path
+```
 
-- **`index.html` is your cause’s website.** Open it to see the visitor-facing page.
-- **`editor.html` is your visual editor.** Open it to make changes, then choose **Save to ZIP** to download the updated package, including the website.
+### Path 1: AI-assisted in ChatGPT
 
-Keep the whole folder together so both pages can find their supporting files.
+1. Upload the **whole project ZIP** to ChatGPT.
+2. Copy the prompt from **[Start here](START-HERE.md)** into the chat, then talk through your cause and the changes you want.
+3. Review the result and ask for an **updated project ZIP** to download and keep.
 
-## Choose how to start
-
-### Build with AI
-
-1. Upload the whole toolkit ZIP to ChatGPT or Claude.
-2. Copy the prompt from **[Start here](START-HERE.md)** into the chat.
-3. Talk through your cause, review the draft, and ask for your customized **project ZIP** to keep.
-
-It needs tools that can read the ZIP, run the included exporter and return downloadable files; the starter prompt asks it to check first. If your chat cannot do that, it can still help with the wording and you can finish in the editor.
+The chat needs tools that can read the ZIP, run the included exporter and return downloadable files; the starter prompt asks it to check first. If those tools are unavailable, it can help with wording and you can finish using Path 2.
 
 [Open the AI starter prompt →](START-HERE.md)
 
-### Edit it yourself
+### Path 2: Visual Builder in editor.html
 
-1. Extract the **whole ZIP** and keep its folders together.
+1. Extract the **whole project ZIP** and keep its folders together.
 2. Open **`editor.html`** in a desktop browser, not inside a ZIP viewer.
 3. Click the outlined text to edit it. Use the sidebar for images, contacts and page settings, then check **Visitor preview**.
+4. Choose **Save to ZIP** and wait for the download to finish. Keep this **updated project ZIP**.
 
 No installation, terminal, server or AI account is needed. **All fields** opens the full form if you prefer that way of editing.
 
 [See the step-by-step editor guide →](workflow/manual.md)
 
-## Save now. Pick it up later.
+## Keep one ZIP. Continue with either path.
 
-Choose **Save to ZIP** and make sure the download finishes before closing or refreshing. It saves a **new, complete project ZIP** with the toolkit, source, your current campaign, all your images and an updated `index.html` website. Keep that newest ZIP: it is the one file you need for either workflow.
+Your newest project ZIP is the portable handoff for both workflows. Next time:
 
-- **Reopen in the editor:** extract your saved project ZIP, keep its folders together, and open `editor.html`. Your campaign and images load automatically.
-- **Continue with AI:** upload your saved project ZIP and explain what you want to change. Ask for an updated project ZIP to keep afterward.
-The editor has one save/download action: **Save to ZIP**. **Open backup** remains available for older data/media backups or supported JSON; reopen a whole project by extracting it and opening its `editor.html`.
+- **Use AI:** upload that ZIP to ChatGPT, explain your changes, and ask for an updated project ZIP afterward.
+- **Use the Visual Builder:** extract that ZIP and open `editor.html`. Your saved campaign and images load automatically. Edit, then choose **Save to ZIP** again.
 
-Saving downloads a new file; it does not overwrite your original ZIP or extracted folder. Unsaved changes can be lost when you close or refresh the editor. Always continue from your newest saved project.
+Saving downloads a **new file**; it does not overwrite your original ZIP or extracted folder. Unsaved editor changes can be lost when you close or refresh. Always continue from your newest saved project ZIP.
+
+### Which HTML file should I open?
+
+Inside the extracted project’s main folder:
+
+- **`index.html` is your cause’s website:** the visitor-facing page.
+- **`editor.html` is the Visual Builder:** where you edit the project and use **Save to ZIP**.
+
+Keep the whole folder together so both pages can find their supporting files.
 
 ## Ready to share your website?
 
