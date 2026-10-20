@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "id": "my-campaign",
+  "title": "Your campaign title",
+  "summary": "Replace this with a short explanation of your campaign and the change you are asking for.",
+  "language": "en",
+  "siteUrl": "",
+  "updated": "2026-10-20",
+  "introduction": "Use this space to explain the situation, who it affects, and why it matters. Include only information you have checked and are comfortable making public. This starter contains instructions and a non-real example recipient, not campaign facts.",
+  "action": "Tell visitors what you want them to ask for and why the selected recipient can help. Replace the example recipient and review the message template before publishing.",
+  "petitionUrl": "",
+  "theme": {
+    "accent": "#245844",
+    "background": "#f5f2e9"
+  },
+  "poster": "",
+  "posterAlt": "",
+  "socialImage": "",
+  "sections": [
+    {
+      "heading": "Add your supporting context",
+      "body": "Replace this section with verified background, or remove it if you do not need it. Add public sources, a timeline, or an event only when you have the information to support them."
+    }
+  ],
+  "sources": [],
+  "timeline": [],
+  "event": null,
+  "socialLinks": [],
+  "groups": [],
+  "contacts": [
+    {
+      "id": "example-recipient",
+      "name": "Example recipient (replace me)",
+      "role": "Replace with the recipient’s role",
+      "group": "",
+      "email": "recipient@example.com",
+      "sourceUrl": "",
+      "verified": "",
+      "priority": "",
+      "subject": "",
+      "body": ""
+    }
+  ],
+  "messages": {
+    "subject": "Replace with a clear, specific request",
+    "body": "Dear {{recipient}},\n\n[Explain the change you are asking for, using information you have checked.]\n\n{{personalMessage}}\n\nThank you for considering this request.\n{{name}}"
+  },
+  "assets": []
+}

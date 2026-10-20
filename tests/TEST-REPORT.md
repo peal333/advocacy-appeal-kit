@@ -1,0 +1,51 @@
+# Visual-editor revision verification
+
+Date: 20 October 2026. This is a local prototype, not a production-readiness or accessibility certification.
+
+## Current release-preparation checks
+
+On Node.js v24.19.0, the generic-toolkit suite now passes **68 tests, 68 passed**, including public-export privacy filtering, the AI portable-project exporter and browser Save project ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+
+## Original visual-editor revision baseline
+
+- `node --test tests/*.test.cjs`: **50 tests, 50 passed**.
+- `node --check` for every file in `src/*.js`, `setup/*.js` and `tools/*.cjs`.
+- Shared version-1 data supports optional contact source URL/date, advisory poster alternative text, and an optional persisted group catalog. Old version-1 imports remain supported. Keep this revision of the toolkit for editing backups that include the new group catalog; older toolkit versions may reject that additional field.
+- Instructional starter uses `my-campaign`, “Your campaign title,” and a non-real recipient at example.com. No invented source or verification date is supplied.
+- Original delivered ZIP is preserved separately. No Git operation or publication was performed.
+
+The suite covers validation, URL/email safety, hostile HTML/script text, supported placeholders, optional sections, JSON/image-byte backup round trips, archive path/size/corruption defenses, root-level website export, schema/bundle consistency, clipboard fallback simulation, Unicode/contrast limits, edit-bridge token/path restrictions, import recovery, mode transitions and viewport dimensions.
+
+Revision-specific checks cover:
+
+- Optional provenance absent, blank, valid and invalid, with no empty public-source links or false verification labels.
+- Missing alternative text warns without blocking preview/export; missing image files still block export.
+- Empty named groups survive backup, dropdown assignment, rename, deletion cancellation and confirmed deletion. Deletion preserves contacts and individual message overrides as Ungrouped.
+- Old imports infer groups from contacts. An oversized normalized catalog fails before replacing current data.
+- Add contact focuses and scrolls to Name, required labels are shown, untouched fields are not styled as errors, and clickable review issues focus the affected field.
+- Image preview serialization uses validated raster data URLs in both edit and visitor previews. Website ZIPs retain relative asset paths and backups retain the original bytes. SVG, mismatched signatures and simulated decode errors are rejected.
+
+The hero-image change avoids parent-origin blob URLs inside an opaque-origin sandboxed iframe. Raster type, size and decode checks remain in place, and the iframe does not gain same-origin permission. This addresses the suspected origin-related cause of the blank canvas; actual visual confirmation remains outstanding.
+
+## Browser checks not completed
+
+A local Chromium launch was attempted but failed before opening a page because the environment denied socket creation. No page navigation, rendered-browser result, screenshot or real image decode is claimed. Earlier attempts through the available cloud browser could not open the local project.
+
+Still unverified:
+
+- Actual `file://` double-click startup, contenteditable caret/scroll behavior, responsive layout and keyboard-only/screen-reader use.
+- Actual file pickers, image decode and visible hero replacement, browser downloads, save/close/reopen/import with real images.
+- Real clipboard permissions, mobile browsers, email-client launch, long mailto behavior and hosting metadata.
+
+The DOM and Image simulations test state transitions and data preservation, not browser rendering or real decoding. Run the ordered [browser acceptance checklist](../workflow/verification.md) on the instructional starter before using a real campaign.
+
+## Prototype boundaries
+
+- One shared layout and one selected hero image; prior images stay available in the backup.
+- Groups organize contacts; group-wide message overrides are not implemented.
+- Version 1 only; unrelated website migration is outside this MVP.
+- Backup import accepts the kit's uncompressed ZIPs, not arbitrary repacked/compressed archives.
+- PNG/JPEG/WebP only; 5 MiB/40 megapixels per image, 19 MiB total image bytes, 1 MiB campaign JSON, 20 MiB archive/import limit.
+- Incomplete required content blocks website and editable-backup exports. JSON-only preserves text without media and may require correction before reimport.
+- No autosave, backend, scraping, analytics, account, provider credential, automatic sending, publication or GitHub integration.
+- GPLv3-only versus GPLv3-or-later remains unresolved; no final license grant is claimed.

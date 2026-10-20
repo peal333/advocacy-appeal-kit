@@ -1,0 +1,65 @@
+/* Small DOM simulation: exercises application state flow, not browser rendering. */
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+const Kit=require('../src/core.js'),KitVisual=require('../setup/visual.js'),KitArchive=require('../src/archive.js'),KitSchema=require('../src/schema.js');
+const original=require('../campaign.json');
+class Element{
+ constructor(tag='div'){this.tagName=tag.toUpperCase();this.children=[];this.dataset={};this.attributes={};this.handlers={};this.value='';this._text='';this.style={};this.disabled=false;this.className='';this.clientWidth=1000;this.classList={toggle:(name,force)=>{const set=new Set(this.className.split(' ').filter(Boolean));const on=force===undefined?!set.has(name):force;on?set.add(name):set.delete(name);this.className=[...set].join(' ');return on;},contains:name=>this.className.split(' ').includes(name)};}
+ set textContent(value){this._text=String(value);this.children=[];}get textContent(){return this._text+this.children.map(c=>c.textContent||'').join('');}
+ append(...children){for(const child of children){if(typeof child==='string'){const text=new Element('text');text.textContent=child;child=text;}child.parentElement=this;this.children.push(child);}}
+ replaceChildren(...children){this.children=[];this._text='';this.append(...children);}
+ setAttribute(key,value){this.attributes[key]=String(value);if(key==='id')this.id=value;}
+ getAttribute(key){return this.attributes[key];}removeAttribute(key){delete this.attributes[key];}
+ addEventListener(name,handler){this.handlers[name]=handler;}
+ focus(){this.focused=true;}scrollIntoView(){this.scrolled=true;}
+ remove(){if(this.parentElement)this.parentElement.children=this.parentElement.children.filter(c=>c!==this);}
+ click(){if(this.onclick&&!this.disabled)return this.onclick();}
+ querySelectorAll(selector){return descendants(this).filter(el=>selector==='details[open]'?el.tagName==='DETAILS'&&el.open:selector==='[data-path]'?el.dataset.path!==undefined:false);}
+ querySelector(selector){return descendants(this).find(el=>el.tagName.toLowerCase()===selector)||null;}
+}
+function descendants(el){return el.children.flatMap(child=>[child,...descendants(child)]);}
+function setup(){
+ const ids={};for(const id of ['status','save-state','preview','workspace','preview-stage','selection-title','selection-hint','properties','editor','validation','check-summary','checks','import','download-project','download-site','download-backup','download-json','canvas-title','canvas-hint','desktop','mobile','mode-visual','mode-preview','mode-form','nav-campaign','nav-hero','nav-contacts','nav-messages','nav-content']){ids[id]=new Element(id==='preview'?'iframe':'div');ids[id].id=id;}
+ const body=new Element('body');body.append(...Object.values(ids));const wrap=new Element();wrap.append(ids['preview-stage']);
+ const listeners={};const blobs=new Map();let nextBlob=0;const downloads=[];const realSetTimeout=setTimeout;const ctx={KitProject:require('../src/project.js'),KitProjectSources:require('../tools/project-bundle.cjs').readSources(path.join(__dirname,'..')),Kit,KitVisual,KitArchive,KitSchema,KitBundle:{campaign:structuredClone(original),css:fs.readFileSync(path.join(__dirname,'../src/site.css'),'utf8')},document:{body,activeElement:null,getElementById:id=>ids[id],createElement:tag=>{const el=new Element(tag);if(tag==='a')el.click=()=>downloads.push({name:el.download,blob:blobs.get(el.href)});return el;},querySelectorAll:selector=>selector==='[data-path]'?Object.values(ids).flatMap(descendants).filter(el=>el.dataset.path!==undefined):selector==='.quick-nav button'?Object.entries(ids).filter(([id])=>id.startsWith('nav-')).map(([,el])=>el):selector==='.toolbar button'?['mode-visual','mode-preview','mode-form','download-project','download-site','download-backup'].map(id=>ids[id]):[]},structuredClone,TextDecoder,TextEncoder,Uint8Array,Blob,btoa:binary=>Buffer.from(binary,'binary').toString('base64'),Image:class{constructor(){this.width=1;this.height=1;}set src(value){this.value=value;queueMicrotask(()=>this.onload());}},Option:function(text,value){const el=new Element('option');el.textContent=text;el.value=value;return el;},URL:{createObjectURL:blob=>{const url='blob:test-'+(++nextBlob);blobs.set(url,blob);return url;},revokeObjectURL:url=>blobs.delete(url)},setTimeout:(fn,ms)=>{if(ms===60000)return 0;return realSetTimeout(fn,ms);},clearTimeout,confirm:()=>true,console,Date,Math,Promise,innerHeight:1000};
+ ctx.window=ctx;ctx.addEventListener=(name,fn)=>listeners[name]=fn;const queued={};
+ ids.preview.contentWindow={postMessage:message=>{if(message.type==='kit:flush'){const token=message.token;const targets=KitVisual.targets(currentData());queueMicrotask(()=>listeners.message({source:ids.preview.contentWindow,data:{type:'kit:flushed',token,request:message.request,values:targets.filter(t=>t.path).map(t=>({path:t.path,value:Object.hasOwn(queued,t.path)?queued[t.path]:t.value}))}}));}}};
+ function currentData(){const src=ids.preview.srcdoc||'';const marker=src.lastIndexOf(')({"targets":');if(marker<0)return original;const data=JSON.parse(src.slice(marker+2,src.lastIndexOf(');</script>')));return applyTargets(original,data.targets);}
+ function applyTargets(base,targets){const c=structuredClone(base);for(const target of targets){if(!target.path)continue;const keys=target.path.split('.'),last=keys.pop();let node=c;for(const key of keys){if(!node[key])node[key]={};node=node[key];}node[last]=target.value;}return c;}
+ vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../setup/editor.js'),'utf8'),ctx);
+ return {ids,ctx,downloads,listeners,queued,field:path=>descendants(ids.properties).find(el=>el.dataset.path===path),button:text=>descendants(ids.properties).find(el=>el.tagName==='BUTTON'&&el.textContent===text),canvas:()=>{const src=ids.preview.srcdoc;const marker=src.lastIndexOf(')({"targets":');return JSON.parse(src.slice(marker+2,src.lastIndexOf(');</script>')));}};
+}
+test('editor boots in visual mode with a contextual title field and isolated canvas',()=>{const e=setup();assert.equal(e.ids['selection-title'].textContent,'Campaign title');assert.equal(e.field('title').value,original.title);assert(e.ids.preview.srcdoc.includes('kit:flush'));assert.equal(e.ids.preview.style.width,'1100px');assert.equal(e.ids['download-site'].disabled,false);});
+test('canvas text updates data and inspector, rejects stale token, and saves latest queued edit',async()=>{
+ const e=setup();let token=e.canvas().token;
+ e.listeners.message({source:e.ids.preview.contentWindow,data:{type:'kit:edit',token,path:'title',value:'A better title'}});assert.equal(e.field('title').value,'A better title');
+ e.listeners.message({source:e.ids.preview.contentWindow,data:{type:'kit:edit',token:'wrong',path:'title',value:'Wrong'}});assert.equal(e.field('title').value,'A better title');
+ e.queued.title='Final keystroke before Save';await e.ids['download-backup'].onclick();assert.equal(e.downloads.length,1);const zip=KitArchive.read(await e.downloads[0].blob.arrayBuffer());const data=JSON.parse(new TextDecoder().decode(zip['campaign.json']));assert.equal(data.title,'Final keystroke before Save');assert.equal(e.ids['save-state'].textContent,'Backup download prepared');assert.equal(e.ids.workspace.inert,false);
+});
+test('contact/group inspector and adding an incomplete contact keeps canvas available but blocks exports',async()=>{
+ const e=setup();e.ids['nav-contacts'].onclick();assert.equal(e.ids['selection-title'].textContent,'Contacts & groups');assert(e.button('+ Add contact'));await e.button('+ Add contact').onclick();assert.equal(e.ids['selection-title'].textContent,'Contact details');assert(e.field('contacts.1.name'));assert.equal(e.ids['download-site'].disabled,true);assert(e.ids.preview.srcdoc.includes('kit:flush'));assert(e.ids['check-summary'].textContent.includes('issue'));
+});
+test('all-fields fallback and visitor mode preserve campaign state; width toggles use distinct viewports',async()=>{
+ const e=setup();e.queued.title='Kept across modes';await e.ids['mode-form'].onclick();assert.equal(e.ids.editor.hidden,false);assert(e.ids.editor.children.length>5);assert.equal(e.ids['selection-title'].textContent,'All campaign fields');await e.ids['mode-preview'].onclick();assert(e.ids.workspace.classList.contains('preview-only'));assert(e.ids.preview.srcdoc.includes('Kept across modes'));assert(!e.ids.preview.srcdoc.includes('kit:flush'));await e.ids['mode-visual'].onclick();assert.equal(e.field('title').value,'Kept across modes');e.ids.mobile.onclick();assert.equal(e.ids.preview.style.width,'390px');e.ids.desktop.onclick();assert.equal(e.ids.preview.style.width,'1100px');
+});
+test('failed import preserves existing campaign and clears busy lock',async()=>{
+ const e=setup();e.queued.title='Current unsaved campaign';const bytes=new TextEncoder().encode('{broken json');e.ids.import.files=[{name:'bad.json',size:bytes.length,text:async()=>'{broken json'}];await e.ids.import.onchange();assert(e.ids.status.textContent.startsWith('Import failed:'));assert.equal(e.ids.workspace.inert,false);e.queued.title='Current unsaved campaign';await e.ids['download-backup'].onclick();const files=KitArchive.read(await e.downloads[0].blob.arrayBuffer());assert.equal(JSON.parse(new TextDecoder().decode(files['campaign.json'])).title,'Current unsaved campaign');
+});
+
+test('verified raster preview uses data URL inside isolated canvas and preserves backup bytes',async()=>{
+ const e=setup();e.ids['nav-hero'].onclick();
+ const input=descendants(e.ids.properties).find(el=>el.type==='file');
+ const bytes=Uint8Array.from([137,80,78,71,13,10,26,10,12,33]);
+ input.files=[{name:'sample.png',size:bytes.length,arrayBuffer:async()=>bytes.buffer}];
+ await input.onchange();
+ assert(e.ids.preview.srcdoc.includes('src="data:image/png;base64,'));
+ assert(!e.ids.preview.srcdoc.includes('src="blob:'));
+ assert.equal(e.ids['download-site'].disabled,false);
+ assert(e.ids.validation.textContent.includes('alternative text'));
+ await e.ids['mode-preview'].onclick();assert(e.ids.preview.srcdoc.includes('src="data:image/png;base64,'));
+ await e.ids['download-backup'].onclick();const files=KitArchive.read(await e.downloads[0].blob.arrayBuffer());
+ assert.deepEqual(files['assets/sample.png'],bytes);
+ const data=JSON.parse(new TextDecoder().decode(files['campaign.json']));assert.equal(data.poster,'assets/sample.png');assert.equal(data.posterAlt,'');
+ await e.ids['download-site'].onclick();const site=new Uint8Array(await e.downloads[1].blob.arrayBuffer());
+ const html=new TextDecoder().decode(site);assert(html.includes('index.html'));assert(html.includes('src="assets/sample.png"'));assert(!html.includes('data:image/png'));
+});
