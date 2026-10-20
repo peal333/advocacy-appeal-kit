@@ -4,7 +4,14 @@ Date: 20 October 2026. This is a local prototype, not a production-readiness or 
 
 ## Current release-preparation checks
 
-On Node.js v24.19.0, the generic-toolkit suite now passes **81 tests, 81 passed**, including app-folder source packaging and ancestor-symlink rejection, root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+On Node.js v24.19.0, the generic-toolkit suite now passes **84 tests, 84 passed**, including app-folder source packaging and ancestor-symlink rejection, root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+
+## Public recipient cards
+
+- Shared static HTML now shows every contact as a card with name, role, group, public email, priority and supplied provenance. There is no public recipient select box. Empty optional values are omitted; text is escaped and source URLs are restricted to HTTP(S), without credentials. No schema change or real campaign data was introduced.
+- Native, labelled radio controls select one recipient. Runtime simulations verify a browser-restored checked choice initializes the matching draft, switching back to default templates and then per-contact overrides, personalization, encoded mailto, copied address and manual draft edits. Existing clipboard-failure and long-draft regressions still pass.
+- Preview and website exports use the same renderer. Tests assert static card presence in root website, inline preview and public export. Edit mode omits visitor runtime, disables radios, removes navigable links and maps each card to the correct contextual contact editor.
+- Responsive wrapping and grid sizing are source-checked only. A new Chromium attempt failed before startup because the container denied socket creation (Operation not permitted). Native keyboard behavior, rendering, screenshots and screen-reader use remain unverified. The browser checklist now explicitly covers cards.
 
 ## Single-save, required-label and deletion refinement
 

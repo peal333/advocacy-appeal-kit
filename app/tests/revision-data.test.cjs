@@ -62,6 +62,8 @@ test('supporting content validation identifies every field needed by review link
 
 function runtimeFor(c){
  const elements={};
+ const radios=c.contacts.map((_,i)=>({value:String(i),checked:i===0,handlers:{},addEventListener(name,fn){this.handlers[name]=fn;}}));
+ elements.radios=radios;
  for(const id of ['recipient','visitor-name','personal-message','email-subject','email-body','open-email','email-status','contact-detail']){
   elements[id]={value:id==='recipient'?'0':'',children:[],_text:'',handlers:{},
    set textContent(value){this._text=String(value);this.children=[];},
@@ -71,8 +73,8 @@ function runtimeFor(c){
   };
  }
  vm.runInNewContext(Kit.script(c),{
-  document:{getElementById:id=>elements[id],querySelectorAll:()=>[],createElement:()=>({})},
-  Date,encodeURIComponent
+  document:{getElementById:id=>elements[id],querySelectorAll:selector=>selector==='input[name="recipient"]'?radios:[],createElement:()=>({})},
+  Date,encodeURIComponent,URL
  });
  return elements;
 }
@@ -99,7 +101,7 @@ test('public provenance displays each supplied value independently and resets on
  assert.equal(detail.children.length,1);
  assert.equal(detail.children[0].href,'https://example.com/contact');
  assert(!detail.textContent.includes('Verified'));
- elements.recipient.value='1';elements.recipient.handlers.input();
+ elements.radios[1].checked=true;elements.radios[1].handlers.change();
  assert.equal(detail.children.length,0);
  assert(detail.textContent.includes('Verified 2026-10-20'));
 });

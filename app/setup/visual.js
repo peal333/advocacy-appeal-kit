@@ -14,6 +14,7 @@ function targets(c){
   {selector:'.hero figure, .hero .garden',key:'hero',label:c.poster?'Replace hero image':'Add a hero image'},
   {selector:'.story > h2 + p.preserve',key:'introduction',path:'introduction',label:'Introduction',multiline:true},
   {selector:'#take-action > p.preserve',key:'action',path:'action',label:'Call to action',multiline:true},
+  {selector:'.recipient-picker',key:'contacts',label:'Contacts & groups'},
   {selector:'.composer > div:first-child',key:'contacts',label:'Contacts & groups'},
   {selector:'.composer > div:nth-child(2)',key:'messages',label:'Message template'},
   {selector:'#email-subject',key:'messages',path:'messages.subject',label:'Default subject',input:true},
@@ -21,6 +22,7 @@ function targets(c){
   {selector:'.sources',key:'sources',label:'Sources & verification'},
   {selector:'nav[aria-label="Campaign links"]',key:'socialLinks',label:'Further links'}
  ];
+ c.contacts.forEach((item,i)=>out.push({selector:'.recipient-card:nth-child('+(i+1)+')',key:'contacts:'+i,label:'Contact details'}));
  c.sections.forEach((item,i)=>{out.push({selector:'.story > h3:nth-of-type('+(i+1)+')',key:'sections:'+i,path:'sections.'+i+'.heading',label:'Section heading'});out.push({selector:'.story > h3:nth-of-type('+(i+1)+') + p',key:'sections:'+i,path:'sections.'+i+'.body',label:'Section text',multiline:true});});
  c.timeline.forEach((item,i)=>{out.push({selector:'.timeline > li:nth-child('+(i+1)+')',key:'timeline:'+i,label:'Timeline entry'});out.push({selector:'.timeline > li:nth-child('+(i+1)+') > strong',key:'timeline:'+i,path:'timeline.'+i+'.date',label:'Date label'});out.push({selector:'.timeline > li:nth-child('+(i+1)+') > p',key:'timeline:'+i,path:'timeline.'+i+'.text',label:'Timeline text',multiline:true});});
  c.sources.forEach((item,i)=>out.push({selector:'.sources > li:nth-child('+(i+1)+')',key:'sources:'+i,label:'Source details'}));
@@ -58,7 +60,7 @@ function bridge(data){
  document.addEventListener('click',event=>{const target=event.target.closest('[data-kit-key]');if(event.target.closest('a,button,select,input,textarea')&&!editable.has(event.target))event.preventDefault();if(target){event.stopPropagation();choose(target.dataset.kitKey);send({type:'kit:select',key:target.dataset.kitKey});}},true);
  document.addEventListener('focusin',event=>{const target=event.target.closest('[data-kit-key]');if(target){choose(target.dataset.kitKey);send({type:'kit:select',key:target.dataset.kitKey});}});
  document.addEventListener('keydown',event=>{const target=event.target.closest('[data-kit-key]');if(target&&!editable.has(target)&&['Enter',' '].includes(event.key)){event.preventDefault();choose(target.dataset.kitKey);send({type:'kit:select',key:target.dataset.kitKey});}});
- document.querySelectorAll('input,textarea,select,button,a').forEach(el=>{if(editable.has(el))return;if(!el.dataset.kitKey)el.tabIndex=-1;if(el.matches('input,textarea'))el.readOnly=true;if(el.matches('select'))el.style.pointerEvents='none';if(el.matches('a')){el.removeAttribute('href');el.removeAttribute('target');}});
+ document.querySelectorAll('input,textarea,select,button,a').forEach(el=>{if(editable.has(el))return;if(!el.dataset.kitKey)el.tabIndex=-1;if(el.matches('input,textarea'))el.readOnly=true;if(el.matches('input[type="radio"]'))el.disabled=true;if(el.matches('select'))el.style.pointerEvents='none';if(el.matches('a')){el.removeAttribute('href');el.removeAttribute('target');}});
  window.addEventListener('message',event=>{if(event.source!==parent||!event.data||event.data.token!==data.token)return;if(event.data.type==='kit:highlight')choose(event.data.key,!!event.data.scroll);if(event.data.type==='kit:flush'){const values=[...editable].map(([el,t])=>({path:t.path,value:plain(el,t)}));send({type:'kit:flushed',request:event.data.request,values});}});
  let scheduled=false;window.addEventListener('scroll',()=>{if(scheduled)return;scheduled=true;requestAnimationFrame(()=>{scheduled=false;send({type:'kit:scroll',top:window.scrollY});});});
  choose(selected);requestAnimationFrame(()=>window.scrollTo(0,data.scroll||0));send({type:'kit:ready'});

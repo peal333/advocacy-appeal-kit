@@ -76,3 +76,9 @@ The current generic suite passes **80/80**. Source and simulated-DOM checks cove
 - All JavaScript/CommonJS files passed `node --check`; the rebuilt toolkit passes `node app/tools/check-release.cjs` with 43 checksums and 70 local references.
 - Campaign data/schema, backup archive implementation and public website HTML/CSS/JavaScript are byte-identical to the prior UI-refined v8 archive. Existing downloaded projects remain self-contained; no root `setup/` compatibility folder is required in new projects. Backup import format and validation are unchanged.
 - These are automated/source/package checks, not real-browser acceptance. Offline browser startup, downloads and real file-picker restore still require the browser checklist above. No publication, license decision or live campaign content changed.
+
+## Public recipient-card revision
+
+- Node.js v24.19.0: **84 tests passed, 0 failed**. Static cards replace the public select box across visitor preview, saved root websites and clean public exports. Native radio selection retains one-recipient drafts, personalization, per-contact overrides, clipboard fallback and manual mailto behavior. All contact text remains escaped; source links are HTTP(S)-validated. The schema is unchanged.
+- New tests cover visible static details, optional provenance, no-contact rendering, restored checked-radio initialization, switching recipients and template inheritance/overrides, copy/mailto targeting, shared-render parity, contextual contact targets and edit-mode inertness. These are source and simulated-DOM checks, not real-browser acceptance.
+- Chromium could not start: container socket creation was denied with Operation not permitted. No new browser screenshot, native keyboard test or rendered responsive-layout evidence is claimed. The browser checklist includes public cards, long text and no-JavaScript checks.
