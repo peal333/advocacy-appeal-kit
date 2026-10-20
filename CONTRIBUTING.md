@@ -1,10 +1,10 @@
 # Contributing
 
-This is a local prototype being prepared for an open-source release. No public contribution or security-reporting destination is configured in this distribution. The final license grant and ownership notices are pending; do not assume this draft authorizes redistribution. See the [release checklist](workflow/release-checklist.md).
+This is a development prototype in a private repository, being prepared for a possible open-source release. Authorized collaborators can propose changes through the repository; this guide does not grant repository access or establish a public security-reporting channel. The final license grant and ownership notices are pending; do not assume this draft authorizes redistribution. See the [release checklist](app/workflow/release-checklist.md).
 
 ## Start here
 
-Read [AGENTS.md](../AGENTS.md) and the [data format](workflow/campaign-format.md). Preserve both the manual and AI-assisted workflows. Campaign content belongs in `campaign.json` and media, not a campaign-specific renderer fork. Do not put real campaign records, credentials, private contacts, or confidential evidence in examples, tests, screenshots, or reports.
+Read [AGENTS.md](AGENTS.md) and the [data format](app/workflow/campaign-format.md). Preserve both the manual and AI-assisted workflows. Campaign content belongs in `campaign.json` and media, not a campaign-specific renderer fork. Do not put real campaign records, credentials, private contacts, or confidential evidence in examples, tests, screenshots, or reports.
 
 Organizers need only the extracted toolkit and a desktop browser. Maintainer checks were run with **Node.js v24.19.0**; this is the tested version, not a claimed minimum or compatibility promise. No package installation is required. There is no package manager dependency manifest in this prototype.
 
@@ -23,18 +23,24 @@ Do not hand-edit generated files. Source or documentation changes also require r
 ```sh
 node app/tools/build.cjs
 node --test app/tests/*.test.cjs
+# After reviewing intentional changes and the distributable file inventory:
+node app/tools/check-release.cjs --write-checksums
 node app/tools/check-release.cjs
 ```
 
-The last command checks generated-file drift, local documentation/entry-page references and the checksum inventory. If intentional changes make checksums stale, review the complete file list and run `node app/tools/check-release.cjs --write-checksums`, then run the check again. This updates hashes only; it does not make an archive or publish anything. Run syntax checks for changed JavaScript too (`node --check path/to/file.js`).
+The final command checks generated-file drift, local documentation/entry-page references and the checksum inventory. Refresh checksums only after reviewing intentional changes and the complete file list. This updates hashes only; it does not make an archive or publish anything. Run syntax checks for changed JavaScript too (`node --check path/to/file.js`).
 
 ## Proposing a change
 
-Before a contribution route is established, keep proposed changes local. Once an official route is announced, include a concise problem statement, reproduction with fictional data, expected and actual behavior, affected toolkit version, OS/browser version, test results, and known gaps. For editor changes, state whether you used an actual browser or a simulation. Do not promise a fix or response time on another maintainer's behalf.
+- **Bug reports:** use the repository's issue tracker if you have access and it is enabled. Include a concise problem statement, reproduction with fictional data, expected and actual behavior, toolkit version, OS/browser version, test results and known gaps. If no reporting route is available, prepare the report locally and ask the maintainer how to share it; do not invent a public contact.
+- **Scoped improvements:** explain the user problem and proposed change before starting a large feature or dependency change. Small, focused fixes and documentation improvements are easier to review.
+- **Pull requests:** authorized collaborators should submit focused changes with a summary, related issue when available, regression coverage, commands actually run and any remaining checks. Include regenerated outputs and reviewed checksums when their inputs change. Follow the repository's collaboration rules; a PR is not release or deployment approval.
+
+For editor changes, distinguish actual browser testing from simulations. Use visibly fictional records and reserved example-domain contacts in tests. Do not send real email, submit real forms, make donations or deploy a campaign as a test. Do not promise a fix or response time on another maintainer's behalf.
 
 Keep changes focused and add regression tests. Preserve IDs, assets, optional fields and supported placeholders on round trips. A schema-version change needs an explicit migration plan and tests, not silent data loss. Discuss new dependencies and their permissions before adding them. Do not submit third-party code or media without provenance and permission evidence.
 
-Use [the browser checklist](workflow/verification.md) for behavior changes. Do not mark accessibility, offline startup, clipboard, downloads or email-client checks passed from source inspection alone. Consult [SECURITY.md](../SECURITY.md) before sharing a potential vulnerability.
+Use [the browser checklist](app/workflow/verification.md) for behavior changes. Do not mark accessibility, offline startup, clipboard, downloads or email-client checks passed from source inspection alone. Consult [SECURITY.md](SECURITY.md) before sharing a potential vulnerability.
 
 ## Four different artifacts
 
@@ -55,7 +61,7 @@ Use the customized project's bundled exporter from its extracted directory:
 node app/tools/export-campaign.cjs . ../new-campaign-output
 ```
 
-The output directory must be new. For browser edits, pass the latest editable-backup ZIP instead of `.`. Extract the newly generated project ZIP into a fresh directory, then run `node app/tools/check-release.cjs` there. Check the actual website archive layout, restore the editable backup and complete browser/content review. The exporter validates the shared data contract and reads back the backup; it does not verify facts or decode images. Image decoding and the 40-megapixel limit require the editor. See [the AI workflow](workflow/ai.md).
+The output directory must be new. For browser edits, pass the latest editable-backup ZIP instead of `.`. Extract the newly generated project ZIP into a fresh directory, then run `node app/tools/check-release.cjs` there. Check the actual website archive layout, restore the editable backup and complete browser/content review. The exporter validates the shared data contract and reads back the backup; it does not verify facts or decode images. Image decoding and the 40-megapixel limit require the editor. See [the AI workflow](app/workflow/ai.md).
 
 Portable project packaging uses an explicit file allowlist. When adding a required toolkit file, update `PROJECT_FILES` in `app/src/project.js` and its regression tests. Conventional root LICENSE/NOTICE/COPYING files, with optional `.md`/`.txt` extensions, are retained when present; this behavior does not authorize or invent a license.
 

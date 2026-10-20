@@ -78,7 +78,7 @@ test('portable project carries only allowlisted toolkit and media, then regenera
  const r=Export.generate(root),portable=path.join(dir,'portable'),files=extractProject(r.project,portable);
  assert(!files['PRIVATE-NOTES.txt']);assert(!files['assets/stale.png']);assert(!Object.keys(files).some(name=>name.endsWith('.zip')));
  for(const name of Export.PROJECT_FILES)assert(files[name]);
- assert.deepEqual(Object.keys(files).filter(name=>!name.includes('/')&&name.endsWith('.md')).sort(),['AGENTS.md','README.md','SECURITY.md']);
+ assert.deepEqual(Object.keys(files).filter(name=>!name.includes('/')&&name.endsWith('.md')).sort(),['AGENTS.md','CONTRIBUTING.md','README.md','SECURITY.md']);
  const promptNames=['README.md','BRISTOL_COMMUNITY_CLEANUP.md','GUIDED_WORKFLOW.md'].map(name=>'prompts/'+name);
  for(const name of promptNames)assert.equal(files[name].toString(),fs.readFileSync(path.join(__dirname,'../..',name),'utf8'));
  assert(!Object.keys(entries(r.website)).some(name=>name.startsWith('prompts/')));

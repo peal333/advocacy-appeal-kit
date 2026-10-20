@@ -124,10 +124,16 @@ Your project and backup retain unused images. The website export includes only t
 
 [Review before publishing](app/workflow/review-and-recovery.md) · [Publish with Cloudflare Pages](app/workflow/publish-cloudflare.md) · [Cloudflare upload guide](https://developers.cloudflare.com/pages/get-started/direct-upload/#drag-and-drop)
 
+## Credits and contributions
+
+Created and maintained by **Panupan Sriautharawong (peal333)**, with AI assistance from **ChatGPT**.
+
+Bug reports, focused improvements and pull requests are welcome from collaborators with repository access. See [CONTRIBUTING.md](CONTRIBUTING.md) for reporting guidance, development checks and safe test practices. These credits acknowledge contributions; they do not resolve the pending license or copyright notices described below.
+
 ## About this version
 
 This is a **development prototype**, not a release certified for live campaigns. Automated checks have been run; real desktop-browser acceptance testing is still outstanding. See [verification status](app/workflow/verification.md) for the evidence and remaining checks.
 
-GPLv3 is the intended licensing direction, but the exact version choice, final license text and copyright notices are still pending. This note is not a completed license grant. See [contributor guidance](app/CONTRIBUTING.md) and the [release checklist](app/workflow/release-checklist.md).
+GPLv3 is the intended licensing direction, but the exact version choice, final license text and copyright notices are still pending. This note is not a completed license grant. See [contributor guidance](CONTRIBUTING.md) and the [release checklist](app/workflow/release-checklist.md).
 
 For technical work: [AI workflow](app/workflow/ai.md) · [Campaign data reference](app/workflow/campaign-format.md) · [Code-editing guidance](AGENTS.md) · [Security information](SECURITY.md)

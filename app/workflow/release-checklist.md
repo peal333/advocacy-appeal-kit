@@ -6,7 +6,7 @@ Status: **not release-ready**, 20 October 2026. This checklist does not authoriz
 
 - [ ] Choose GPL version 3 only or GPL version 3 or later; confirm who can authorize the code license and the correct copyright notices. Then add the approved license text/notices. The current note is not a license grant.
 - [ ] Review code, CSS, documentation and any assets for origin, permissions and attribution. No bundled image files or package dependencies were found in this pass, but absence is not proof of ownership or a completed provenance audit.
-- [ ] Choose the official project/contribution destination and release approver. Configure and verify a private security-reporting route and a supported-version/triage policy before inviting public reports. Update [SECURITY.md](../../SECURITY.md) and [CONTRIBUTING.md](../CONTRIBUTING.md); do not invent contacts or support promises.
+- [ ] Choose the official project/contribution destination and release approver. Configure and verify a private security-reporting route and a supported-version/triage policy before inviting public reports. Update [SECURITY.md](../../SECURITY.md) and [CONTRIBUTING.md](../../CONTRIBUTING.md); do not invent contacts or support promises.
 - [ ] Complete the [real-browser acceptance checks](verification.md) against the exact candidate archive after fresh extraction. Record browser/OS versions, date, archive hash, actual outcomes and failures. User feedback on v2 is pending; no browser pass is claimed here.
 - [ ] Fix or explicitly document any acceptance failures before selecting a release version/name. Schema version 1 is a data-format version, not the toolkit's release version.
 

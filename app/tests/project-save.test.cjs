@@ -34,7 +34,7 @@ test('browser Save flushes latest canvas edits; extracted project reopens and re
  assert.equal(e.ids['save-state'].textContent,'Project download prepared');assert.match(e.ids.status.textContent,/original ZIP and folder have not changed/);
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'browser-project-'));t.after(()=>fs.rmSync(dir,{recursive:true,force:true}));for(const [name,b] of Object.entries(first)){const file=path.join(dir,name);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,b);}
  for(const obsolete of ['setup/','tools/','src/','tests/','workflow/'])assert(!Object.keys(first).some(name=>name.startsWith(obsolete)),obsolete+' must live under app/');
- assert.deepEqual(Object.keys(first).filter(name=>!name.includes('/')&&name.endsWith('.md')).sort(),['AGENTS.md','README.md','SECURITY.md']);
+ assert.deepEqual(Object.keys(first).filter(name=>!name.includes('/')&&name.endsWith('.md')).sort(),['AGENTS.md','CONTRIBUTING.md','README.md','SECURITY.md']);
  assert(first['app/tools/export-campaign.cjs']);assert(first['app/setup/editor.js']);assert(first['app/src/core.js']);
  const check=cp.spawnSync(process.execPath,['app/tools/check-release.cjs'],{cwd:dir,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
  const restored={};vm.runInNewContext(first['app/setup/bundle.js'].toString(),{window:restored});vm.runInNewContext(first['app/setup/project-template.js'].toString(),{window:restored});
