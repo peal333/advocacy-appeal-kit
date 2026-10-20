@@ -2,8 +2,8 @@
 
 #preview-stage{position:relative;flex-shrink:0;min-width:0}#preview-stage iframe{display:block;transform-origin:top left;max-width:none}#preview-stage iframe.mobile{max-width:none}
 
-/* Guidance stays neutral until a field is edited or a review issue is opened. */
-.field-help{display:block}.needs-attention{border-color:#a76516;background:#fffaf1}.review-link{display:inline;text-align:left;border:0;padding:3px 0;min-height:0;background:transparent;color:inherit;text-decoration:underline;font:inherit}.group-heading{overflow-wrap:anywhere}
+/* Empty required fields show guidance immediately; optional-field guidance waits until edited or a review issue is opened. */
+.field-help{display:block}.needs-attention{border-color:#a12727;background:#fffaf1}.review-link{display:inline;text-align:left;border:0;padding:3px 0;min-height:0;background:transparent;color:inherit;text-decoration:underline;font:inherit}.group-heading{overflow-wrap:anywhere}
 
 /* Only the explicit required marker is red; labels and controls retain their colors. */
 .required-marker{color:#a12727}

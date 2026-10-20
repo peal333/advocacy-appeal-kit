@@ -58,3 +58,8 @@ Follow [the release checklist](release-checklist.md) before describing a candida
 ## Single-save editor refinement
 
 The editor now has one download action, **Save to ZIP**, in both root and legacy entrypoints. It downloads the full portable project, including the updated root website, editor/source, current campaign and all listed media. Separate website, editable-backup and JSON download controls/handlers were removed; older imports and advanced CLI outputs remain supported. Required labels use an explicit red `*required` marker, and group/contact deletion is immediate with preserved unrelated data. The generic automated suite passes **72/72**; these remain DOM/source tests, not real-browser acceptance.
+
+
+## Immediate required guidance and simpler contact editing
+
+The current generic suite passes **78/78**. Empty required controls show reddish borders, guidance and accessible invalid state immediately, including after adding entries and switching modes or canvas selection; valid input clears the state. Optional fields retain touched-only error guidance. Contact sidebars now show Name, Public email and Group first, with optional fields and the read-only ID under native **More details**. All fields remains exhaustive. Regression tests check values across typing, navigation and Save to ZIP, disclosure state, and review issues expanding details before focus. Shared validation, schema, media and save eligibility are unchanged. These are simulated-DOM/source checks, not real-browser or keyboard acceptance.

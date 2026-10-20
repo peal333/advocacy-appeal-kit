@@ -2,7 +2,7 @@
 (function(){
 'use strict';
 let campaign=structuredClone(KitBundle.campaign),assets=Object.create(null),urls=Object.create(null),dirty=false;
-const touched=new Set();let focusAfterAction=null;
+const touched=new Set(),contactDetailsOpen=new WeakMap();let focusAfterAction=null;
 function normalizeGroups(c){c.groups=[...new Set([...(c.groups||[]),...c.contacts.map(x=>x.group).filter(Boolean)])];return c;}
 normalizeGroups(campaign);
 let mode='visual',selected='title',previewToken='',previewScroll=0,activeImport=false,busy=false,pendingFlush=null;
@@ -39,7 +39,7 @@ function field(parent,path,title,type='text'){
  const hint=document.createElement('span');hint.className='field-help';hint.id=input.id+'-help';hint.hidden=true;input.setAttribute('aria-describedby',hint.id);input._hint=hint;
  input.addEventListener('input',()=>{touched.add(path);set(path,input.value);});input.addEventListener('blur',()=>{touched.add(path);validate();});label.append(input,hint);parent.append(label);return input;
 }
-function focusField(path){const input=[...document.querySelectorAll('[data-path]')].find(el=>el.dataset.path===path);if(input){input.scrollIntoView?.({block:'center'});input.focus?.();}}
+function focusField(path){const input=[...document.querySelectorAll('[data-path]')].find(el=>el.dataset.path===path);if(input){for(let node=input.parentElement;node;node=node.parentElement){if(node.tagName==='DETAILS'){node.open=true;if(node._contact)contactDetailsOpen.set(node._contact,true);}}input.scrollIntoView?.({block:'center'});input.focus?.();}}
 function groupField(parent,path){
  const label=document.createElement('label');label.textContent='Group';const input=document.createElement('select');input.dataset.path=path;input.id='field-'+path.replace(/\./g,'-');input.append(new Option('Ungrouped',''));campaign.groups.forEach(group=>input.append(new Option(group,group)));input.value=get(path)||'';input.onchange=()=>withCanvas(()=>set(path,input.value));label.append(input);parent.append(label);return input;
 }
@@ -111,13 +111,20 @@ function buildProperties(){
  $('selection-title').textContent=key==='contacts'?'Contact details':config.singular.charAt(0).toUpperCase()+config.singular.slice(1);
  $('selection-hint').textContent='Changes update your campaign immediately.';
  button(parent,'← '+(key==='contacts'?'Contacts & groups':config.label),()=>select(key));
- config.fields.forEach(([name,label,type])=>{
-  if(name==='id'){const input=field(parent,`${key}.${index}.${name}`,label);input.readOnly=true;input.title='Stable identifier preserved for references.';return;}
-  if(name==='sourceId'){referenceField(parent,`${key}.${index}.${name}`,label);return;}
-  if(key==='contacts'&&name==='group'){groupField(parent,`${key}.${index}.${name}`);help(parent,'Create or manage groups in Contacts & groups. Ungrouped keeps a contact outside named groups.');return;}
-  field(parent,`${key}.${index}.${name}`,label,type);
+ let more=null;
+ if(key==='contacts'){
+  more=document.createElement('details');const summary=document.createElement('summary');summary.textContent='More details';more.append(summary);more._contact=item;more.open=contactDetailsOpen.get(item)||false;more.ontoggle=()=>contactDetailsOpen.set(item,more.open);
+  $('selection-hint').textContent='Start with a name and public email. Other details are optional.';
+ }
+ const fields=key==='contacts'?[...config.fields.filter(([name])=>['name','email','group'].includes(name)).sort((a,b)=>['name','email','group'].indexOf(a[0])-['name','email','group'].indexOf(b[0])),...config.fields.filter(([name])=>!['name','email','group'].includes(name))]:config.fields;
+ fields.forEach(([name,label,type])=>{
+  const target=more&&!['name','email','group'].includes(name)?more:parent;
+  if(name==='id'){const input=field(target,`${key}.${index}.${name}`,label);input.readOnly=true;input.title='Stable identifier preserved for references.';return;}
+  if(name==='sourceId'){referenceField(target,`${key}.${index}.${name}`,label);return;}
+  if(key==='contacts'&&name==='group'){groupField(target,`${key}.${index}.${name}`);return;}
+  field(target,`${key}.${index}.${name}`,label,type);
  });
- if(key==='contacts')help(parent,'Only verified public email addresses. Leave override fields blank to use the default message template.');
+ if(more){help(more,'Create or manage groups in Contacts & groups. Leave override fields blank to use the default message template.');parent.append(more);help(parent,'Use only verified public email addresses.');}
  const row=document.createElement('div');row.className='button-row';
  const up=button(row,'Move up',()=>moveEntry(key,index,-1));up.disabled=index===0;const down=button(row,'Move down',()=>moveEntry(key,index,1));down.disabled=index===campaign[key].length-1;parent.append(row);
  button(parent,'Remove '+config.singular,()=>removeEntry(key,index),'remove add');
@@ -169,7 +176,7 @@ function revealIssue(path){
 function validate(){
  let result;try{result=Kit.validate(campaign,assets);}catch{result={errors:['Invalid campaign structure. Import a supported campaign.json.'],warnings:[]};}
  const fields=new Map();result.errors.forEach(message=>{const path=issuePath(message);if(path)fields.set(path,message);});
- document.querySelectorAll('[data-path]').forEach(input=>{if(!input._hint)return;const path=input.dataset.path,message=fields.get(path),show=!!message&&touched.has(path);input._hint.hidden=!show;input._hint.textContent=show?(requiredField(path)&&!String(get(path)||'').trim()?'Enter '+(path.endsWith('.email')?'an email address':path.endsWith('.name')?'a contact name':'a value for this required field')+'.':message):'';input.setAttribute('aria-invalid',String(show));input.classList.toggle('needs-attention',show);});
+ document.querySelectorAll('[data-path]').forEach(input=>{if(!input._hint)return;const path=input.dataset.path,message=fields.get(path),emptyRequired=requiredField(path)&&!String(get(path)||'').trim(),show=emptyRequired||(!!message&&touched.has(path));input._hint.hidden=!show;input._hint.textContent=show?(emptyRequired?'Enter '+(path.endsWith('.email')?'an email address':path.endsWith('.name')?'a contact name':'a value for this required field')+'.':message):'';input.setAttribute('aria-invalid',String(show));input.classList.toggle('needs-attention',show);});
  $('validation').replaceChildren();for(const [kind,messages]of Object.entries(result)){if(!messages.length)continue;const ul=document.createElement('ul');if(kind==='errors')ul.className='error';for(const message of messages){const li=document.createElement('li'),path=issuePath(message);if(path){const action=button(li,message,()=>revealIssue(path),'review-link');action.setAttribute('aria-label',message+' Go to field.');}else li.textContent=message;ul.append(li);}$('validation').append(ul);}
  $('check-summary').textContent=result.errors.length?result.errors.length+' issue'+(result.errors.length===1?'':'s')+' to fix before export':'Ready for your final review';$('check-summary').classList.toggle('error',!!result.errors.length);
  $('download-project').disabled=!!result.errors.length||activeImport||busy;
@@ -200,7 +207,7 @@ window.addEventListener('message',event=>{
   pendingFlush.resolve();return;
  }
  if(message.type==='kit:scroll'&&Number.isFinite(message.top)){previewScroll=Math.max(0,Math.min(message.top,1000000));return;}
- if(message.type==='kit:select'&&typeof message.key==='string'&&KitVisual.targets(campaign).some(t=>t.key===message.key)){if(selected!==message.key){selected=message.key;buildProperties();}return;}
+ if(message.type==='kit:select'&&typeof message.key==='string'&&KitVisual.targets(campaign).some(t=>t.key===message.key)){if(selected!==message.key){selected=message.key;buildProperties();validate();}return;}
  const edit=KitVisual.acceptEdit(campaign,message,previewToken);if(!edit)return;
  if(get(edit.path)!==edit.value)write(edit.path,edit.value);document.querySelectorAll('[data-path]').forEach(input=>{if(input.dataset.path===edit.path&&input!==document.activeElement)input.value=edit.value;});validate();
 });

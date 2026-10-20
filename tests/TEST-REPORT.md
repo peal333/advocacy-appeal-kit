@@ -4,7 +4,7 @@ Date: 20 October 2026. This is a local prototype, not a production-readiness or 
 
 ## Current release-preparation checks
 
-On Node.js v24.19.0, the generic-toolkit suite now passes **72 tests, 72 passed**, including root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+On Node.js v24.19.0, the generic-toolkit suite now passes **78 tests, 78 passed**, including root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
 
 ## Single-save, required-label and deletion refinement
 
@@ -12,6 +12,8 @@ On Node.js v24.19.0, the generic-toolkit suite now passes **72 tests, 72 passed*
 - The save still flushes pending edits and downloads the complete portable project with current campaign data, all media, a refreshed root website, editor and checksums. Older backup/JSON import compatibility and advanced CLI outputs remain supported. Public-export tests exercise the shared website builder rather than removed UI buttons.
 
 - Required fields use an explicit red `*required` text span, not a color-only indicator. The label and control keep their own colors, and `aria-required` is retained in both visual and all-fields modes, including source-reference selects.
+- Empty required fields show the reddish attention border, guidance and `aria-invalid` immediately on startup, new entries, mode changes and canvas reselection, without focus/blur. Valid values clear that state on input/change; optional fields retain touched-only error guidance. The regression tests include required source selectors and both sidebar/all-fields modes. Shared validation and save eligibility rules are unchanged.
+- Contact sidebars show Name, Public email and Group first. Optional details and the read-only identifier sit under native **More details** disclosure; All fields remains exhaustive. Simulated-DOM regressions cover preserved optional values through typing, selection and Save to ZIP, per-contact disclosure state, and opening hidden fields before review-issue focus. Native keyboard/browser behavior still needs real-browser review.
 - Group and contact deletions do not call browser confirmation dialogs. Empty and populated group deletion preserves member contacts and overrides as Ungrouped; contact deletion preserves remaining contacts, overrides and the group catalog. Both contact editing modes report deletion status.
 - Other visual section/event removal confirmations remain cancellable. Import replacement confirmation is unchanged.
 - Automated evidence is Node DOM simulation and source/style checks, not browser rendering or an accessibility certification. The user separately reported that image upload works; no image handling code was changed in this refinement.
@@ -32,7 +34,7 @@ Revision-specific checks cover:
 - Missing alternative text warns without blocking preview/export; missing image files still block export.
 - Empty named groups survive backup, dropdown assignment and rename. Immediate group deletion preserves contacts and individual message overrides as Ungrouped.
 - Old imports infer groups from contacts. An oversized normalized catalog fails before replacing current data.
-- Add contact focuses and scrolls to Name, required labels are shown, untouched fields are not styled as errors, and clickable review issues focus the affected field.
+- Add contact focuses and scrolls to Name, required labels are shown, empty required fields immediately show a reddish border and accessible invalid state, while untouched optional fields stay quiet, and clickable review issues focus the affected field.
 - Image preview serialization uses validated raster data URLs in both edit and visitor previews. Website ZIPs retain relative asset paths and backups retain the original bytes. SVG, mismatched signatures and simulated decode errors are rejected.
 
 The hero-image change avoids parent-origin blob URLs inside an opaque-origin sandboxed iframe. Raster type, size and decode checks remain in place, and the iframe does not gain same-origin permission. This addresses the suspected origin-related cause of the blank canvas; actual visual confirmation remains outstanding.

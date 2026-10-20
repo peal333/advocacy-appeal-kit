@@ -28,7 +28,7 @@ test('group catalog is optional for older projects and persists empty named grou
 function harness(){
  // Reuse only the existing test harness declarations, not its registered test cases.
  const file=path.join(__dirname,'editor-integration.test.cjs');
- const code=fs.readFileSync(file,'utf8').split("test('editor boots")[0];
+ const code=fs.readFileSync(file,'utf8').split("test('editor boots")[0].replace('function setup(){','function setup(initial=original){').replace('campaign:structuredClone(original),css:','campaign:structuredClone(initial),css:');
  const context={require:require('node:module').createRequire(file),__dirname,module:{exports:{}},structuredClone,setTimeout,clearTimeout,TextEncoder,TextDecoder,Blob,queueMicrotask};
  vm.runInNewContext(code+'\nmodule.exports={setup,descendants,Element,projectEntries};',context);return context.module.exports;
 }
@@ -66,10 +66,10 @@ test('other visual destructive confirmations remain cancellable',async()=>{
  await e.ids['nav-content'].onclick();await e.button('Add event').onclick();await e.button('Remove event').onclick();assert.equal(confirmations,2);assert(e.field('event.label'));assert.equal(e.ids['selection-title'].textContent,'Event details');
 });
 
-test('new contact starts with required guidance but no premature field errors and focuses its name',async()=>{
+test('new contact immediately marks empty required fields and focuses its name',async()=>{
  const {setup,Element,descendants}=harness();let focused='',scrolled='';Element.prototype.focus=function(){focused=this.dataset.path;};Element.prototype.scrollIntoView=function(){scrolled=this.dataset.path;};
- const e=setup();await e.ids['nav-contacts'].onclick();await e.button('+ Add contact').onclick();const name=e.field('contacts.1.name'),email=e.field('contacts.1.email');assert(name.parentElement.textContent.includes('required'));assert(email.parentElement.textContent.includes('required'));assert.equal(name.getAttribute('aria-invalid'),'false');assert.equal(name._hint.hidden,true);assert.equal(focused,'contacts.1.name');assert.equal(scrolled,'contacts.1.name');
- name.handlers.blur();assert.equal(name.getAttribute('aria-invalid'),'true');assert.equal(name._hint.hidden,false);
+ const e=setup();await e.ids['nav-contacts'].onclick();await e.button('+ Add contact').onclick();const name=e.field('contacts.1.name'),email=e.field('contacts.1.email');assert(name.parentElement.textContent.includes('required'));assert(email.parentElement.textContent.includes('required'));assert.equal(name.getAttribute('aria-invalid'),'true');assert.equal(name._hint.hidden,false);assert.equal(email.getAttribute('aria-invalid'),'true');assert(name.classList.contains('needs-attention'));assert(email.classList.contains('needs-attention'));assert.equal(focused,'contacts.1.name');assert.equal(scrolled,'contacts.1.name');
+ name.value='A contact';name.handlers.input();assert.equal(name.getAttribute('aria-invalid'),'false');assert.equal(name._hint.hidden,true);assert(!name.classList.contains('needs-attention'));name.value='';name.handlers.input();assert.equal(name.getAttribute('aria-invalid'),'true');
  const issue=descendants(e.ids.validation).find(x=>x.tagName==='BUTTON'&&x.textContent.startsWith('contacts[1].email'));assert(issue);await issue.onclick();assert.equal(focused,'contacts.1.email');assert.equal(e.field('contacts.1.email')._hint.hidden,false);
  const group=e.field('contacts.1.group');assert.equal(group.tagName,'SELECT');assert(group.children.some(o=>o.value===''&&o.textContent==='Ungrouped'));
 });
@@ -89,4 +89,65 @@ test('upload rejects SVG, forged raster signatures and decoding failures without
 
 test('import that overflows group catalog during legacy normalization is rejected without data loss',async()=>{
  const {setup}=harness(),e=setup(),c=clone();c.groups=Array.from({length:100},(_,i)=>'Catalog '+i);c.contacts[0].group='Extra legacy group';assert.deepEqual(Kit.validate(c).errors,[]);const json=JSON.stringify(c);e.ids.import.files=[{name:'overflow.json',size:json.length,text:async()=>json}];await e.ids.import.onchange();assert(e.ids.status.textContent.startsWith('Import failed:'));const kept=await saved(e);assert.equal(kept.title,clone().title);assert(!kept.groups.includes('Extra legacy group'));assert.equal(e.ids.workspace.inert,false);
+});
+
+
+test('required state appears on initial render and canvas reselection without blur',()=>{
+ const {setup}=harness(),c=clone();c.title='';const e=setup(c); // An incomplete bundled draft, not an import.
+ assert.equal(e.field('title').getAttribute('aria-invalid'),'true');
+ let token=e.canvas().token;
+ e.listeners.message({source:e.ids.preview.contentWindow,data:{type:'kit:select',token,key:'summary'}});
+ e.listeners.message({source:e.ids.preview.contentWindow,data:{type:'kit:select',token,key:'title'}});
+ assert.equal(e.field('title').getAttribute('aria-invalid'),'true');assert(e.field('title').classList.contains('needs-attention'));
+ e.listeners.message({source:e.ids.preview.contentWindow,data:{type:'kit:edit',token,path:'title',value:'Valid title'}});
+ assert.equal(e.field('title').getAttribute('aria-invalid'),'false');assert(!e.field('title').classList.contains('needs-attention'));
+});
+
+test('empty event reference is immediately invalid and recovers on source selection',async()=>{
+ const {setup}=harness(),c=clone();c.sources=[{id:'fixture-source',title:'Fixture source',url:'https://example.com/source',publisher:'',checked:'2026-10-20'}];const e=setup(c);await e.ids['nav-content'].onclick();await e.button('Add event').onclick();
+ const input=e.field('event.sourceId');assert.equal(input.getAttribute('aria-invalid'),'true');assert(input.classList.contains('needs-attention'));
+ input.value=c.sources[0].id;await input.onchange();assert.equal(input.getAttribute('aria-invalid'),'false');assert(!input.classList.contains('needs-attention'));
+ input.value='';await input.onchange();assert.equal(input.getAttribute('aria-invalid'),'true');
+});
+
+test('all-fields entry creation and mode changes retain immediate required state but optional fields remain quiet until touched',async()=>{
+ const {setup,descendants}=harness(),e=setup();await e.ids['nav-contacts'].onclick();await e.button('+ Add contact').onclick();await e.ids['mode-form'].onclick();
+ const field=p=>descendants(e.ids.editor).find(x=>x.dataset.path===p);
+ for(const p of ['contacts.1.name','contacts.1.email']){assert.equal(field(p).getAttribute('aria-invalid'),'true');assert(field(p).classList.contains('needs-attention'));}
+ for(const p of ['contacts.1.role','contacts.1.sourceUrl','contacts.1.verified']){assert.equal(field(p).getAttribute('aria-invalid'),'false');assert.equal(field(p)._hint.hidden,true);}
+ let email=field('contacts.1.email');email.value='person@example.com';email.handlers.input();assert.equal(email.getAttribute('aria-invalid'),'false');email.value='';email.handlers.input();assert.equal(email.getAttribute('aria-invalid'),'true');
+ const optional=field('contacts.1.sourceUrl');optional.value='bad url';optional.handlers.input();assert.equal(optional.getAttribute('aria-invalid'),'true');optional.value='';optional.handlers.input();assert.equal(optional.getAttribute('aria-invalid'),'false');
+ await descendants(e.ids.editor).find(x=>x.tagName==='BUTTON'&&x.textContent==='Add extra section').onclick();
+ assert.equal(field('sections.1.heading').getAttribute('aria-invalid'),'true');assert.equal(field('sections.1.body').getAttribute('aria-invalid'),'true');
+ await e.ids['mode-visual'].onclick();assert.equal(e.field('contacts.1.email').getAttribute('aria-invalid'),'true');
+ const css=fs.readFileSync(path.join(__dirname,'../setup/editor.css'),'utf8');assert(css.includes('.needs-attention{border-color:#a12727;'));
+});
+
+test('contact sidebar starts with essentials and native More details while All fields stays exhaustive',async()=>{
+ const {setup,descendants}=harness(),e=setup();await e.ids['nav-contacts'].onclick();await e.button('+ Add contact').onclick();
+ const more=descendants(e.ids.properties).find(x=>x.tagName==='DETAILS');assert(more);assert.equal(more.open,false);assert.equal(more.children[0].tagName,'SUMMARY');assert.equal(more.children[0].textContent,'More details');
+ for(const name of ['name','email','group']){const input=e.field('contacts.1.'+name);assert.equal(input.parentElement.parentElement,e.ids.properties);if(name!=='group')assert.equal(input.getAttribute('aria-invalid'),'true');}
+ for(const name of ['id','role','sourceUrl','verified','priority','subject','body'])assert.equal(e.field('contacts.1.'+name).parentElement.parentElement,more);
+ await e.ids['mode-form'].onclick();for(const name of ['name','email','group','id','role','sourceUrl','verified','priority','subject','body'])assert(descendants(e.ids.editor).some(x=>x.dataset.path==='contacts.1.'+name));
+});
+
+test('contact optional values and disclosure state survive typing, selection and Save to ZIP',async()=>{
+ const {setup,descendants}=harness(),e=setup();await e.ids['nav-contacts'].onclick();await descendants(e.ids.properties).find(x=>x.tagName==='BUTTON'&&x.textContent.startsWith(clone().contacts[0].name)).onclick();
+ const more=descendants(e.ids.properties).find(x=>x.tagName==='DETAILS');more.open=true;more.ontoggle();
+ const values={role:'Public office',sourceUrl:'https://example.com/source',verified:'2026-10-20',priority:'Local priority',subject:'Subject for {{recipient}}',body:'Message from {{name}}'};
+ for(const [name,value]of Object.entries(values)){const input=e.field('contacts.0.'+name);input.value=value;input.handlers.input();assert.equal(more.open,true);assert.equal(descendants(e.ids.properties).find(x=>x.tagName==='DETAILS'),more);}
+ await e.ids['nav-contacts'].onclick();await descendants(e.ids.properties).find(x=>x.tagName==='BUTTON'&&x.textContent.startsWith(clone().contacts[0].name)).onclick();
+ const reopened=descendants(e.ids.properties).find(x=>x.tagName==='DETAILS');assert.equal(reopened.open,true);reopened.open=false;reopened.ontoggle();
+ const data=await saved(e);for(const [name,value]of Object.entries(values))assert.equal(data.contacts[0][name],value);
+ await e.ids['nav-contacts'].onclick();await descendants(e.ids.properties).find(x=>x.tagName==='BUTTON'&&x.textContent.startsWith(clone().contacts[0].name)).onclick();assert.equal(descendants(e.ids.properties).find(x=>x.tagName==='DETAILS').open,false);
+ for(const [name,value]of Object.entries(values))assert.equal(e.field('contacts.0.'+name).value,value);
+});
+
+test('review issue expands optional contact details before focusing the field',async()=>{
+ const {setup,descendants,Element}=harness(),e=setup();let focused='';Element.prototype.focus=function(){focused=this.dataset.path;for(let node=this.parentElement;node;node=node.parentElement)if(node.tagName==='DETAILS')assert.equal(node.open,true,'ancestor must open before focus');};
+ await e.ids['nav-contacts'].onclick();await descendants(e.ids.properties).find(x=>x.tagName==='BUTTON'&&x.textContent.startsWith(clone().contacts[0].name)).onclick();
+ const optional=e.field('contacts.0.sourceUrl');optional.value='invalid';optional.handlers.input();assert.equal(optional.getAttribute('aria-invalid'),'true');
+ const more=descendants(e.ids.properties).find(x=>x.tagName==='DETAILS');assert.equal(more.open,false);
+ const issue=descendants(e.ids.validation).find(x=>x.tagName==='BUTTON'&&x.textContent.startsWith('contacts[0].sourceUrl'));assert(issue);await issue.onclick();assert.equal(focused,'contacts.0.sourceUrl');assert.equal(descendants(e.ids.properties).find(x=>x.tagName==='DETAILS').open,true);
+ const corrected=e.field('contacts.0.sourceUrl');corrected.value='https://example.com/source';corrected.handlers.input();assert.equal(corrected.getAttribute('aria-invalid'),'false');
 });
