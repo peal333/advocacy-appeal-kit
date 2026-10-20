@@ -6,16 +6,16 @@ a1d884f6e5715955a42508d22d3bf791aea6b595040b337a3c1e1eca0e94b8c3  ./app/setup/bu
 6f014a1d93b8200e8357c82c096e7251b32929929bcb4f3bb26113e24cb9976f  ./app/setup/editor.css
 6fd52c45edf22364574979441af311424a464d1c84f4105fb1b82352a6408181  ./app/setup/editor.js
 c666548d8ec1b7269cceb5961351c07b6d0e2e4c3e07bb213d3425153e217669  ./app/setup/index.html
-fc9d23398743d0d56aca813253b936c0f9fb4a5e3b453293c42777df63626d7c  ./app/setup/project-template.js
+b93b064e7a1dd05c05458769b3a1359798ebca120380477d16fd336e04c4070c  ./app/setup/project-template.js
 c5b1db80b693a5967fe83e6e6c0c44096ab70aa1e67e75a2af2659606f8c2f70  ./app/setup/visual.js
 f6862ae90625283c804754fd26fab4fe0fbde716b2587b586d4c8c796c1648bb  ./app/src/archive.js
-2e4708dd2450801f03a5403a77d3fcf072783b4e1517308b675cd945ce0d00d0  ./app/src/core.js
+53b8420692f501e554d42fb8c157faa5c167827d7ea47097c92d7d7da726f4b5  ./app/src/core.js
 ecf7b458f21e476540d900a8980a5491a56d80ca4285d791196a2e87180d2d41  ./app/src/project.js
 917e8a0301a204b3a136560e0a67c38438d5f6adbd33e526893d6e3ad5488faf  ./app/src/schema.js
 3dbe0f1617329bafc89066327b2ca8eef1318fba0a8688eb8edba9d682bbab3f  ./app/src/site.css
-7ed59533c96dc3b2046cb80dc943d0283143cfa860cc2e4fdd7f46f6f6f2a3dc  ./app/tests/TEST-REPORT.md
+c1e7069b7909b247603507709890946bc72048e1f502e3dea304141199c97e7f  ./app/tests/TEST-REPORT.md
 03ed531dc62f072ba8eeabe71c9b01bd5e229d7906f238c9399c716466b685a4  ./app/tests/ai-export.test.cjs
-a956c819f7f7731525033b6137abdb3b6c7c4538046111524158086dea7fbdeb  ./app/tests/core.test.cjs
+e921f5a270050b977b83bceaa35b6d94ee53c12e5d36073c7c6eb2100ec2b611  ./app/tests/core.test.cjs
 f6d444d764d8557401d72b1d4af3a6741241cf8332f48bdeb7e91f3ab7324943  ./app/tests/editor-integration.test.cjs
 9581d7a3b65487f04763f9cb03a1be2a0134dd5bd434ad4615661140dd5f88de  ./app/tests/project-save.test.cjs
 9f0087c81d50d28db4b52f8ad2940439676362b76b7522b7b6a132cbc5c9a429  ./app/tests/public-export.test.cjs
@@ -28,7 +28,7 @@ b8f2d5f07c9214e1be5cef55c648b33667c793ff634955f2937ad9285ff7b25c  ./app/tools/ch
 4ac3f81d3f0530b26044b32af11da77849298c4db3c917a73032b8a17f108fa4  ./app/tools/export-campaign.cjs
 c5aa6bae53ce66982f4f3726b7e13d314cfc2441dca4e013b0dc5acd7e3e58c1  ./app/tools/project-bundle.cjs
 c3bf8949a2ddb7972625c17aa27156846b1a4c2d93563b8840a06338f2743135  ./app/workflow/ai.md
-861edee560def8fabb7deeec7bbab1260276152fad9af779ed7094ea28af1aab  ./app/workflow/campaign-format.md
+ef545d590827d382bb9f47152dd434f76b6b4d3d5fb50a45baed5e68dd6ba0f3  ./app/workflow/campaign-format.md
 a0164ca56745db699b5d2e1f82d5f06a9b71599b5859032a680b1bdf372ef172  ./app/workflow/manual.md
 9bcd4978915d08992b5c9558d56c080dd2eb092cf5daf3abae2a32fa32174d59  ./app/workflow/publish-cloudflare.md
 2aa7fdba9332dda6d022b1aefa34cc95a482db0e860994b015b751c9fe1cfde7  ./app/workflow/release-checklist.md
@@ -42,5 +42,5 @@ b067b99facfcfa053b45e2704687e4b56e331c0f9133c2b4c8cfae491c85a571  ./editor.html
 95f3e5636d772a00ba85f4b842b7348aeb5289b45da3171eb2059acbe7eb0fb0  ./prompts/BRISTOL_COMMUNITY_CLEANUP.md
 4db97c21c58380196efd2f7bf01786c81f61f7475ac27005b771c28c81de7322  ./prompts/GUIDED_WORKFLOW.md
 fc1ec70ef5a782e09d3d86a42545ffb08c8e3c33b8e333799fb1ae90a7163da7  ./prompts/README.md
-7968f9a622d264678cbffaa74bd2b90fe53ff6e639a233870b3bcb9586303859  ./scripts/site.js
+91ee02290643da93f2660f5bdee482f39167edd6076c341a695395684d24bc0c  ./scripts/site.js
 3dbe0f1617329bafc89066327b2ca8eef1318fba0a8688eb8edba9d682bbab3f  ./styles/site.css

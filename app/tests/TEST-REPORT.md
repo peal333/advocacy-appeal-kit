@@ -4,7 +4,13 @@ Date: 20 October 2026. This is a local prototype, not a production-readiness or 
 
 ## Current release-preparation checks
 
-On Node.js v24.19.0, the generic-toolkit suite now passes **84 tests, 84 passed**, including app-folder source packaging and ancestor-symlink rejection, root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+On Node.js v24.19.0, the generic-toolkit suite now passes **87 tests, 87 passed**, including app-folder source packaging and ancestor-symlink rejection, root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+
+## Optional own-words spacing
+
+- The shared substitution function now omits standalone empty or whitespace-only `{{personalMessage}}` lines and their extra separator, without globally collapsing blank lines. Nonempty input, other placeholders and unrelated intentional spacing stay unchanged. Both exported website scripts and inline visitor previews use this same function.
+- Three new regressions cover middle/start/end/repeated placeholders, inline use, CRLF/CR/LF, whitespace-only input, literal nonrecursive substitution and preserved multiline text. Simulated-DOM execution checks recipient overrides, repeated filled/cleared input, displayed drafts, clipboard payloads and encoded mailto bodies in both public export and inline preview.
+- All 87 Node tests pass. Generated outputs, source inventory, syntax and checksums were checked. No real-browser acceptance, email sending or deployed-site update is claimed.
 
 ## Public recipient cards
 

@@ -21,3 +21,50 @@ test('email runtime produces recipient-specific encoded draft and clipboard fall
 test('unpaired Unicode is rejected and pretty JSON byte limit enforced',()=>{const c=clone();c.messages.body='\ud800';assert(Kit.validate(c).errors.some(x=>x.includes('Unicode')));const large=clone();large.sections=Array.from({length:100},()=>({heading:'Heading',body:'漢'.repeat(4000)}));assert(Kit.validate(large).errors.some(x=>x.includes('MiB')));});
 
 test('low contrast custom themes are blocked',()=>{const c=clone();c.theme.accent='#ffffff';assert(Kit.validate(c).errors.some(x=>x.includes('contrast')));c.theme.accent='#245844';c.theme.background='#000000';assert(Kit.validate(c).errors.some(x=>x.includes('contrast')));});
+
+test('empty own words removes only its standalone line and separator',()=>{
+ const cases=[
+  ['Before\n\n{{personalMessage}}\n\nAfter','Before\n\nAfter'],
+  ['Before\n{{personalMessage}}\nAfter','Before\nAfter'],
+  ['{{personalMessage}}\n\nAfter','After'],
+  ['Before\n\n{{personalMessage}}','Before'],
+  ['Before\n\n{{personalMessage}}\n \n','Before'],
+  ['{{personalMessage}}',''],
+  [' \t{{personalMessage}} \t\n\nAfter','After'],
+  ['Before\n\n{{personalMessage}}\n\n{{personalMessage}}\n\nAfter','Before\n\nAfter'],
+  ['{{personalMessage}} {{personalMessage}}\n\nAfter','After'],
+  ['Before\n\n{{personalMessage}}\n\nAfter\n\n{{personalMessage}}','Before\n\nAfter'],
+  ['Before\r\n\r\n{{personalMessage}}\r\n\r\nAfter','Before\r\n\r\nAfter'],
+  ['Before\r\r{{personalMessage}}\r\rAfter','Before\r\rAfter'],
+  ['Intro\n\n\nKeep spacing\n\n{{personalMessage}}\n\nAfter\n\n\nEnd\n','Intro\n\n\nKeep spacing\n\nAfter\n\n\nEnd\n'],
+  ['Before {{personalMessage}} after\n\n\nEnd','Before  after\n\n\nEnd'],
+  ['Before\n\n{{name}}\n\nAfter','Before\n\n\n\nAfter'],
+ ];
+ for(const personalMessage of ['',undefined,' \t\r\n  '])for(const [template,expected] of cases)assert.equal(Kit.substitute(template,{personalMessage}),expected,JSON.stringify({template,personalMessage}));
+});
+test('nonempty own words and inserted placeholder-looking text remain exact',()=>{
+ const template='Before\n\n{{personalMessage}}\n\nAfter';
+ for(const personalMessage of ['My words',' \nFirst\n\n\nSecond\n ','{{personalMessage}}\n\n{{name}}'])assert.equal(Kit.substitute(template,{personalMessage}),'Before\n\n'+personalMessage+'\n\nAfter');
+ assert.equal(Kit.substitute('Before\n\n{{name}}\n\nAfter',{name:'{{personalMessage}}'}),'Before\n\n{{personalMessage}}\n\nAfter');
+});
+test('shared export and inline-preview composers omit empty own words in display, copy and mailto',async()=>{
+ const c=clone();c.messages.body='Intro\n\n{{personalMessage}}\n\nThanks';c.contacts[0].body='Dear {{recipient}},\n\n{{personalMessage}}\n\nRegards,\n{{name}}';
+ const inline=Kit.html(c,'',p=>p,true).match(/<script>([\s\S]*)<\/script>/)[1];
+ const exported=require('../src/project.js').websiteFiles(c,{},'')['scripts/site.js'];
+ for(const source of [inline,exported]){
+  const nodes={},copied=[];
+  for(const id of ['visitor-name','personal-message','email-subject','email-body','open-email','email-status','contact-detail'])nodes[id]={value:'',handlers:{},textContent:'',append(){},addEventListener(e,fn){this.handlers[e]=fn;}};
+  const copy={dataset:{copy:'email-body'},addEventListener(e,fn){this.click=fn;}};
+  vm.runInNewContext(source,{document:{getElementById:id=>nodes[id],querySelectorAll:s=>s==='[data-copy]'?[copy]:[],createElement:()=>({})},navigator:{clipboard:{writeText:async text=>copied.push(text)}},Date,encodeURIComponent,URL});
+  nodes['visitor-name'].value='Example visitor';
+  for(const personalMessage of ['','First\n\nSecond',' \t\n ','']){
+   nodes['personal-message'].value=personalMessage;nodes['personal-message'].handlers.input();
+   const expected='Dear '+c.contacts[0].name+',\n\n'+(personalMessage.trim()?personalMessage+'\n\n':'')+'Regards,\nExample visitor';
+   assert.equal(nodes['email-body'].value,expected);
+   assert.equal(new URL(nodes['open-email'].href).searchParams.get('body'),expected);
+   await copy.click();assert.equal(copied.pop(),expected);
+  }
+ }
+ // The global fallback template uses the same omission rules as contact overrides.
+ c.contacts[0].body='';assert.equal(Kit.substitute(c.contacts[0].body||c.messages.body,{}),'Intro\n\nThanks');
+});
