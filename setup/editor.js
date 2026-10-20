@@ -110,10 +110,10 @@ function buildProperties(){
  if(!config||!item){selected='title';buildProperties();return;}
  $('selection-title').textContent=key==='contacts'?'Contact details':config.singular.charAt(0).toUpperCase()+config.singular.slice(1);
  $('selection-hint').textContent='Changes update your campaign immediately.';
- button(parent,'← '+(key==='contacts'?'Contacts & groups':config.label),()=>select(key));
+ button(parent,'← '+(key==='contacts'?'Contacts & groups':config.label),()=>select(key),'back-button');
  let more=null;
  if(key==='contacts'){
-  more=document.createElement('details');const summary=document.createElement('summary');summary.textContent='More details';more.append(summary);more._contact=item;more.open=contactDetailsOpen.get(item)||false;more.ontoggle=()=>contactDetailsOpen.set(item,more.open);
+  more=document.createElement('details');more.className='contact-details';const summary=document.createElement('summary');summary.textContent='More details';more.append(summary);more._contact=item;more.open=contactDetailsOpen.get(item)||false;more.ontoggle=()=>contactDetailsOpen.set(item,more.open);
   $('selection-hint').textContent='Start with a name and public email. Other details are optional.';
  }
  const fields=key==='contacts'?[...config.fields.filter(([name])=>['name','email','group'].includes(name)).sort((a,b)=>['name','email','group'].indexOf(a[0])-['name','email','group'].indexOf(b[0])),...config.fields.filter(([name])=>!['name','email','group'].includes(name))]:config.fields;
@@ -124,7 +124,7 @@ function buildProperties(){
   if(key==='contacts'&&name==='group'){groupField(target,`${key}.${index}.${name}`);return;}
   field(target,`${key}.${index}.${name}`,label,type);
  });
- if(more){help(more,'Create or manage groups in Contacts & groups. Leave override fields blank to use the default message template.');parent.append(more);help(parent,'Use only verified public email addresses.');}
+ if(more){help(more,'Create or manage groups in Contacts & groups. Leave override fields blank to use the default message template.');parent.append(more);}
  const row=document.createElement('div');row.className='button-row';
  const up=button(row,'Move up',()=>moveEntry(key,index,-1));up.disabled=index===0;const down=button(row,'Move down',()=>moveEntry(key,index,1));down.disabled=index===campaign[key].length-1;parent.append(row);
  button(parent,'Remove '+config.singular,()=>removeEntry(key,index),'remove add');

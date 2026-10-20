@@ -4,7 +4,7 @@ Date: 20 October 2026. This is a local prototype, not a production-readiness or 
 
 ## Current release-preparation checks
 
-On Node.js v24.19.0, the generic-toolkit suite now passes **78 tests, 78 passed**, including root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
+On Node.js v24.19.0, the generic-toolkit suite now passes **80 tests, 80 passed**, including root website/editor entry validation, regenerated saved root websites, public-export privacy filtering, the AI portable-project exporter and browser Save to ZIP round trips. See [the release-preparation record](../workflow/release-verification.md) for exact scope, boundary fixes and remaining checks. This is not evidence of a real ChatGPT/Claude session or browser execution. Some test fixtures assume generic starter content and are not acceptance tests for arbitrary customized campaign data.
 
 ## Single-save, required-label and deletion refinement
 
@@ -17,6 +17,12 @@ On Node.js v24.19.0, the generic-toolkit suite now passes **78 tests, 78 passed*
 - Group and contact deletions do not call browser confirmation dialogs. Empty and populated group deletion preserves member contacts and overrides as Ungrouped; contact deletion preserves remaining contacts, overrides and the group catalog. Both contact editing modes report deletion status.
 - Other visual section/event removal confirmations remain cancellable. Import replacement confirmation is unchanged.
 - Automated evidence is Node DOM simulation and source/style checks, not browser rendering or an accessibility certification. The user separately reported that image upload works; no image handling code was changed in this refinement.
+
+## Focused alignment and spacing refinement
+
+- Reviewed the three supplied screenshot references before editing. The global form-label margin was also applying to the toolbar upload label. Field-label styling now excludes file-button labels; buttons/upload labels share zero margins, sizing and centered flex alignment. Hidden upload inputs have explicit zero padding, margin, border and minimum height without removing keyboard focus behavior. Hero upload labels retain their intentional add-control spacing.
+- Native contact **More details** now has 16px top spacing after Group. Shared detail-view back buttons have 14px top spacing below the navigation divider, including contact and other list-item editors. The redundant public-email helper has been removed from the contact sidebar.
+- Two new source/simulated-DOM regressions check the CSS contracts, both entrypoint toolbars, disclosure placement/toggling, back navigation and helper removal. All 80 tests pass. No real-browser rendering, screenshot comparison, actual pixel measurements or keyboard acceptance is claimed; existing browser restrictions were not retried or bypassed.
 
 ## Original visual-editor revision baseline
 

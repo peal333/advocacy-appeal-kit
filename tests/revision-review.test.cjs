@@ -151,3 +151,37 @@ test('review issue expands optional contact details before focusing the field',a
  const issue=descendants(e.ids.validation).find(x=>x.tagName==='BUTTON'&&x.textContent.startsWith('contacts[0].sourceUrl'));assert(issue);await issue.onclick();assert.equal(focused,'contacts.0.sourceUrl');assert.equal(descendants(e.ids.properties).find(x=>x.tagName==='DETAILS').open,true);
  const corrected=e.field('contacts.0.sourceUrl');corrected.value='https://example.com/source';corrected.handlers.input();assert.equal(corrected.getAttribute('aria-invalid'),'false');
 });
+
+test('toolbar upload labels share button metrics without inheriting form-label spacing',()=>{
+ const css=fs.readFileSync(path.join(__dirname,'../setup/editor.css'),'utf8');
+ // Source contracts only: these do not assert browser-computed layout.
+ assert(css.includes('*{box-sizing:border-box}'));
+ assert(css.includes('button,.file-button{margin:0;font:600 12px/1.3 system-ui;min-height:38px;padding:10px 12px;'));
+ assert(css.includes('label:not(.file-button){display:block;margin-top:14px;'));
+ assert(!/(?:^|})label\{/.test(css),'form label rules must exclude file-button labels');
+ assert(css.includes('.mode-switch,.file-actions,.device-switch{display:flex;gap:6px;align-items:center;flex-wrap:wrap}'));
+ assert(css.includes('.file-button input{width:1px;height:1px;min-height:0;margin:0;padding:0;border:0;position:absolute;opacity:0}'));
+ assert(css.includes('.file-button:focus-within,:focus-visible{outline:3px solid var(--focus);'));
+ for(const entry of ['editor.html','setup/index.html']){
+  const html=fs.readFileSync(path.join(__dirname,'..',entry),'utf8');
+  assert(html.includes('<label class="file-button">Open backup<input id="import" type="file"'));
+  assert.equal((html.match(/id="download-project"/g)||[]).length,1);
+ }
+});
+
+test('contact detail spacing hooks and shared back navigation survive selection and disclosure toggles',async()=>{
+ const {setup,descendants}=harness(),e=setup();await e.ids['nav-contacts'].onclick();await e.button('+ Add contact').onclick();
+ const more=descendants(e.ids.properties).find(x=>x.tagName==='DETAILS');assert.equal(more.className,'contact-details');
+ const group=e.field('contacts.1.group').parentElement,children=e.ids.properties.children;
+ assert.equal(children.indexOf(more),children.indexOf(group)+1);
+ const back=e.button('← Contacts & groups');assert.equal(back.className,'back-button');assert.equal(children[0],back);
+ more.open=true;more.ontoggle();assert.equal(more.className,'contact-details');
+ assert(!descendants(e.ids.properties).some(x=>x.textContent==='Use only verified public email addresses.'));
+ await back.onclick();assert.equal(e.ids['selection-title'].textContent,'Contacts & groups');
+ await e.ids['nav-content'].onclick();await e.button(clone().sections[0].heading).onclick();
+ assert.equal(e.ids.properties.children[0].className,'back-button','equivalent detail views need the same divider spacing');
+ const css=fs.readFileSync(path.join(__dirname,'../setup/editor.css'),'utf8');
+ assert(css.includes('.back-button{margin-top:14px}'));assert(css.includes('.contact-details{margin-top:16px}'));
+ assert(css.includes('.contact-details summary{cursor:pointer;font-weight:600}'));
+ const source=fs.readFileSync(path.join(__dirname,'../setup/editor.js'),'utf8');assert(!source.includes('Use only verified public email addresses.'));
+});
