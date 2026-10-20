@@ -100,16 +100,17 @@ Keep the whole folder together so both pages can find their supporting files.
 
 ### Other good options
 
-- **Amazon S3:** can serve a static website, but its website endpoint does not support HTTPS. Add CloudFront for HTTPS. [S3 website endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html).
 - **GitHub Pages:** useful if you prefer updating a dedicated website repository. [Create a GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site).
 - **Render Static Sites:** another option for a website maintained in Git. [Static-site guide](https://render.com/docs/static-sites).
 - **DigitalOcean App Platform:** supports static-site hosting from a repository. [Plans and pricing](https://www.digitalocean.com/pricing/app-platform).
+- **Tiiny.host:** upload the site-only ZIP with `index.html` at its root. [Upload guide](https://helpdesk.tiiny.host/en/article/how-to-deploy-your-project-from-vs-code-fast-16yackv/) · [Current plans and pricing](https://tiiny.host/pricing). Check upload limits and plan eligibility before publishing.
+- **AWS Amplify Hosting:** upload a site-only ZIP without connecting Git. [Manual upload guide](https://docs.aws.amazon.com/amplify/latest/userguide/manual-deploys.html). Hosting is usage-priced, not permanently free. New-customer offers include a free plan for up to six months and eligible credits; older accounts may have different allowances. Check your account's eligibility and [current pricing](https://aws.amazon.com/amplify/pricing/).
+- **Amazon S3:** can serve a static website, but its website endpoint does not support HTTPS. Add CloudFront for HTTPS. [S3 website endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html).
 - **Neocities:** file-upload hosting for static sites. [Features and plans](https://neocities.org/supporter).
 - **Surge:** command-line publishing for static websites. [Getting started](https://surge.sh/docs/getting-started).
 - **Firebase Hosting:** static hosting with a command-line workflow. [Quickstart](https://firebase.google.com/docs/hosting/quickstart).
-- **AWS Amplify Hosting:** upload a site-only ZIP without connecting Git. [Manual upload guide](https://docs.aws.amazon.com/amplify/latest/userguide/manual-deploys.html). Hosting is usage-priced, not permanently free. New-customer offers include a free plan for up to six months and eligible credits; older accounts may have different allowances. Check your account's eligibility and [current pricing](https://aws.amazon.com/amplify/pricing/).
-- **Existing shared or managed hosting:** upload the website files into the host’s public website folder, such as `public_html`. No WordPress or database is required.
 - **A small VPS:** works with a web server such as Nginx or Caddy, but you manage security updates, HTTPS and backups yourself. It is usually unnecessary for this site.
+- **Existing shared or managed hosting:** upload the website files into the host’s public website folder, such as `public_html`. No WordPress or database is required.
 
 Check each provider’s current account requirements, limits, pricing and acceptable-use terms before deploying. Free allowances can change or run out; a custom domain may cost extra. Do not assume an organization’s campaign qualifies for a personal-use plan.
 
