@@ -1,6 +1,6 @@
 # Advocacy Appeal Kit
 
-Use this repo to create an appeals website for your mission or cause.
+Use this repo to create an effective appeals website for your mission or cause. The result is a lightweight, static website that’s easy to deploy and [inexpensive to host](#hosting-options).
 
 **[Download ZIP](https://github.com/peal333/advocacy-appeal-kit/archive/refs/heads/main.zip)**
 
@@ -11,12 +11,12 @@ Use this repo to create an appeals website for your mission or cause.
 Choose either path below. Both produce the same kind of complete project ZIP: your campaign, images, updated website, visual builder and toolkit source. You can switch paths whenever you want.
 
 ```text
-                       Downloaded project ZIP
+                    Project ZIP or repository URL
                                  |
                  +---------------+---------------+
                  |                               |
         PATH 1: AI-ASSISTED             PATH 2: VISUAL BUILDER
-        Upload ZIP to ChatGPT          Extract the whole ZIP
+        Upload ZIP or paste URL        Download and extract ZIP
                  |                               |
         Converse, update and review    Open editor.html and edit
                  |                               |
@@ -29,13 +29,18 @@ Choose either path below. Both produce the same kind of complete project ZIP: yo
                  Keep it and reopen with EITHER path
 ```
 
-### Path 1: AI-assisted in ChatGPT
+### Path 1: AI-assisted in ChatGPT Chat / Work
 
-1. Upload the **whole project ZIP** to ChatGPT.
+1. Upload the **whole project ZIP** to ChatGPT Chat / Work, **or paste the repository URL** and ask it to read the project:
+   https://github.com/peal333/advocacy-appeal-kit.git
 2. Copy the prompt from **[Start here](START-HERE.md)** into the chat, then talk through your cause and the changes you want.
 3. Review the result and ask for an **updated project ZIP** to download and keep.
 
-The chat needs tools that can read the ZIP, run the included exporter and return downloadable files; the starter prompt asks it to check first. If those tools are unavailable, it can help with wording and you can finish using Path 2.
+The URL option works when the chat can access or clone the repository. Private repositories require authorized access; pasting a link does not grant it. If URL access is unavailable, download the ZIP yourself and upload it instead.
+
+The chat needs tools that can read the project, run the included exporter and return downloadable files; the starter prompt asks it to check first. If those tools are unavailable, it can help with wording and you can finish using Path 2.
+
+Starting from this repository gives you the toolkit example. For later changes to **your campaign**, upload your newest saved project ZIP, or use a repository URL that contains that same up-to-date customized project.
 
 [Open the AI starter prompt →](START-HERE.md)
 
@@ -78,9 +83,29 @@ Inside the extracted project’s main folder:
 
 Keep the whole folder together so both pages can find their supporting files.
 
-## Ready to share your website?
+## Hosting Options
 
 **Save to ZIP** keeps your complete editable project. It does not publish anything. Do not upload the whole project to a public host: it includes editor/source files and every listed image, including unused ones. For a site-only hosting package, ask your AI assistant to prepare it from your saved ZIP, or use the advanced [CLI workflow](app/workflow/ai.md).
+
+### Easiest options
+
+- **Cloudflare Pages — recommended:** upload your site-only ZIP or extracted website folder. No build setup is needed for this static site. [Our walkthrough](app/workflow/publish-cloudflare.md) · [Cloudflare drag-and-drop guide](https://developers.cloudflare.com/pages/get-started/direct-upload/#drag-and-drop).
+- **Netlify Drop:** extract the site-only ZIP and drag the website folder into Netlify. A simple alternative with a free tier subject to usage credits. [Deploy with drag and drop](https://docs.netlify.com/deploy/create-deploys/).
+- **AWS Amplify Hosting:** deploy a site-only ZIP without connecting Git. Managed hosting with HTTPS; usage charges and free-tier eligibility apply. [Manual upload guide](https://docs.aws.amazon.com/amplify/latest/userguide/manual-deploys.html).
+
+### Other good options
+
+- **Git-based hosting:** [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site), [Render Static Sites](https://render.com/docs/static-sites) and [DigitalOcean App Platform](https://www.digitalocean.com/pricing/app-platform) are useful if you prefer updating a dedicated website repository.
+- **File upload or command-line hosting:** [Neocities](https://neocities.org/supporter), [Surge](https://surge.sh/docs/getting-started) and [Firebase Hosting](https://firebase.google.com/docs/hosting/quickstart) can host static files. Upload methods, custom-domain support and free limits differ.
+- **Amazon S3:** can serve a static website, but its website endpoint does not support HTTPS. Use CloudFront for HTTPS, or choose Amplify for a simpler managed setup. [S3 website endpoints](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteEndpoints.html).
+- **Existing shared or managed hosting:** upload the website files into the host’s public website folder, such as `public_html`. No WordPress or database is required.
+- **A small VPS:** works with a web server such as Nginx or Caddy, but you manage security updates, HTTPS and backups yourself. It is usually unnecessary for this site.
+
+Check each provider’s current limits, pricing and acceptable-use terms before deploying. A custom domain may cost extra. If considering [Vercel Hobby](https://vercel.com/docs/limits/fair-use-guidelines), check its non-commercial personal-use restrictions rather than assuming an organization’s campaign qualifies.
+
+Whichever host you choose, upload only the **website package**, with `index.html` at the deployment root. Keep the complete editable project ZIP separately for future changes.
+
+### Before you publish
 
 Before publishing, replace all example content and review the facts, public contacts, message wording, image permissions and full visitor preview. Treat campaign data as public. Do not include confidential evidence, private contact details or sensitive image metadata, or upload them to an AI service.
 
