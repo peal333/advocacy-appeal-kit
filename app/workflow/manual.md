@@ -23,6 +23,17 @@ In the contact sidebar, start with **Name / office** and **Public email**, then 
 - **Optional event:** use a sourced date-time with an explicit time zone and an after-event message. Do not invent an exact time for an approximate or unconfirmed event.
 - **All fields:** use the original form editor whenever you need the complete field list or full image inventory. Both editors work on the same data and exports.
 
+## Optional page features
+
+Open **Page settings** or **Page sections → Header, sharing & optional sections**; **All fields** has the same section. Use these settings to configure the top header title, sharing controls, header timer, bottom sections and footer. These settings are distinct from the campaign's main title and existing sourced event.
+
+- **Header and sharing:** leave the header title blank to keep the campaign ID. Enable sharing only with the intended public website URL; optional share wording otherwise uses the title/summary. Copy link, WhatsApp, Facebook, X and browser-native sharing where available use that public URL, not your local editor address. Review drafts without posting.
+- **Header timer:** choose a label, an optional explicit-timezone date-time, a human-readable date label and after-date text. If only a date is confirmed, leave the date-time empty and use the date label instead; no live countdown is appropriate. Check any existing event separately so two inconsistent deadlines do not appear.
+- **Bottom sections:** enable Background and enter its title/body; configure Timeline and Sources titles/visibility using their existing records; add Existing Efforts with titles, descriptions and public URLs. Explicitly configured Timeline appears below the appeal area. Disable a feature to hide it, not to erase its stored data. Remove sensitive or obsolete content from the data itself.
+- **Footer:** supply your verified X/Twitter profile URL only if you want a follow link; leave it blank otherwise. Edit the middle text and choose whether to show the campaign's updated date. Do not invent an account or a review date.
+
+Existing projects without these settings retain their legacy event, timeline, sources and footer behavior. Before saving, check both enabled and disabled layouts at both widths, the date-label-only and passed-date states, and long text. Clipboard and native sharing availability depend on the browser; inspect fallbacks in the actual browser rather than assuming a successful source or unit test proves them.
+
 ## Review and save
 
 1. Open **Review before export** in the sidebar. Complete fields marked **\*required** (shown in red) and fix errors. Empty required fields show a reddish border immediately, without needing to focus or leave the field; it clears as soon as the value is valid. The edit canvas stays available while a new entry is incomplete, but both ZIP exports remain blocked until validation passes. Warnings still require human review; validation cannot verify truth, consent or permissions. Missing poster alternative text is a warning, and blank contact source/verification fields are allowed. Neither blocks preview or export.

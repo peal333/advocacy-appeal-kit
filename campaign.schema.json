@@ -345,6 +345,148 @@
         "maxLength": 200,
         "pattern": "^(?!\\s)(?!.*[\\u0000-\\u001f\\u007f]).*\\S$"
       }
+    },
+    "display": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "headerTitle": {
+          "type": "string",
+          "maxLength": 300
+        },
+        "sharing": {
+          "type": "boolean"
+        },
+        "shareText": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "timer": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "label": {
+              "type": "string",
+              "maxLength": 300
+            },
+            "dateTime": {
+              "type": "string",
+              "maxLength": 50
+            },
+            "dateLabel": {
+              "type": "string",
+              "maxLength": 300
+            },
+            "afterText": {
+              "type": "string",
+              "maxLength": 2000
+            }
+          }
+        },
+        "background": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 300
+            },
+            "body": {
+              "type": "string",
+              "maxLength": 30000
+            }
+          }
+        },
+        "timeline": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        },
+        "sources": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 300
+            }
+          }
+        },
+        "efforts": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean"
+            },
+            "title": {
+              "type": "string",
+              "maxLength": 300
+            },
+            "items": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "maxLength": 1000
+                  },
+                  "url": {
+                    "type": "string",
+                    "maxLength": 2000
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 3000
+                  }
+                },
+                "required": [
+                  "title",
+                  "url",
+                  "description"
+                ]
+              }
+            }
+          }
+        },
+        "footer": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "followXUrl": {
+              "type": "string",
+              "maxLength": 2000
+            },
+            "middleText": {
+              "type": "string",
+              "maxLength": 2000
+            },
+            "showUpdated": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
     }
   },
   "required": [
@@ -372,4 +514,3 @@
   ],
   "additionalProperties": false
 }
-

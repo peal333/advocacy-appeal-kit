@@ -7,7 +7,7 @@ Upload the **whole project ZIP** and tell the assistant what you want. For a new
 
 - **[GUIDED_UPDATE_WORKFLOW.md](GUIDED_UPDATE_WORKFLOW.md)** updates your newest customized project without repeating the creation interview. Contact changes preserve stable IDs, order and groups. It also handles an explicitly different case using chosen contacts from an existing project, preserving the original and checking for old-case carryover.
 
-- **[ALL_FEATURES_DEMO.md](ALL_FEATURES_DEMO.md)** is an opt-in, entirely fictional loaded example: three groups, six contacts, countries, individual appeals, sections, sources, timeline, event and optional images. Reserved example addresses and visible demo warnings make it a safe preview, not a real campaign or replacement for the starter.
+- **[ALL_FEATURES_DEMO.md](ALL_FEATURES_DEMO.md)** is an opt-in, entirely fictional loaded example: three groups, six contacts, countries, individual appeals, sharing, header timer, bottom background/timeline/sources/existing-efforts sections, footer and optional images. The X follow URL stays empty because no real account should be invented. Reserved example addresses and visible demo warnings make it a safe preview, not a real campaign or replacement for the starter.
 
 “Finished” means a generated review package, **not** approval to publish or email anyone. Test drafts without sending them. A public email address is not permission for bulk mail: send only a genuine, relevant, personally reviewed inquiry and respect the recipient's published contact guidance.
 
@@ -25,7 +25,7 @@ File reading, a compatible Node.js runtime and downloadable-file tools are requi
 ## Quick acceptance check
 
 - Download and extract the returned **project** ZIP, keeping its folders together. Open `index.html` to see the campaign and `editor.html` to edit it.
-- Check the title, copy, recipients, sources, image/empty-image layout and prefilled appeal. Do not send a test email.
+- Check the title, copy, recipients, sources, image/empty-image layout and prefilled appeal. For optional features, inspect both widths, visible/hidden sections, date-label-only and passed timer states, public sharing URL and footer. Test clipboard/native-sharing fallbacks in a real browser when available; do not post or send a test email.
 - Change a line in the editor, choose **Save to ZIP**, then extract that new ZIP and open its editor. Confirm the edit and all bundled prompt files, including GUIDED_UPDATE_WORKFLOW.md, survived.
 - For an AI revision, upload that newest ZIP and ask for a specific change using GUIDED_UPDATE_WORKFLOW.md. Do not rerun the ready-filled example unless you want to replace your campaign with that cause.
 

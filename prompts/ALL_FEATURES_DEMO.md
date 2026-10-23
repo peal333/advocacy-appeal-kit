@@ -1,6 +1,6 @@
 # All-features demo: a full fictional campaign
 
-This optional, ready-filled prompt demonstrates the kit with **three groups and six contacts**, country labels, individual appeals, supporting sections, sources, a timeline and an event. Everything in the campaign is fictional. Choose it explicitly; it must never replace the default starter or an existing campaign automatically.
+This optional, ready-filled prompt demonstrates the kit with **three groups and six contacts**, country labels, individual appeals, sharing controls, a header timer, bottom background/timeline/sources/existing-efforts sections and a configurable footer. The X follow link is deliberately left empty rather than inventing a real account. Everything in the campaign is fictional. Choose it explicitly; it must never replace the default starter or an existing campaign automatically.
 
 Upload the whole toolkit ZIP, then paste the entire block below. No live research, real recipients or external action is needed.
 
@@ -61,25 +61,37 @@ Readers Circle overrides both with a fictional-demo request for ideas for an ima
 Access Network overrides both with a fictional-demo request for inclusive-design feedback.
 Every override body must begin with the fictional-demo warning and remain short and respectful. Use only {{recipient}}, {{personalMessage}} and {{name}} placeholders. Keep the personalMessage placeholder on its own line. Do not invent group-level templates: the kit supports defaults and individual contact overrides.
 
-SOURCES, TIMELINE AND EVENT
+SOURCES, TIMELINE AND HEADER TIMER
 Populate three source records with stable IDs, reserved URLs and visibly fictional titles/publisher:
 - demo-proposal: “Fictional demo: library proposal”; https://example.com/willowmere-demo/proposal
 - demo-notes: “Fictional demo: discussion notes”; https://example.com/willowmere-demo/notes
 - demo-meeting: “Fictional demo: review meeting”; https://example.com/willowmere-demo/meeting
 For each publisher use “Fictional demo material — not a real source”. The schema requires checked: use the actual date you inspect this fictional brief, and explain in the visible demonstration section and separate review summary that these dates record reviewing DEMO DATA, not fetching or verifying external evidence. Do not claim live verification.
-Set an imaginary meeting 30 calendar days after demo creation, at 10:00:00+00:00. Calculate the exact ISO date rather than inventing an actual-world deadline. This is an explicitly fictional date for demonstrating the timer, not a prediction. event.label: “Fictional demo review meeting”; event.sourceId: demo-meeting; event.afterText: “The fictional demo date has passed. No real meeting took place through this page.”
+Set an imaginary meeting 30 calendar days after demo creation, at 10:00:00+00:00. Calculate the exact ISO date rather than inventing an actual-world deadline. This is an explicitly fictional date for demonstrating the timer, not a prediction. Use this date in display.timer below. Set legacy event to null so the demo does not show two separate timers.
 Add three timeline entries with real calculated date labels, visibly fictional text and matching source IDs:
 - Demo creation date minus 14 days: “Fictional demo: proposal drafted.” sourceId demo-proposal.
 - Demo creation date minus 7 days: “Fictional demo: ideas discussed.” sourceId demo-notes.
 - Imaginary meeting date: “Fictional demo: review meeting placeholder, not a real event.” sourceId demo-meeting.
 Add two socialLinks: “Demo community updates (not live)” → https://example.com/willowmere-demo/updates and “Demo video channel (not live)” → https://example.com/willowmere-demo/videos.
 
+OPTIONAL PRESENTATION: POPULATE THE SUPPORTED display OBJECT
+Enable these supported options to make the demo look complete; do not change the generic starter. All wording must remain visibly fictional.
+- headerTitle: “Willowmere Library · Fictional Demo”. This is the top header, not a replacement for the main title.
+- sharing: true. shareText: “Fictional Willowmere Library demonstration — not a real campaign. Explore the sample page; do not send appeals.” Use only the reserved siteUrl above for Copy link, WhatsApp, Facebook, X and native sharing where available. Never use the current local path. Do not post a demonstration share. The reserved URL is illustrative, not a hosted campaign.
+- timer: enabled true; label “Fictional demo review meeting”; dateTime the calculated imaginary meeting ISO date with +00:00; dateLabel “Fictional demo meeting — [calculated date], 10:00 UTC”; afterText “The fictional demo date has passed. No real meeting took place through this page.”
+- background: enabled true; title “Background · fictional scenario”; body two short plain-text paragraphs explaining the imagined library’s reading room and access proposal, and that no real community, evidence or commitments are represented.
+- timeline: enabled true; title “Demo timeline — invented milestones”. Use the three root timeline entries above, below the appeals.
+- sources: enabled true; title “Demo sources — not real evidence”. Use the three root source records above, not a duplicate inventory.
+- efforts: enabled true; title “Existing efforts · fictional examples”; items in order: title “Imagined library proposal”, url https://example.com/willowmere-demo/proposal, description “Fictional demonstration of a proposal link; no real project or endorsement.”; title “Imagined accessibility discussion”, url https://example.com/willowmere-demo/access, description “Fictional demonstration of a related effort; no real organization or activity.”
+- footer: followXUrl empty; middleText “Fictional demonstration — no real outreach or endorsement”; showUpdated true. The right-hand date uses campaign.updated. Do not invent an X handle, use a real person’s account or put an example.com URL in the X-only field. Explain that this one optional link needs an organizer-supplied verified X/Twitter profile in a real campaign and is intentionally not exercised in this demo.
+For review only, test a copy with timer.dateTime empty and dateLabel “Fictional date-only notice — no time announced” to confirm no countdown appears, and another with bottom sections disabled to confirm data survives. Restore the populated main demo afterward. Hiding does not remove data from public exports. Test actual clipboard/native-sharing and narrow-screen behavior only when browser tools are available; report unavailable checks honestly.
+
 OPTIONAL HERO AND SHARING IMAGE
 If image generation and file packaging are available, create one original landscape illustration of a welcoming imaginary library with books, plants and a reading table. No text, logos, recognizable real people or claimed real location. Inspect it, bundle the actual supported raster bytes under assets/, provide meaningful posterAlt and accurate creator/provenance/permission information; do not invent a license or public source URL. Use that asset for both poster and socialImage to demonstrate sharing metadata with the reserved siteUrl. Explain that reserved-domain sharing URLs are illustrative, not publicly hosted previews.
 If image generation or packaging is unavailable, leave poster, posterAlt and socialImage empty and assets empty; retain the built-in decorative panel. Report the specific limitation and continue without questions or broken references. Do not scrape or hotlink an image or claim all image features were exercised when they were not.
 
 REVIEW, EXPORT AND HANDOFF
-Validate all supported fields and references. Confirm three groups, six unique contacts, country labels, mixed inheritance/overrides, three source records, three timeline items, the fictional event, section content, social links, petition placeholder and optional images. Inspect each recipient draft without sending. Check all emails/links remain on reserved example.com; no real recipient or secret belongs in these files.
+Validate all supported fields and references. Confirm three groups, six unique contacts, country labels, mixed inheritance/overrides, three source records, three timeline items, the fictional header timer (legacy event null), configurable header, sharing text/public URL, enabled bottom sections, two existing-efforts items, footer text/updated date, section content, social links, petition placeholder and optional images. Confirm the X follow URL remains empty. Inspect each recipient draft without sending. Check all emails/links remain on reserved example.com; no real recipient or secret belongs in these files.
 Use app/tools/export-campaign.cjs following app/workflow/ai.md with a fresh output directory outside the project. Return the complete portable <campaign-id>-project.zip, site-only <campaign-id>-website.zip, <campaign-id>-editable-backup.zip and a separate review summary. The project must reopen independently and retain the editor, current campaign/media, toolkit and all prompts. Check archive layout/checksums and backup media round-trip. Website ZIP contains root index.html and only selected public assets, not editor/source/unused media.
 Report tests actually run; real-browser checks that could not run remain explicitly unperformed. Never equate simulated tests with browser verification. If file generation is unavailable, state the blocker and provide reviewable campaign data, not an invented download link.
 Explain Save to ZIP versus Download website ZIP and how to reopen the project or reupload it for the guided update workflow. Mark the whole result as fictional and unsuitable for real outreach. Do not present placeholder links or addresses as working services. This optional demo does not replace the repository starter unless I explicitly ask to use it.

@@ -19,13 +19,21 @@ function targets(c){
   {selector:'.composer > div:nth-child(2)',key:'messages',label:'Message template'},
   {selector:'#email-subject',key:'messages',path:'messages.subject',label:'Default subject',input:true},
   {selector:'#email-body',key:'messages',path:'messages.body',label:'Default message',input:true,multiline:true},
-  {selector:'.sources',key:'sources',label:'Sources & verification'},
+  {selector:'.source-list',key:'sources',label:'Sources & verification'},
   {selector:'nav[aria-label="Campaign links"]',key:'socialLinks',label:'Further links'}
  ];
  c.contacts.forEach((item,i)=>out.push({selector:'.recipient-card:nth-child('+(i+1)+')',key:'contacts:'+i,label:'Contact details'}));
  c.sections.forEach((item,i)=>{out.push({selector:'.story > h3:nth-of-type('+(i+1)+')',key:'sections:'+i,path:'sections.'+i+'.heading',label:'Section heading'});out.push({selector:'.story > h3:nth-of-type('+(i+1)+') + p',key:'sections:'+i,path:'sections.'+i+'.body',label:'Section text',multiline:true});});
  c.timeline.forEach((item,i)=>{out.push({selector:'.timeline > li:nth-child('+(i+1)+')',key:'timeline:'+i,label:'Timeline entry'});out.push({selector:'.timeline > li:nth-child('+(i+1)+') > strong',key:'timeline:'+i,path:'timeline.'+i+'.date',label:'Date label'});out.push({selector:'.timeline > li:nth-child('+(i+1)+') > p',key:'timeline:'+i,path:'timeline.'+i+'.text',label:'Timeline text',multiline:true});});
- c.sources.forEach((item,i)=>out.push({selector:'.sources > li:nth-child('+(i+1)+')',key:'sources:'+i,label:'Source details'}));
+ c.sources.forEach((item,i)=>out.push({selector:'.source-list > li:nth-child('+(i+1)+')',key:'sources:'+i,label:'Source details'}));
+ for(const [selector,path,label,multiline] of [
+  ['.header-timer .timer-label','display.timer.label','Timer heading'],
+  ['.campaign-background h2','display.background.title','Background heading'],
+  ['.campaign-background p','display.background.body','Background text',true],
+  ['.existing-efforts h2','display.efforts.title','Existing efforts heading'],
+  ['.footer-row > p:first-of-type','display.footer.middleText','Footer middle text',true]
+ ])if(get(c,path)!==undefined)out.push({selector,key:'display',path,label,multiline});
+ for(const selector of ['.header-timer','.share-tools','.campaign-background','.existing-efforts','.footer-row'])out.push({selector,key:'display',label:'Optional campaign sections'});
  if(c.event)out.push({selector:'.event',key:'event',label:'Event details'},{selector:'.event h2',key:'event',path:'event.label',label:'Event label'});
  return out.map(t=>({...t,...(t.path?{value:get(c,t.path)||'',maxLength:ruleFor(t.path)?.maxLength||10000}:{})}));
 }
@@ -41,6 +49,8 @@ function safeCampaign(c){
  ['siteUrl','petitionUrl'].forEach(k=>{if(!Kit.safeUrl(safe[k]))safe[k]='';});
  for(const item of [...safe.contacts,...safe.assets])if(!Kit.safeUrl(item.sourceUrl))item.sourceUrl='';
  for(const item of [...safe.sources,...safe.socialLinks])if(!Kit.safeUrl(item.url))item.url='';
+ if(safe.display?.footer?.followXUrl&&!Kit.safeUrl(safe.display.footer.followXUrl))safe.display.footer.followXUrl='';
+ for(const item of safe.display?.efforts?.items||[])if(!Kit.safeUrl(item.url))item.url='';
  if(!/^#[0-9a-f]{6}$/i.test(safe.theme.accent))safe.theme.accent='#245844';
  if(!/^#[0-9a-f]{6}$/i.test(safe.theme.background))safe.theme.background='#f5f2e9';
  return safe;

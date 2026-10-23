@@ -50,7 +50,7 @@ Upload your **newest complete project ZIP** and say: “Read prompts/GUIDED_UPDA
 
 You can also say: “Use this campaign as a starting point for a different case, keeping these relevant contacts.” The assistant preserves your original, creates a new campaign ID, confirms which contacts to retain and rechecks their suitability. It replaces or clears old-case facts, sources, dates, images, appeal overrides and sharing details rather than silently carrying them into the new cause. It asks which route you mean only if unclear.
 
-Want a fuller fictional example first? Use **[ALL_FEATURES_DEMO.md](prompts/ALL_FEATURES_DEMO.md)**: three groups, six contacts, country labels, individual appeals, a timeline and more. It is opt-in, uses reserved example addresses, and is not for real outreach.
+Want a fuller fictional example first? Use **[ALL_FEATURES_DEMO.md](prompts/ALL_FEATURES_DEMO.md)**: three groups, six contacts, country labels, individual appeals, sharing, a header timer, bottom background/timeline/sources/existing-efforts sections and a configurable footer. It is opt-in, uses reserved example addresses, and is not for real outreach.
 
 #### For assistants receiving this kit
 
@@ -71,6 +71,14 @@ Not every assistant automatically reads bundled instructions or has file tools. 
 No installation, terminal, server or AI account is needed. **All fields** opens the full form if you prefer that way of editing. Contacts have an optional **Country** field below **Role** in both editing forms; a supplied country also appears below the role on the public card. Leave it blank when unnecessary or unknown.
 
 [See the step-by-step editor guide →](app/workflow/manual.md)
+
+## Optional campaign features
+
+Choose only what your campaign needs. Both editing routes support a configurable top header title; sharing through Copy link, WhatsApp, Facebook, X and native sharing where available; an optional header timer; bottom Background, Timeline, Sources and Existing Efforts sections; and a footer with an optional X follow link, custom middle text and the updated date.
+
+The timer can show a date label without an invented exact time. A live countdown requires a real, explicitly time-zoned date-time. Sharing uses your supplied public website URL, never a local editor/file path, and does not post automatically. Existing Efforts can point readers to relevant campaigns without implying endorsement. New options are opt-in; older projects keep their existing layout unless you configure the corresponding options. Hiding content does not remove it from the exported data.
+
+See the [field reference](app/workflow/campaign-format.md#optional-page-presentation-display) and [editor guide](app/workflow/manual.md). The fictional demo intentionally leaves the X follow URL blank rather than inventing a real social account.
 
 ## What is in the folder?
 

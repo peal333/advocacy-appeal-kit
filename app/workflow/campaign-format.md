@@ -16,6 +16,28 @@ Both routes read and write `campaign.json`. Use the bundled `campaign.schema.jso
 
 Use `YYYY-MM-DD` for `updated`, source `checked`, and contact `verified`. A contact verification date must reflect a real review; leave it blank or omit it rather than fill today's date to satisfy validation. Source `checked` and campaign `updated` dates remain required. Web links use HTTP or HTTPS. Content is plain text, not HTML.
 
+## Optional page presentation (`display`)
+
+`display` is an optional root object in schema version 1; every field inside it is optional. Do not add an empty configuration just to modernize an existing campaign. When the corresponding settings are absent, existing event, timeline, sources and footer behavior is preserved. New sharing, background, header timer and existing-efforts features are opt-in. Hiding a section does not remove its data from editable or public exports; this is not a privacy control.
+
+| Field | Meaning |
+| --- | --- |
+| `headerTitle` | Configurable top header text; omit/leave blank to use the campaign ID. This does not replace the main campaign `title`. |
+| `sharing` | Enable visitor sharing controls: Copy link, WhatsApp, Facebook, X and native sharing where supported. |
+| `shareText` | Optional share wording; falls back to campaign title/summary. Sharing uses the explicitly supplied public `siteUrl`, never the local file or editor address. |
+| `timer` | `{enabled, label, dateTime, dateLabel, afterText}`: an optional header timer independent of legacy `event`. A nonempty `dateTime` needs `Z` or a numeric UTC offset. Leave it empty for a date-label-only notice; never invent a time to obtain a countdown. `dateLabel` is display text, not proof of a verified event. |
+| `background` | `{enabled, title, body}`: optional plain-text background section below the appeal area. |
+| `timeline` | `{enabled, title}`: display existing root `timeline` entries at the bottom when explicitly configured and enabled. Omission preserves legacy placement/behavior. |
+| `sources` | `{enabled, title}`: configure the existing root `sources` list's bottom section; it does not introduce a second source inventory. |
+| `efforts` | `{enabled, title, items: [{title, url, description}]}`: optional existing-efforts links and descriptions below the appeals. Verify relevance; listing an effort does not imply its organizer endorses this campaign. |
+| `footer` | `{followXUrl, middleText, showUpdated}`: optional X follow link, configurable middle text and visibility of the existing campaign `updated` date on the right. Empty `followXUrl` omits the follow link. |
+
+Within configured `timeline` and `sources` objects, visibility is retained unless `enabled` is explicitly false. Timer, Background and Existing Efforts require `enabled: true`; a configured footer shows its updated date only with `showUpdated: true`. Each effort item requires all three keys (`title`, `url`, `description`), though the description may be empty. An enabled timer must have either a valid date-time or a nonblank date label.
+
+Follow links must be HTTP(S) X/Twitter profile URLs, not a status URL or an arbitrary website. Use only an organizer-supplied/verified profile; do not invent a handle. Other effort links must be valid HTTP(S) URLs. All text is plain text, not HTML.
+
+Sharing requires a valid public `siteUrl`; leave sharing off until the destination is known. Buttons do not publish automatically: the visitor reviews and completes any share. Native sharing and clipboard access depend on browser/platform permissions, especially under `file://`; test their available/fallback behavior in the actual browser. An enabled header timer and legacy `event` are separate: review both deliberately to avoid duplicate or contradictory deadlines. The default instructional starter remains unpopulated rather than enabling these features for everyone.
+
 ## Instructional starter
 
 The bundled starter uses `id: "my-campaign"` and `title: "Your campaign title"`. Its instructions and `recipient@example.com` address are placeholders, not real campaign facts or recipients. Sources, timeline and event start empty to avoid invented evidence or dates. Replace or remove every placeholder before publication.

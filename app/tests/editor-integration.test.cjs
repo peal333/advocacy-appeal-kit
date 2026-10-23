@@ -94,3 +94,23 @@ test('website export ignores concurrent clicks and recovers from download prepar
  const create=e.ctx.URL.createObjectURL;e.ctx.URL.createObjectURL=()=>{throw Error('Synthetic download failure');};await e.ids['download-website'].onclick();assert.equal(e.downloads.length,1);assert.match(e.ids.status.textContent,/Synthetic download failure/);assert.equal(e.ids.workspace.inert,false);assert.equal(e.ids['download-website'].disabled,false);assert.equal(e.ids['save-state'].textContent,'Unsaved changes');
  e.ctx.URL.createObjectURL=create;await e.ids['download-website'].onclick();assert.equal(e.downloads.length,2);assert.equal(e.ids['save-state'].textContent,'Unsaved changes');
 });
+
+test('optional display inspector and all-fields controls edit/export settings without mutating legacy data',async()=>{
+ const e=setup();e.ids['nav-campaign'].onclick();await e.button('Header, sharing & optional sections').onclick();
+ for(const key of ['display.headerTitle','display.sharing','display.shareText','display.timer.enabled','display.timer.label','display.timer.dateTime','display.timer.dateLabel','display.timer.afterText','display.background.enabled','display.background.title','display.background.body','display.timeline.enabled','display.sources.enabled','display.efforts.enabled','display.footer.followXUrl','display.footer.middleText','display.footer.showUpdated'])assert(e.field(key),key);
+ assert.equal(e.field('display.timer.enabled').checked,false);assert.equal(e.field('display.timeline.enabled').checked,true);assert.equal(e.field('display.sources.enabled').checked,true);
+ const edit=(path,value)=>{const f=e.field(path);if(f.type==='checkbox')f.checked=value;else f.value=value;f.handlers.input();};
+ edit('display.headerTitle','Custom campaign heading');edit('display.background.title','Fictional bottom background');edit('display.background.body','Example context');edit('display.background.enabled',true);edit('display.footer.middleText','Fictional footer');edit('display.footer.showUpdated',true);edit('display.timer.dateLabel','Date to be announced');edit('display.timer.enabled',true);
+ assert(e.ids.preview.srcdoc.includes('Fictional bottom background'));assert(e.ids.preview.srcdoc.includes('Date to be announced'));assert(e.ids.preview.srcdoc.includes('Time not specified.'));
+ await e.button('Add existing effort').onclick();edit('display.efforts.items.0.title','Example project');edit('display.efforts.items.0.url','https://example.com/project');edit('display.efforts.items.0.description','A fictional effort');edit('display.efforts.enabled',true);
+ await e.ids['download-project'].onclick();assert.equal(e.downloads.length,1);const files=projectEntries(await e.downloads[0].blob.arrayBuffer()),data=JSON.parse(new TextDecoder().decode(files['campaign.json']));
+ assert.equal(data.display.background.enabled,true);assert.equal(data.display.footer.showUpdated,true);assert.equal(data.display.timer.dateLabel,'Date to be announced');assert.equal(data.display.efforts.items[0].title,'Example project');assert.deepEqual(data.timeline,original.timeline);assert.deepEqual(data.sources,original.sources);assert.equal(data.event,original.event);
+ await e.ids['mode-form'].onclick();const all=descendants(e.ids.editor).filter(el=>el.dataset.path).map(el=>el.dataset.path);assert(all.includes('display.footer.middleText'));assert(all.includes('display.efforts.items.0.description'));
+});
+test('optional display import, hide toggles and website export retain editable content',async()=>{
+ const e=setup(),data=structuredClone(original);data.display={background:{enabled:true,title:'Fictional imported background',body:'Retained background'},footer:{middleText:'Imported footer',showUpdated:true}};
+ const json=JSON.stringify(data);e.ids.import.files=[{name:'campaign.json',size:json.length,text:async()=>json}];await e.ids.import.onchange();e.ids['nav-campaign'].onclick();await e.button('Header, sharing & optional sections').onclick();
+ assert.equal(e.field('display.background.enabled').checked,true);const toggle=e.field('display.background.enabled');toggle.checked=false;toggle.handlers.input();assert(!e.ids.preview.srcdoc.includes('<h2>Fictional imported background</h2>'));
+ await e.ids['download-project'].onclick();const files=projectEntries(await e.downloads.at(-1).blob.arrayBuffer()),saved=JSON.parse(new TextDecoder().decode(files['campaign.json']));assert.equal(saved.display.background.enabled,false);assert.equal(saved.display.background.body,'Retained background');
+ await e.ids['download-website'].onclick();const site=projectEntries(await e.downloads.at(-1).blob.arrayBuffer());assert(!new TextDecoder().decode(site['index.html']).includes('<h2>Fictional imported background</h2>'));assert(!site['campaign.json']);
+});

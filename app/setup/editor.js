@@ -19,9 +19,9 @@ const lists={
  sections:{label:'Extra sections',singular:'section',fields:[['heading','Heading'],['body','Text','textarea']]},
  socialLinks:{label:'Further links',singular:'link',fields:[['label','Label'],['url','URL','url']]}
 };
-const labels={title:'Campaign title',summary:'Short summary',updated:'Updated date',introduction:'Introduction',action:'Call to action',hero:'Hero image',campaign:'Page settings',messages:'Message template',contacts:'Contacts & groups',content:'Page sections',sources:'Sources',timeline:'Timeline',sections:'Extra sections',socialLinks:'Further links',event:'Event details'};
+const labels={title:'Campaign title',summary:'Short summary',updated:'Updated date',introduction:'Introduction',action:'Call to action',hero:'Hero image',campaign:'Page settings',messages:'Message template',contacts:'Contacts & groups',content:'Page sections',sources:'Sources',timeline:'Timeline',sections:'Extra sections',socialLinks:'Further links',event:'Event details',display:'Header, sharing & optional sections'};
 function get(path){return path.split('.').reduce((o,k)=>o?.[k],campaign);}
-function write(path,value){const keys=path.split('.'),last=keys.pop();keys.reduce((o,k)=>o[k],campaign)[last]=value;dirty=true;$('save-state').textContent='Unsaved changes';}
+function write(path,value){const keys=path.split('.'),last=keys.pop();keys.reduce((o,k)=>{if(!o[k])o[k]={};return o[k];},campaign)[last]=value;dirty=true;$('save-state').textContent='Unsaved changes';}
 function set(path,value){write(path,value);refresh();}
 function requiredField(path){
  return ['title','summary','id','language','updated','introduction','action','messages.subject','messages.body'].includes(path)||/^contacts\.\d+\.(name|email)$/.test(path)||/^sources\.\d+\.(title|url|checked)$/.test(path)||/^sections\.\d+\.(heading|body)$/.test(path)||/^timeline\.\d+\.(date|text|sourceId)$/.test(path)||/^socialLinks\.\d+\.(label|url)$/.test(path)||/^event\.(label|dateTime|sourceId|afterText)$/.test(path);
@@ -34,10 +34,10 @@ function fieldLabel(title,required){
 function field(parent,path,title,type='text'){
  const label=fieldLabel(title,requiredField(path));
  const input=document.createElement(type==='textarea'?'textarea':'input');if(type==='textarea')input.rows=path.endsWith('body')?9:4;else input.type=type;
- input.value=get(path)||'';input.dataset.path=path;input.id='field-'+path.replace(/\./g,'-');const rule=KitVisual.ruleFor(path);if(rule?.maxLength)input.maxLength=rule.maxLength;
+ input.value=get(path)||'';if(type==='checkbox')input.checked=!!get(path);input.dataset.path=path;input.id='field-'+path.replace(/\./g,'-');const rule=KitVisual.ruleFor(path);if(rule?.maxLength)input.maxLength=rule.maxLength;
  if(requiredField(path))input.setAttribute('aria-required','true');
  const hint=document.createElement('span');hint.className='field-help';hint.id=input.id+'-help';hint.hidden=true;input.setAttribute('aria-describedby',hint.id);input._hint=hint;
- input.addEventListener('input',()=>{touched.add(path);set(path,input.value);});input.addEventListener('blur',()=>{touched.add(path);validate();});label.append(input,hint);parent.append(label);return input;
+ input.addEventListener('input',()=>{touched.add(path);set(path,type==='checkbox'?input.checked:input.value);});input.addEventListener('blur',()=>{touched.add(path);validate();});label.append(input,hint);parent.append(label);return input;
 }
 function focusField(path){const input=[...document.querySelectorAll('[data-path]')].find(el=>el.dataset.path===path);if(input){for(let node=input.parentElement;node;node=node.parentElement){if(node.tagName==='DETAILS'){node.open=true;if(node._contact)contactDetailsOpen.set(node._contact,true);}}input.scrollIntoView?.({block:'center'});input.focus?.();}}
 function groupField(parent,path){
@@ -85,10 +85,12 @@ function buildProperties(){
  if(selected==='campaign'){
   $('selection-hint').textContent='Identity, appearance and sharing settings.';
   field(parent,'id','Campaign ID');help(parent,'Lowercase letters, numbers and hyphens. Used in download filenames.');field(parent,'language','Language tag');field(parent,'updated','Last updated','date');field(parent,'siteUrl','Published website URL (optional)','url');
+  button(parent,'Header, sharing & optional sections',()=>select('display'));
   heading(parent,'Appearance');field(parent,'theme.accent','Accent color','color');field(parent,'theme.background','Page background','color');help(parent,'Keep a dark accent and a light background for readable text.');
   field(parent,'petitionUrl','Petition URL (optional)','url');
   const label=document.createElement('label');label.textContent='Social preview image';const pick=document.createElement('select');pick.append(new Option('No social image',''));campaign.assets.forEach(a=>pick.append(new Option(a.path,a.path)));pick.value=campaign.socialImage;pick.onchange=()=>withCanvas(()=>set('socialImage',pick.value));label.append(pick);parent.append(label);help(parent,'A public website URL is also needed for social-image metadata.');return;
  }
+ if(selected==='display'){buildDisplay(parent);return;}
  if(selected==='hero'){buildHero(parent);return;}
  if(selected==='messages'){
   $('selection-hint').textContent='The starting draft visitors can personalize.';
@@ -98,6 +100,7 @@ function buildProperties(){
  if(selected==='contacts'){buildContacts(parent);return;}
  if(selected==='content'){
   $('selection-hint').textContent='Add, edit and organize optional page content.';
+  button(parent,'Header, sharing & optional sections',()=>select('display'));
   listNavigation(parent,'sections');listNavigation(parent,'timeline');listNavigation(parent,'sources');listNavigation(parent,'socialLinks');
   heading(parent,'Optional event');button(parent,campaign.event?'Edit event':'Add event',()=>{if(!campaign.event){campaign.event={label:'',dateTime:'',sourceId:'',afterText:''};dirty=true;}selected='event';buildProperties();refresh();});return;
  }
@@ -156,20 +159,47 @@ function buildHero(parent){
  if(campaign.assets.length){const l=document.createElement('label');l.textContent='Use an image already in this project';const pick=document.createElement('select');pick.append(new Option('Choose image',''));campaign.assets.forEach(a=>pick.append(new Option(a.path,a.path)));pick.value=campaign.poster;pick.onchange=()=>withCanvas(()=>{campaign.poster=pick.value;campaign.posterAlt='';dirty=true;buildProperties();refresh();});l.append(pick);parent.append(l);}
  if(campaign.poster){field(parent,'posterAlt','Alternative text');help(parent,'Describe the image for someone who cannot see it. Recommended for accessibility. Missing alternative text shows a reminder but does not block preview or export.');const index=campaign.assets.findIndex(a=>a.path===campaign.poster);if(index>=0){field(parent,`assets.${index}.creator`,'Creator / attribution');field(parent,`assets.${index}.sourceUrl`,'Original image URL (optional)','url');field(parent,`assets.${index}.permission`,'Permission / license note');}button(parent,'Remove hero from page',()=>{campaign.poster='';campaign.posterAlt='';dirty=true;buildProperties();refresh();status('Hero removed from the page. Its file remains in the project backup.');},'remove add');}
 }
+function buildDisplay(parent){
+ help(parent,'Optional features stay off until enabled. Existing timeline and source content is preserved when hidden. Date-only labels never invent a hearing time.');
+ field(parent,'display.headerTitle','Header title (blank uses campaign ID)');
+ field(parent,'display.sharing','Enable social sharing','checkbox');field(parent,'display.shareText','Share text (blank uses campaign title / summary)','textarea');
+ help(parent,'Copy link, WhatsApp, Facebook, X and device sharing use the Published website URL in Page settings. No messages are sent automatically.');
+ heading(parent,'Header timer');field(parent,'display.timer.enabled','Show header timer','checkbox');field(parent,'display.timer.label','Timer heading');field(parent,'display.timer.dateTime','Verified date-time with timezone (optional)');field(parent,'display.timer.dateLabel','Date caption / date-only fallback');field(parent,'display.timer.afterText','Text after the scheduled time','textarea');
+ help(parent,'Use an explicit timezone, such as 2026-12-01T10:00:00+07:00. If the time is unknown, leave date-time blank and enter only a date caption. The existing Event section is separate and is not changed.');
+ heading(parent,'Bottom background');field(parent,'display.background.enabled','Show bottom background','checkbox');field(parent,'display.background.title','Background heading');field(parent,'display.background.body','Background text','textarea');
+ for(const [key,label] of [['timeline','Timeline'],['sources','Sources']]){
+  heading(parent,label);const toggle=field(parent,'display.'+key+'.enabled','Show '+label.toLowerCase(),'checkbox');toggle.checked=get('display.'+key+'.enabled')!==false;
+  field(parent,'display.'+key+'.title',label+' heading');button(parent,'Edit '+label.toLowerCase()+' entries',()=>select(key));
+ }
+ help(parent,'Existing projects keep the timeline in its original position until timeline display settings are changed; configured timelines appear below the appeals.');
+ heading(parent,'Existing efforts');field(parent,'display.efforts.enabled','Show existing efforts','checkbox');field(parent,'display.efforts.title','Existing efforts heading');
+ const items=campaign.display?.efforts?.items||[];
+ items.forEach((item,i)=>{const box=document.createElement('fieldset');const legend=document.createElement('legend');legend.textContent=item.title||'Effort '+(i+1);box.append(legend);field(box,'display.efforts.items.'+i+'.title','Title');field(box,'display.efforts.items.'+i+'.url','Public link','url');field(box,'display.efforts.items.'+i+'.description','Description','textarea');
+  button(box,'Move effort up',()=>{if(i===0)return;[items[i-1],items[i]]=[items[i],items[i-1]];write('display.efforts.items',items);buildCurrentDisplay();refresh();});
+  button(box,'Move effort down',()=>{if(i===items.length-1)return;[items[i+1],items[i]]=[items[i],items[i+1]];write('display.efforts.items',items);buildCurrentDisplay();refresh();});
+  button(box,'Remove effort',()=>{if(!confirm('Remove this existing effort?'))return;items.splice(i,1);write('display.efforts.items',items);buildCurrentDisplay();refresh();},'remove');parent.append(box);
+ });
+ button(parent,'Add existing effort',()=>{if(items.length>=100){status('At most 100 existing efforts are supported.');return;}write('display.efforts.items',[...items,{title:'',url:'',description:''}]);buildCurrentDisplay();refresh();});
+ heading(parent,'Footer');field(parent,'display.footer.followXUrl','Follow updates on X profile URL (optional)','url');field(parent,'display.footer.middleText','Middle text','textarea');field(parent,'display.footer.showUpdated','Show Updated date on right','checkbox');
+ help(parent,'The Updated date comes from the campaign Last updated field. Leave the X URL blank to omit follow updates. Privacy and image attribution remain visible.');
+}
+function buildCurrentDisplay(){if(mode==='form')buildForm();else buildProperties();}
 function buildForm(){const opened=[...$('editor').querySelectorAll('details[open]')].map(x=>x.querySelector('summary').textContent);$('editor').replaceChildren();sections.forEach(([title,fields],i)=>{const d=details(title,opened.includes(title)||(!opened.length&&i===0));fields.forEach(f=>field(d,...f));if(title==='Message templates'){const p=document.createElement('p');p.className='help';p.textContent='Supported placeholders: {{name}}, {{personalMessage}}, {{recipient}}. One recipient at a time; visitors review before opening their email app.';d.append(p);}});
  Object.entries(lists).forEach(([key,config])=>{const d=details(config.label,opened.includes(config.label));campaign[key].forEach((item,i)=>{const f=document.createElement('fieldset'),l=document.createElement('legend');l.textContent=(item.name||item.title||item.heading||item.label||'Entry')+' '+(i+1);f.append(l);config.fields.forEach(([k,label,type])=>key==='contacts'&&k==='group'?groupField(f,`${key}.${i}.${k}`):field(f,`${key}.${i}.${k}`,label,type));const b=document.createElement('button');b.type='button';b.textContent='Remove entry';b.onclick=()=>{campaign[key].splice(i,1);dirty=true;buildForm();refresh();if(key==='contacts')status('Contact deleted. Choose Save to ZIP to keep your changes.');};f.append(b);d.append(f);});const add=document.createElement('button');add.type='button';add.className='add';add.textContent='Add '+config.label.toLowerCase().replace(/s$/,'');add.onclick=()=>{const item={};config.fields.forEach(([k])=>item[k]='');if(config.fields.some(([k])=>k==='id'))item.id=key+'-'+Date.now();campaign[key].push(item);dirty=true;buildForm();refresh();if(key==='contacts')focusField('contacts.'+(campaign.contacts.length-1)+'.name');};d.append(add);});
+ const optional=details('Header, sharing & optional sections',opened.includes('Header, sharing & optional sections'));buildDisplay(optional);
  const groups=details('Group management',opened.includes('Group management'));button(groups,'Manage contact groups',()=>select('contacts'));
  const event=details('Optional event',opened.includes('Optional event'));const toggle=document.createElement('button');toggle.type='button';toggle.textContent=campaign.event?'Remove event':'Add event';toggle.onclick=()=>{campaign.event=campaign.event?null:{label:'',dateTime:'',sourceId:'',afterText:''};dirty=true;buildForm();refresh();};event.append(toggle);if(campaign.event)[['label','Event label'],['dateTime','Date & time with zone (2026-12-01T10:00:00+00:00)'],['sourceId','Supporting source ID'],['afterText','Text after event','textarea']].forEach(([k,l,t])=>field(event,'event.'+k,l,t));
  const media=details('Images & permissions',opened.includes('Images & permissions'));const help=document.createElement('p');help.className='help';help.textContent='PNG, JPEG or WebP only, up to 5 MiB each; 19 MiB total images. Add only images you have permission to publish. SVG and remote image URLs are not supported.';media.append(help);const upload=document.createElement('input');upload.type='file';upload.accept='image/png,image/jpeg,image/webp';upload.multiple=true;upload.setAttribute('aria-label','Add campaign images');upload.onchange=async()=>withCanvas(async()=>{try{for(const file of upload.files)await addImage(file);dirty=true;buildForm();refresh();status('Images added. Set a poster path and alternative text in Appearance.');}catch(e){status(e.message);buildForm();refresh();}});media.append(upload);
  campaign.assets.forEach((a,i)=>{const box=document.createElement('div');box.className='asset';const title=document.createElement('strong');title.textContent=a.path;box.append(title);if(urls[a.path]){const img=document.createElement('img');img.src=urls[a.path];img.alt='Uploaded image preview';box.append(document.createElement('br'),img);}['creator','sourceUrl','permission'].forEach(k=>field(box,`assets.${i}.${k}`,{creator:'Creator / attribution',sourceUrl:'Original source URL (optional)',permission:'Permission / license note'}[k]));const b=document.createElement('button');b.type='button';b.textContent='Remove image';b.onclick=()=>{delete assets[a.path];if(urls[a.path])URL.revokeObjectURL(urls[a.path]);delete urls[a.path];campaign.assets.splice(i,1);if(campaign.poster===a.path){campaign.poster='';campaign.posterAlt='';}if(campaign.socialImage===a.path)campaign.socialImage='';dirty=true;buildForm();refresh();};box.append(b);media.append(box);});
 }
 function issuePath(message){
- const match=message.match(/^(?:campaign\.)?((?:contacts|sources|sections|timeline|socialLinks|assets)\[\d+\]\.[A-Za-z]+|[A-Za-z]+(?:\.[A-Za-z]+)?) /);
+ const match=message.match(/^(?:campaign\.)?([A-Za-z]+(?:(?:\[\d+\])?\.[A-Za-z]+)*) /);
  if(match){const path=match[1].replace(/\[(\d+)\]/g,'.$1');if(KitVisual.ruleFor(path))return path;}
  if(message.startsWith('Campaign ID'))return 'id';if(message.startsWith('Use a language'))return 'language';if(message.startsWith('Updated date'))return 'updated';if(message.includes('alternative text'))return 'posterAlt';if(message.startsWith('Default subject'))return !campaign.messages.subject?'messages.subject':'messages.body';
  return '';
 }
 function revealIssue(path){
+ if(path.startsWith('display.')&&mode!=='form'){select('display');focusAfterAction=path;touched.add(path);validate();return;}
  touched.add(path);if(mode==='form'){const input=[...document.querySelectorAll('[data-path]')].find(el=>el.dataset.path===path);let node=input;while(node){if(node.tagName==='DETAILS')node.open=true;node=node.parentElement;}focusAfterAction=path;validate();return;}
  let key=path;if(/^(contacts|sources|sections|timeline|socialLinks)\.\d+/.test(path)){const parts=path.split('.');key=parts[0]+':'+parts[1];}else if(path.startsWith('messages.'))key='messages';else if(path==='posterAlt'||path.startsWith('assets.'))key='hero';else if(path.startsWith('event.'))key='event';else if(!['title','summary','updated','introduction','action'].includes(path))key='campaign';select(key);focusAfterAction=path;validate();
 }

@@ -10,3 +10,5 @@
 
 /* Keep navigation and optional contact fields clear of the preceding divider/control. */
 .back-button{margin-top:14px}.contact-details{margin-top:16px}.contact-details summary{cursor:pointer;font-weight:600}
+
+input[type="checkbox"]{width:20px;min-height:20px;height:20px;display:inline-block;margin-left:10px;vertical-align:middle;accent-color:#245844}
