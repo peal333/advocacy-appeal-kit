@@ -10,12 +10,12 @@
 - “Remove hero from page” does not delete its file from the project backup, and an image still selected for social sharing remains public. Use **All fields** and the image inventory’s **Remove image** button to remove an unwanted file from the project entirely, then export again.
 - The public JavaScript embeds campaign fields, including fields not visibly displayed, with only unused asset records omitted by this revision. Inspect every field as public information, including metadata, filenames, and source URLs. No confidential evidence, private notes, personal credentials, or unpublished contact details belong here.
 - Check headings, links, keyboard navigation, visible focus, narrow-screen layout, and text contrast. Review optional sections and past-event wording.
-- Choose **Save to ZIP**, extract the new project and reopen its `editor.html` to verify the saved data. For publication, prepare a separate site-only ZIP through the [AI/CLI workflow](ai.md), then check that `index.html` is at the top level. Open it and check images, content, links, and composer controls.
+- Choose **Save to ZIP**, extract the new project and reopen its `editor.html` to verify the saved data. For publication, choose **Download website ZIP** (or use the [AI/CLI workflow](ai.md)), then check that `index.html` is at the top level. Open it and check images, content, links, and composer controls.
 - Have the responsible organizer approve the exact export before uploading. A preview hosted online is still a disclosure; do not upload confidential drafts.
 
 ## Safe updates
 
-Keep the last working project ZIP and any prepared website ZIP with a date in their filenames. Extract the project, open `editor.html`, make changes, recheck affected sources and contacts, and review the whole preview. Choose **Save to ZIP**. If publishing, prepare a new site-only ZIP through the AI/CLI workflow. Upload the complete website export to the existing hosting project; do not mix files from different versions. Check the live site after each upload.
+Keep the last working project ZIP and any prepared website ZIP with a date in their filenames. Extract the project, open `editor.html`, make changes, recheck affected sources and contacts, and review the whole preview. Choose **Save to ZIP**. If publishing, choose **Download website ZIP** for a fresh site-only package; this does not replace saving your editable project. Upload the complete website export to the existing hosting project; do not mix files from different versions. Check the live site after each upload.
 
 To recover local editing, extract the last good project ZIP into a fresh folder and open its `editor.html`. Older data/media backups can still be imported with **Open backup**. A JSON file restores settings only; it needs the referenced media too. Keep the broken or newer file separately until you have recovered what you need. Do not remove validation checks to force an incompatible file through.
 

@@ -4,6 +4,14 @@ Upload the **whole repository/toolkit ZIP** to ChatGPT or Claude and explain wha
 
 This is a supported workflow, not a promise about any provider's current tools. The session needs archive/file reading, Node.js execution for the included exporter, and downloadable-file output for the complete in-chat route. The assistant checks those capabilities at the start. There is no AI integration, model dependency, API key or paid account requirement inside the toolkit. You do not need Node for the manual editor.
 
+## Updating or adapting an existing campaign
+
+For a revision, use [GUIDED_UPDATE_WORKFLOW.md](../../prompts/GUIDED_UPDATE_WORKFLOW.md) with the newest complete customized project ZIP or repository. Identify the requested changes, show a concise proposal and preserve unrelated fields, stable IDs, contact order/groups and media. Verify new or changed significant facts and contacts; do not label unchanged records newly verified. Respect recipient opt-outs. An explicit instruction authorizes its scope, not publication or unrelated changes.
+
+For a different case using an existing project, explicitly choose the new-case route: preserve the original, create a new campaign ID, confirm which contacts to retain and recheck their relevance and public contact details. Replace or clear all old-case facts, sources, dates, default and recipient-specific appeals, images and sharing/link metadata. Remove unselected old-case media from the new working inventory and bytes, since project/backup exports retain unused assets. Do not apply this reset to a normal revision.
+
+The visual editor can also produce **Download website ZIP** directly from current valid data. This is a hosting package, not an editable save; use **Save to ZIP** separately to preserve the project. Optional contact **Country** appears below **Role**.
+
 ## Conversation and review
 
 1. Tell the assistant the cause, desired change, audience, tone and any approved public sources or media. Share only material you are comfortable sending to that service. Do not upload confidential evidence or secrets.

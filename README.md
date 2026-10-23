@@ -4,7 +4,7 @@ Use this repo to create an effective appeals website for your mission or cause. 
 
 **[Download ZIP](https://github.com/peal333/advocacy-appeal-kit/archive/refs/heads/main.zip)**
 
-*The ZIP contains the latest version on `main`. While this repository is private, you need authorized GitHub access to download it.*
+*This public repository’s ZIP contains the latest version on `main`. Keep your customized project ZIP separately for future edits.*
 
 ## Choose how to start
 
@@ -44,11 +44,19 @@ Starting from this repository gives you the toolkit example. For later changes t
 
 Prefer a ready-filled example? Paste the complete **[Bristol Community Cleanup prompt](prompts/BRISTOL_COMMUNITY_CLEANUP.md)** instead, or **[view the deployed Bristol example](https://bristol-community-cleanup.pages.dev)**. The **[prompts guide](prompts/README.md)** explains both options and how to check the returned files.
 
+### Update a campaign — or reuse it for a different case
+
+Upload your **newest complete project ZIP** and say: “Read prompts/GUIDED_UPDATE_WORKFLOW.md and help me update these contacts…” The [guided update workflow](prompts/GUIDED_UPDATE_WORKFLOW.md) preserves unrelated copy, stable IDs, groups, ordering and images while checking new or changed facts and recipients. You do not have to repeat the creation interview.
+
+You can also say: “Use this campaign as a starting point for a different case, keeping these relevant contacts.” The assistant preserves your original, creates a new campaign ID, confirms which contacts to retain and rechecks their suitability. It replaces or clears old-case facts, sources, dates, images, appeal overrides and sharing details rather than silently carrying them into the new cause. It asks which route you mean only if unclear.
+
+Want a fuller fictional example first? Use **[ALL_FEATURES_DEMO.md](prompts/ALL_FEATURES_DEMO.md)**: three groups, six contacts, country labels, individual appeals, a timeline and more. It is opt-in, uses reserved example addresses, and is not for real outreach.
+
 #### For assistants receiving this kit
 
 When the user uploads this kit and makes an ordinary request to build a site or website without enough details (for example, “I need to build a site” or “Help me build a website”; no cause/campaign keyword is required), **read [prompts/GUIDED_WORKFLOW.md](prompts/GUIDED_WORKFLOW.md) yourself and begin its initial questions**. Use this kit, not an unrelated website implementation. Do not merely send the user away to copy the prompt.
 
-If it is unclear whether they want a new campaign or edits to the uploaded one, ask first and preserve the existing data. A ZIP with no request is not authorization to build or replace anything: ask what they want to do. Honor an explicitly unrelated request rather than forcing this kit. Follow an explicit complete brief, pasted prompt or revision request instead of restarting an unnecessary interview; preserve unrelated content and media during revisions.
+For revisions or explicitly adapting an existing project to a different case, read [prompts/GUIDED_UPDATE_WORKFLOW.md](prompts/GUIDED_UPDATE_WORKFLOW.md). If it is unclear whether they want a new campaign or edits to the uploaded one, ask first and preserve the existing data. A ZIP with no request is not authorization to build or replace anything: ask what they want to do. Honor an explicitly unrelated request rather than forcing this kit. Follow an explicit complete brief, pasted prompt or revision request instead of restarting an unnecessary interview; preserve unrelated content and media during revisions.
 
 Not every assistant automatically reads bundled instructions or has file tools. If it cannot read the kit, explain that limitation; the user can paste the guided prompt or use the local editor. Uploading files alone does not grant publication or outreach permission.
 
@@ -58,8 +66,9 @@ Not every assistant automatically reads bundled instructions or has file tools. 
 2. Open **`editor.html`** in a desktop browser, not inside a ZIP viewer.
 3. Click the outlined text to edit it. Use the sidebar for images, contacts and page settings, then check **Visitor preview**.
 4. Choose **Save to ZIP** and wait for the download to finish. Keep this **updated project ZIP**.
+5. When you want a hosting package, choose **Download website ZIP**. This exports the current valid visitor-facing site; it does not publish it or save your editable project. Use **Save to ZIP** separately before closing.
 
-No installation, terminal, server or AI account is needed. **All fields** opens the full form if you prefer that way of editing.
+No installation, terminal, server or AI account is needed. **All fields** opens the full form if you prefer that way of editing. Contacts have an optional **Country** field below **Role** in both editing forms; a supplied country also appears below the role on the public card. Leave it blank when unnecessary or unknown.
 
 [See the step-by-step editor guide →](app/workflow/manual.md)
 
@@ -98,7 +107,7 @@ Keep the whole folder together so both pages can find their supporting files.
 
 ## Hosting Options
 
-**Save to ZIP** keeps your complete editable project. It does not publish anything. Do not upload the whole project to a public host: it includes editor/source files and every listed image, including unused ones. For a site-only hosting package, ask your AI assistant to prepare it from your saved ZIP, or use the advanced [CLI workflow](app/workflow/ai.md).
+**Save to ZIP** keeps your complete editable project. It does not publish anything. Do not upload the whole project to a public host: it includes editor/source files and every listed image, including unused ones. Choose **Download website ZIP** in the visual editor for a site-only hosting package. You can also ask your AI assistant to prepare it from your saved project ZIP, or use the advanced [CLI workflow](app/workflow/ai.md).
 
 ### Easiest options
 
@@ -147,11 +156,11 @@ This toolkit is provided **as is, without warranty**. Use it at your own risk. A
 
 Created and maintained by **Panupan Sriautharawong (peal333)**, with AI assistance from **ChatGPT**.
 
-Bug reports, focused improvements and pull requests are welcome from collaborators with repository access. See [CONTRIBUTING.md](CONTRIBUTING.md) for reporting guidance, development checks and safe test practices. These credits acknowledge contributions; they do not resolve the pending license or copyright notices described below.
+Bug reports, focused improvements and pull requests are welcome through the public repository. See [CONTRIBUTING.md](CONTRIBUTING.md) for reporting guidance, development checks and safe test practices. These credits acknowledge contributions; they do not resolve the pending license or copyright notices described below.
 
 ## About this version
 
-This is an **early release / public-beta candidate**, not a production or accessibility certification. Automated checks pass, and the maintainer has reported a successful guided AI campaign build, correctly exported hero image and deployed example. Comprehensive desktop/mobile browser, accessibility and recovery acceptance testing remains incomplete. See [verification status](app/workflow/verification.md) for the evidence and remaining checks. Repository publication and the final license decision remain pending.
+This is an **early release / public-beta candidate**, not a production or accessibility certification. Automated checks pass, and the maintainer has reported a successful guided AI campaign build, correctly exported hero image and deployed example. Comprehensive desktop/mobile browser, accessibility and recovery acceptance testing remains incomplete. See [verification status](app/workflow/verification.md) for the evidence and remaining checks. The repository is public; final licensing and remaining release-acceptance checks are still pending.
 
 GPLv3 is the intended licensing direction, but the exact version choice, final license text and copyright notices are still pending. This note is not a completed license grant. See [contributor guidance](CONTRIBUTING.md) and the [release checklist](app/workflow/release-checklist.md).
 

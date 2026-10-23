@@ -79,7 +79,7 @@ test('portable project carries only allowlisted toolkit and media, then regenera
  assert(!files['PRIVATE-NOTES.txt']);assert(!files['assets/stale.png']);assert(!Object.keys(files).some(name=>name.endsWith('.zip')));
  for(const name of Export.PROJECT_FILES)assert(files[name]);
  assert.deepEqual(Object.keys(files).filter(name=>!name.includes('/')&&name.endsWith('.md')).sort(),['AGENTS.md','CONTRIBUTING.md','README.md','SECURITY.md']);
- const promptNames=['README.md','BRISTOL_COMMUNITY_CLEANUP.md','GUIDED_WORKFLOW.md'].map(name=>'prompts/'+name);
+ const promptNames=['README.md','BRISTOL_COMMUNITY_CLEANUP.md','GUIDED_WORKFLOW.md','GUIDED_UPDATE_WORKFLOW.md','ALL_FEATURES_DEMO.md'].map(name=>'prompts/'+name);
  for(const name of promptNames)assert.equal(files[name].toString(),fs.readFileSync(path.join(__dirname,'../..',name),'utf8'));
  assert(!Object.keys(entries(r.website)).some(name=>name.startsWith('prompts/')));
  let check=cp.spawnSync(process.execPath,['app/tools/check-release.cjs'],{cwd:portable,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
@@ -138,3 +138,4 @@ test('portable source reader rejects symlinks at every app directory level',t=>{
  }
  assert(readSources(source)['app/setup/editor.js']);
 });
+

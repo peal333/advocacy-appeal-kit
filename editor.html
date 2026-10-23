@@ -3,7 +3,7 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Advocacy Appeal Kit · Visual editor</title><link rel="stylesheet" href="app/setup/editor.css"></head>
 <body>
 <header class="app-header"><div class="brand"><span class="mark" aria-hidden="true">a.</span><div><strong>Advocacy Appeal Kit</strong><span class="badge">YOUR CAMPAIGN, MADE HERE</span></div></div><span class="local-label"><span aria-hidden="true">●</span> Local files only</span></header>
-<div class="toolbar"><div class="mode-switch" aria-label="Editor mode"><button id="mode-visual" aria-pressed="true">Edit page</button><button id="mode-preview" aria-pressed="false">Visitor preview</button><button id="mode-form" aria-pressed="false">All fields</button></div><div class="file-actions"><label class="file-button">Open backup<input id="import" type="file" accept=".zip,.json"></label><button id="download-project" class="primary">Save to ZIP</button></div></div>
+<div class="toolbar"><div class="mode-switch" aria-label="Editor mode"><button id="mode-visual" aria-pressed="true">Edit page</button><button id="mode-preview" aria-pressed="false">Visitor preview</button><button id="mode-form" aria-pressed="false">All fields</button></div><div class="file-actions"><label class="file-button">Open backup<input id="import" type="file" accept=".zip,.json"></label><button id="download-website">Download website ZIP</button><button id="download-project" class="primary">Save to ZIP</button></div></div>
 <div class="status-row"><p id="status" role="status">Your campaign template. Replace the prompts and example recipient, then choose Save to ZIP before closing.</p><span id="save-state">Not yet saved</span></div>
 <div class="workspace" id="workspace">
 <section class="preview-panel" aria-label="Campaign canvas"><div class="preview-heading"><div><strong id="canvas-title">Your campaign page</strong><span id="canvas-hint">Click the outlined content to edit</span></div><div class="device-switch" aria-label="Preview width"><button id="desktop" aria-pressed="true">Desktop</button><button id="mobile" aria-pressed="false">Mobile</button></div></div><div class="preview-wrap"><div id="preview-stage"><iframe id="preview" title="Editable campaign page" sandbox="allow-scripts allow-popups"></iframe></div></div></section>
@@ -11,3 +11,4 @@
 </div>
 <script src="app/src/schema.js"></script><script src="app/src/core.js"></script><script src="app/src/archive.js"></script><script src="app/src/project.js"></script><script src="app/setup/project-template.js"></script><script src="app/setup/bundle.js"></script><script src="app/setup/visual.js"></script><script src="app/setup/editor.js"></script>
 </body></html>
+

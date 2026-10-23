@@ -13,7 +13,7 @@ const sections=[
  ['Appearance',[['theme.accent','Accent color','color'],['theme.background','Page background','color'],['poster','Poster asset path'],['posterAlt','Poster alternative text'],['socialImage','Social preview asset path']]]
 ];
 const lists={
- contacts:{label:'Contacts',singular:'contact',fields:[['id','Stable ID'],['name','Name / office'],['role','Role'],['group','Group'],['email','Public email','email'],['sourceUrl','Public source URL (optional)','url'],['verified','Verified date (optional)','date'],['priority','Priority label'],['subject','Subject override (optional)'],['body','Message override (optional)','textarea']]},
+ contacts:{label:'Contacts',singular:'contact',fields:[['id','Stable ID'],['name','Name / office'],['role','Role'],['country','Country (optional)'],['group','Group'],['email','Public email','email'],['sourceUrl','Public source URL (optional)','url'],['verified','Verified date (optional)','date'],['priority','Priority label'],['subject','Subject override (optional)'],['body','Message override (optional)','textarea']]},
  sources:{label:'Sources',singular:'source',fields:[['id','Stable ID'],['title','Title'],['url','Source URL','url'],['publisher','Publisher'],['checked','Checked date','date']]},
  timeline:{label:'Timeline',singular:'timeline entry',fields:[['date','Date label (approximate dates allowed)'],['text','What happened','textarea'],['sourceId','Supporting source ID']]},
  sections:{label:'Extra sections',singular:'section',fields:[['heading','Heading'],['body','Text','textarea']]},
@@ -180,6 +180,7 @@ function validate(){
  $('validation').replaceChildren();for(const [kind,messages]of Object.entries(result)){if(!messages.length)continue;const ul=document.createElement('ul');if(kind==='errors')ul.className='error';for(const message of messages){const li=document.createElement('li'),path=issuePath(message);if(path){const action=button(li,message,()=>revealIssue(path),'review-link');action.setAttribute('aria-label',message+' Go to field.');}else li.textContent=message;ul.append(li);}$('validation').append(ul);}
  $('check-summary').textContent=result.errors.length?result.errors.length+' issue'+(result.errors.length===1?'':'s')+' to fix before export':'Ready for your final review';$('check-summary').classList.toggle('error',!!result.errors.length);
  $('download-project').disabled=!!result.errors.length||activeImport||busy;
+ $('download-website').disabled=!!result.errors.length||activeImport||busy;
  $('save-state').textContent=dirty?'Unsaved changes':$('save-state').textContent;
  return result;
 }
@@ -232,6 +233,7 @@ async function addImage(file){
 function download(name,content,type,max=Kit.MAX){if(type==='application/zip'&&content.length>max)throw Error('ZIP exceeds '+(max/1024/1024)+' MiB; remove some images or shorten the content.');const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000);}
 function exportFiles(){const check=Kit.validate(campaign,assets);if(check.errors.length)throw Error(check.errors.join(' '));return Object.fromEntries(campaign.assets.map(a=>[a.path,assets[a.path]]));}
 $('download-project').onclick=()=>withCanvas(()=>{const media=exportFiles(),files=KitProject.projectFiles(campaign,media,KitBundle.css,KitProjectSources);download(campaign.id+'-project.zip',KitArchive.write(files),'application/zip',KitProject.PROJECT_MAX);dirty=false;$('save-state').textContent='Project download prepared';status('New project ZIP prepared with the updated root website, editor, campaign and all images. Check the download, then extract it and open editor.html to continue, or upload it to an AI chat. Your original ZIP and folder have not changed.');});
+$('download-website').onclick=()=>withCanvas(()=>{const media=exportFiles(),files=KitProject.websiteFiles(campaign,media,KitBundle.css);download(campaign.id+'-website.zip',KitArchive.write(files),'application/zip');status('Website ZIP prepared for hosting with only the public page and selected images. It is not an editable backup. Choose Save to ZIP to keep your editable project and all images. Nothing has been published.');});
 $('import').onchange=async function(){
  const file=this.files[0];if(!file)return;await withCanvas(async()=>{
  this.disabled=true;activeImport=true;validate();const nextUrls=Object.create(null);
@@ -279,3 +281,4 @@ async function openBundledMedia(){
 buildProperties();refresh();sizePreview();
 if(KitBundle.assets!==undefined)openBundledMedia();
 })();
+

@@ -25,6 +25,7 @@ test('source template excludes generated/private/stale files and repeated browse
 });
 test('browser Save flushes latest canvas edits; extracted project reopens and resaves independently with all images and valid checksums',async t=>{
  const c=structuredClone(starter),png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a9xkAAAAASUVORK5CYII=','base64');
+ c.contacts[0].country='Example country';
  c.assets=['hero','unused'].map(n=>({path:'assets/'+n+'.png',creator:'Synthetic test',sourceUrl:'',permission:'Test pixel'}));c.poster=c.assets[0].path;c.posterAlt='Synthetic pixel';
  const assets=Object.fromEntries(c.assets.map(a=>[a.path,png])),sources=readSources(root),boot={};vm.runInNewContext(Project.bundle(c,css,assets),{window:boot});
  const e=editor(boot.KitBundle,sources);assert.equal(e.ids['download-project'].disabled,true);await e.ids['download-project'].onclick();assert.equal(e.downloads.length,0);
@@ -38,11 +39,11 @@ test('browser Save flushes latest canvas edits; extracted project reopens and re
  assert(first['app/tools/export-campaign.cjs']);assert(first['app/setup/editor.js']);assert(first['app/src/core.js']);
  const check=cp.spawnSync(process.execPath,['app/tools/check-release.cjs'],{cwd:dir,encoding:'utf8'});assert.equal(check.status,0,check.stderr);
  const restored={};vm.runInNewContext(first['app/setup/bundle.js'].toString(),{window:restored});vm.runInNewContext(first['app/setup/project-template.js'].toString(),{window:restored});
- const promptNames=['README.md','BRISTOL_COMMUNITY_CLEANUP.md','GUIDED_WORKFLOW.md'].map(name=>'prompts/'+name);
+ const promptNames=['README.md','BRISTOL_COMMUNITY_CLEANUP.md','GUIDED_WORKFLOW.md','GUIDED_UPDATE_WORKFLOW.md','ALL_FEATURES_DEMO.md'].map(name=>'prompts/'+name);
  for(const name of promptNames){assert.equal(first[name].toString(),fs.readFileSync(path.join(root,name),'utf8'));assert.equal(restored.KitProjectSources[name],first[name].toString());}
  const secondEditor=editor(restored.KitBundle,restored.KitProjectSources);for(let i=0;i<30&&secondEditor.ids.workspace.inert;i++)await new Promise(resolve=>setImmediate(resolve));
  secondEditor.queued.title='Second independent save';await secondEditor.ids['download-project'].onclick();const second=entries(await secondEditor.downloads[0].blob.arrayBuffer());verifyManifest(second);
- assert.equal(JSON.parse(second['campaign.json']).title,'Second independent save');assert.match(second['index.html'].toString(),/Second independent save/);assert.deepEqual(first['app/setup/project-template.js'],second['app/setup/project-template.js']);for(const a of c.assets)assert.deepEqual(second[a.path],png);
+ assert.equal(JSON.parse(second['campaign.json']).contacts[0].country,'Example country');assert.equal(JSON.parse(second['campaign.json']).title,'Second independent save');assert.match(second['index.html'].toString(),/Second independent save/);assert.deepEqual(first['app/setup/project-template.js'],second['app/setup/project-template.js']);for(const a of c.assets)assert.deepEqual(second[a.path],png);
  for(const name of promptNames)assert.deepEqual(second[name],first[name]);
  const out=path.join(dir,'cli-output');const run=cp.spawnSync(process.execPath,['app/tools/export-campaign.cjs','.',out],{cwd:dir,encoding:'utf8'});assert.equal(run.status,0,run.stderr);const cli=entries(fs.readFileSync(path.join(out,c.id+'-project.zip')));verifyManifest(cli);assert.match(cli['index.html'].toString(),/Latest inline text before Save/);assert(cli['editor.html']);assert.deepEqual(cli['assets/unused.png'],png);const publicSite=entries(fs.readFileSync(path.join(out,c.id+'-website.zip')));assert(!publicSite['editor.html']);assert(!publicSite['assets/unused.png']);
 });
@@ -66,7 +67,7 @@ test('pending image decoding blocks project Save until upload completes',async()
  const png=Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a9xkAAAAASUVORK5CYII=','base64');
  input.files=[{name:'pending.png',size:png.length,arrayBuffer:async()=>png}];const pending=input.onchange();
  for(let i=0;i<10&&!finish;i++)await new Promise(resolve=>setImmediate(resolve));assert(finish);assert.equal(e.ids['download-project'].disabled,true);
- await e.ids['download-project'].onclick();assert.equal(e.downloads.length,0);finish();await pending;
+ assert.equal(e.ids['download-website'].disabled,true);await e.ids['download-website'].onclick();await e.ids['download-project'].onclick();assert.equal(e.downloads.length,0);finish();await pending;
  await e.ids['download-project'].onclick();assert.equal(e.downloads.length,1);const files=entries(await e.downloads[0].blob.arrayBuffer());assert.deepEqual(files['assets/pending.png'],png);
 });
 
@@ -74,7 +75,7 @@ test('pending image decoding blocks project Save until upload completes',async()
 test('root entries are a rendered cause website and directly usable local editor, with app-contained editor parity',()=>{
  const main=fs.readFileSync(path.join(root,'index.html'),'utf8'),page=fs.readFileSync(path.join(root,'editor.html'),'utf8'),legacy=fs.readFileSync(path.join(root,'app/setup/index.html'),'utf8');
  assert.match(main,/<title>Your campaign title<\/title>/);assert(!main.includes('id="download-project"'));assert(!main.includes('<iframe'));
- assert.match(page,/id="download-project"[^>]*>Save to ZIP</);assert.match(page,/id="properties"/);for(const source of [page,fs.readFileSync(path.join(root,'app/setup/index.html'),'utf8')]){assert.equal((source.match(/id="download-[^"]+"/g)||[]).length,1);assert.match(source,/id="download-project"[^>]*>Save to ZIP</);assert(!/download-(backup|site|json)|advanced-save/.test(source));}assert(!/type="module"|https?:\/\/|<base/.test(page));
+ assert.match(page,/id="download-project"[^>]*>Save to ZIP</);assert.match(page,/id="properties"/);for(const source of [page,fs.readFileSync(path.join(root,'app/setup/index.html'),'utf8')]){assert.equal((source.match(/id="download-[^"]+"/g)||[]).length,2);assert.match(source,/id="download-project"[^>]*>Save to ZIP</);assert.match(source,/id="download-website"[^>]*>Download website ZIP</);assert(!/download-(backup|site|json)|advanced-save/.test(source));}assert(!/type="module"|https?:\/\/|<base/.test(page));
  const scripts=[...page.matchAll(/<script src="([^"]+)"/g)].map(m=>m[1]);
  assert.deepEqual(scripts,['app/src/schema.js','app/src/core.js','app/src/archive.js','app/src/project.js','app/setup/project-template.js','app/setup/bundle.js','app/setup/visual.js','app/setup/editor.js']);
  for(const entry of ['index.html','editor.html','app/setup/index.html']){
@@ -87,3 +88,4 @@ test('root entries are a rendered cause website and directly usable local editor
  assert.equal(page,legacy.replace('href="editor.css"','href="app/setup/editor.css"').replaceAll('src="../src/','src="app/src/').replace(/src="(project-template|bundle|visual|editor)\.js"/g,'src="app/setup/$1.js"'));
  const site=Project.websiteFiles(starter,{},css);assert.equal(main,site['index.html']);assert.equal(fs.readFileSync(path.join(root,'scripts/site.js'),'utf8'),site['scripts/site.js']);
 });
+

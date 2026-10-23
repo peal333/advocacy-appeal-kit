@@ -30,3 +30,12 @@ test('preview, root website and export share cards; edit canvas keeps contextual
  assert(Visual.targets(c).some(t=>t.selector==='.recipient-card:nth-child(2)'&&t.key==='contacts:1'));
  assert(css.includes('minmax(min(100%,280px),1fr)'));assert(css.includes('overflow-wrap:anywhere'));
 });
+
+
+test('country is optional, bounded, escaped and displayed immediately after role',()=>{
+ const c=fixture();assert.deepEqual(Kit.validate(c).errors,[]);
+ c.contacts[0].country='Example <Country> & region';assert.deepEqual(Kit.validate(c).errors,[]);
+ assert.match(Kit.render(c),/recipient-role">Example role A<\/p><p class="recipient-country">Example &lt;Country&gt; &amp; region<\/p>/);
+ c.contacts[0].country='';assert(!Kit.render(c).includes('recipient-country'));
+ for(const value of [null,42,'x'.repeat(201)]){c.contacts[0].country=value;assert(Kit.validate(c).errors.some(e=>e.includes('country')));}
+});

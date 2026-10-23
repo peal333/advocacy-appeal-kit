@@ -237,6 +237,11 @@
             "type": "string",
             "maxLength": 500
           },
+          "country": {
+            "type": "string",
+            "maxLength": 200,
+            "description": "Optional country label displayed below the contact role. Omit or leave blank when not needed."
+          },
           "group": {
             "type": "string",
             "maxLength": 200
@@ -367,3 +372,4 @@
   ],
   "additionalProperties": false
 }
+

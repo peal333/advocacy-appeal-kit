@@ -1,6 +1,6 @@
 # Open-source release checklist
 
-Status: **early-release/public-beta candidate; publication, license and reporting decisions pending**, 20 October 2026. This checklist does not authorize publication or certify comprehensive acceptance. Preserve previously delivered test archives; prepare any new candidate separately.
+Status: **public repository; early-release/public-beta candidate with license, reporting and final acceptance decisions still pending**, updated 23 October 2026. This checklist does not authorize publication or certify comprehensive acceptance. Preserve previously delivered test archives; prepare any new candidate separately.
 
 ## Decisions and evidence required before release
 
@@ -20,6 +20,9 @@ Status: **early-release/public-beta candidate; publication, license and reportin
 - [ ] Assemble a fresh, separately named toolkit ZIP using only the reviewed files. Verify its entry list, absence of symlinks/path traversal/duplicate paths, and every extracted file against the manifest. Check for extra files not in the manifest. Record the archive's SHA-256 outside that archive. Do not overwrite the user's v2 test ZIP.
 - [ ] Exercise the AI handoff from that extracted toolkit: create a customized project ZIP, extract it, change a contact and regenerate using only that project. Also save inline edits with **Save to ZIP**, reopen the fresh download and save again without the original toolkit. Verify all media survive, public output excludes unused images, source bundle/checksums match, and no notes/old outputs ship. Include README.md, all bundled prompts and every required exporter/bundle helper in the explicit project allowlist. Test optional legal-notice retention when licensing is completed.
 - [ ] From that extracted toolkit, export a website and an editable backup with a permitted test image. Confirm root-level public `index.html` and relative assets, no editor/config in website output, and close/reopen/import preservation of text, groups and image bytes. Inspect embedded public data and all exported assets for privacy, confirming unused files and asset records are absent while checking included image metadata. Review the full inventory separately before sharing a backup.
+
+- [ ] Exercise **Download website ZIP** from current valid editor data, including a queued text edit. Confirm selected assets only, root layout, and that this download does not mark the editable project saved. Check optional contact Country below Role in both editing forms and public cards.
+- [ ] Review the guided update prompt for same-campaign preservation and explicit new-case carryover removal, including individual appeal overrides and unused media. Exercise the opt-in fictional all-features demo without contacting any recipient.
 
 ## Approve and publish separately
 

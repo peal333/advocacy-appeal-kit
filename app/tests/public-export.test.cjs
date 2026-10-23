@@ -37,7 +37,9 @@ async function importedProject(poster='assets/hero.png',socialImage='assets/soci
 }
 test('public export excludes unused image files and metadata while backup and editor retain originals',async()=>{
  const {editor:e,campaign,image}=await importedProject();
- const files=publicFiles(campaign,image);
+ await e.ids['download-website'].onclick();
+ const files=websiteFiles(await e.downloads.at(-1).blob.arrayBuffer());
+ assert.equal(e.downloads.at(-1).name,campaign.id+'-website.zip');
  assert.deepEqual(Object.keys(files).sort(),['assets/hero.png','assets/social.png','index.html','styles/site.css','scripts/site.js'].sort());
  assert.deepEqual(files['assets/hero.png'],Buffer.from(image));
  assert.deepEqual(files['assets/social.png'],Buffer.from(image));
@@ -62,3 +64,4 @@ test('public export retains a social-only image and exports no unused images whe
   assert(!script.includes('assets/unused.png'));assert(!script.includes('assets/hero.png'));
  }
 });
+

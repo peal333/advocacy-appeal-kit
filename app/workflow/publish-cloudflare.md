@@ -1,10 +1,10 @@
 # Publish with Cloudflare Pages: direct upload
 
-Documentation checked against Cloudflare's official instructions on **20 October 2026**. This walkthrough has not been tested by publishing a campaign. Dashboard labels can change. No GitHub connection or local build is needed for the dashboard upload. The editor saves one complete project ZIP; first ask your AI assistant to prepare a site-only ZIP from it, or use the advanced [CLI workflow](ai.md).
+Documentation checked against Cloudflare's official instructions on **20 October 2026**. This walkthrough has not been tested by publishing a campaign. Dashboard labels can change. No GitHub connection or local build is needed for the dashboard upload. The editor offers **Save to ZIP** for the editable project and **Download website ZIP** for a separate hosting package. AI or the advanced [CLI workflow](ai.md) can also prepare the hosting package.
 
 ## Prepare locally
 
-Finish the [review checklist](review-and-recovery.md), obtain the organizer's approval, and download the current project using **Save to ZIP**. Prepare a separate site-only ZIP using the AI/CLI workflow; the editor does not offer a separate website download button. Use the **website ZIP** for hosting. Open the archive to confirm `index.html` is at its root, with `styles/`, `scripts/`, and `assets/` alongside it. Do not upload the toolkit, full backup, JSON-only file, or confidential drafts.
+Finish the [review checklist](review-and-recovery.md), obtain the organizer's approval, and download the current project using **Save to ZIP**. Choose **Download website ZIP** to prepare the separate site-only package. This does not save your editable project or publish it. Use the **website ZIP** for hosting. Open the archive to confirm `index.html` is at its root, with `styles/`, `scripts/`, and `assets/` alongside it. Do not upload the toolkit, full backup, JSON-only file, or confidential drafts.
 
 Use your own Cloudflare account. Review any terms, plan, and charges presented before proceeding. Publication makes the uploaded content accessible online; an obscure or preview URL is not confidentiality protection.
 
