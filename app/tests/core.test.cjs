@@ -38,7 +38,7 @@ test('empty own words removes only its standalone line and separator',()=>{
   ['Before\r\r{{personalMessage}}\r\rAfter','Before\r\rAfter'],
   ['Intro\n\n\nKeep spacing\n\n{{personalMessage}}\n\nAfter\n\n\nEnd\n','Intro\n\n\nKeep spacing\n\nAfter\n\n\nEnd\n'],
   ['Before {{personalMessage}} after\n\n\nEnd','Before  after\n\n\nEnd'],
-  ['Before\n\n{{name}}\n\nAfter','Before\n\n\n\nAfter'],
+  ['Before\n\n{{name}}\n\nAfter','Before\n\n[Your Name]\n\nAfter'],
  ];
  for(const personalMessage of ['',undefined,' \t\r\n  '])for(const [template,expected] of cases)assert.equal(Kit.substitute(template,{personalMessage}),expected,JSON.stringify({template,personalMessage}));
 });
@@ -91,7 +91,7 @@ test('header timer rejects timezone-free and invalid dates, supports date-only f
 });
 test('sharing requires explicit public URL and builds only user-initiated platform links',()=>{
  const c=featureCampaign();c.siteUrl='';assert(Kit.validate(c).errors.some(x=>x.includes('Sharing requires')));assert(!Kit.render(c).includes('share-tools'));for(const url of ['file:///tmp/private','javascript:alert(1)','https://u:p@example.com']){c.siteUrl=url;assert(Kit.validate(c).errors.length);assert(!Kit.render(c).includes('share-tools'));}
- c.siteUrl='https://example.com/campaign?a=1&b=2';c.display.shareText='Example & community';const html=Kit.render(c);for(const label of ['Copy link','WhatsApp','Facebook','Share…'])assert(html.includes(label));assert(html.includes(encodeURIComponent(c.siteUrl)));assert(html.includes(encodeURIComponent(c.display.shareText)));assert(!html.includes('file://'));assert(!Kit.script(c).includes('location.href'));
+ c.siteUrl='https://example.com/campaign?a=1&b=2';c.display.shareText='Example & community';const html=Kit.render(c);for(const label of ['Copy link','WhatsApp','Facebook','More sharing options'])assert(html.includes(label));assert(html.includes(encodeURIComponent(c.siteUrl)));assert(html.includes(encodeURIComponent(c.display.shareText)));assert(!html.includes('file://'));assert(!Kit.script(c).includes('location.href'));
 });
 test('X footer profiles and existing effort URLs are validated rather than executing imported links',()=>{
  const c=featureCampaign();for(const url of ['https://x.com/example_profile','https://twitter.com/example_profile/']){c.display.footer.followXUrl=url;assert.deepEqual(Kit.validate(c).errors,[]);}
@@ -121,3 +121,38 @@ test('display settings survive editable backup and website export through the sh
 test('invalid Unicode in transient share edits cannot break editor rendering',()=>{const c=featureCampaign();c.display.shareText='Transient \ud800';assert(Kit.validate(c).errors.some(x=>x.includes('Unicode')));assert.doesNotThrow(()=>Kit.render(c));assert(Kit.render(c).includes('%EF%BF%BD'));});
 test('X application routes are not accepted as follow profiles',()=>{for(const route of ['home','intent','i','share','settings']){const c=featureCampaign();c.display.footer.followXUrl='https://x.com/'+route;assert(Kit.validate(c).errors.some(x=>x.includes('followXUrl')));}});
 test('existing effort cards cannot select hidden source entries in the visual editor',()=>{const c=featureCampaign();c.display.sources.enabled=false;const Visual=require('../setup/visual.js'),targets=Visual.targets(c),html=Kit.render(c);assert(!html.includes('source-list'));assert(html.includes('class="existing-efforts"'));for(const target of targets.filter(x=>x.key==='sources'||x.key.startsWith('sources:')))assert(target.selector.startsWith('.source-list'));assert(targets.some(x=>x.selector==='.existing-efforts'&&x.key==='display'));});
+
+test('missing and whitespace-only names use a literal fallback without altering other text',()=>{
+ for(const name of [undefined,null,'',' \t\r\n\u00a0 '])assert.equal(Kit.substitute('From {{name}}\n{{name}}',{name}),'From [Your Name]\n[Your Name]');
+ for(const name of ['Example Visitor','  Example Visitor  ','<Visitor> & {{recipient}}'])assert.equal(Kit.substitute('{{name}}',{name,recipient:'Office'}),name);
+ assert.equal(Kit.substitute('No signature\n\nSpacing stays',{}),'No signature\n\nSpacing stays');
+});
+test('name fallback matches inline preview, export, mailto and copy while preserving per-recipient edits',async()=>{
+ const c=clone();c.messages.subject='From {{name}}';c.messages.body='Dear {{recipient}},\n\n{{personalMessage}}\n\nRegards,\n{{name}}';
+ c.contacts=[{...c.contacts[0],subject:'',body:''},{...c.contacts[0],id:'second',name:'Example second office',email:'second@example.com',subject:'Override {{name}}',body:'Override signature: {{name}}'}];
+ const sources=[Kit.html(c,'',p=>p,true).match(/<script>([\s\S]*)<\/script>/)[1],require('../src/project.js').websiteFiles(c,{},'')['scripts/site.js']];
+ for(const source of sources){
+  const nodes={},copied=[],make=extra=>({handlers:{},addEventListener(e,fn){this.handlers[e]=fn;},...extra});
+  for(const id of ['visitor-name','personal-message','email-subject','email-body','open-email','email-status','contact-detail','draft-status'])nodes[id]=make({value:'',textContent:'',append(){}});
+  const radios=c.contacts.map((p,i)=>make({checked:i===0,value:String(i)}));
+  const buttons=['email-subject','email-body'].map(copy=>make({dataset:{copy}}));
+  vm.runInNewContext(source,{document:{getElementById:id=>nodes[id],querySelectorAll:s=>s==='[data-copy]'?buttons:s==='input[name="recipient"]'?radios:[],createElement:()=>({})},navigator:{clipboard:{writeText:async text=>copied.push(text)}},Date,encodeURIComponent,URL});
+  const edit=(id,value)=>{nodes[id].value=value;nodes[id].handlers.input();};
+  const select=i=>{radios.forEach((r,j)=>r.checked=j===i);radios[i].handlers.change();};
+  const check=async(subject,body)=>{
+   assert.equal(nodes['email-subject'].value,subject);assert.equal(nodes['email-body'].value,body);
+   const mail=new URL(nodes['open-email'].href);assert.equal(mail.searchParams.get('subject'),subject);assert.equal(mail.searchParams.get('body'),body);
+   for(const [i,expected] of [subject,body].entries()){await buttons[i].handlers.click();assert.equal(copied.pop(),expected);}
+  };
+  const body=name=>'Dear '+c.contacts[0].name+',\n\nRegards,\n'+name;
+  await check('From [Your Name]',body('[Your Name]'));
+  for(const name of [' \t ','Example Visitor','','Second Visitor']){edit('visitor-name',name);const display=name.trim()?name:'[Your Name]';await check('From '+display,body(display));}
+  edit('visitor-name','');edit('email-body','My manually edited words\n[Your Name]');edit('visitor-name','Filled Name');
+  await check('From Filled Name','My manually edited words\n[Your Name]');
+  select(1);await check('Override Filled Name','Override signature: Filled Name');
+  edit('visitor-name',' \t ');await check('Override [Your Name]','Override signature: [Your Name]');
+  edit('email-subject','Custom subject');edit('email-body','');edit('visitor-name','New Name');await check('Custom subject','');
+  select(0);await check('From New Name','My manually edited words\n[Your Name]');
+  select(1);await check('Custom subject','');
+ }
+});

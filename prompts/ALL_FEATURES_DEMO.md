@@ -1,6 +1,6 @@
 # All-features demo: a full fictional campaign
 
-This optional, ready-filled prompt demonstrates the kit with **three groups and six contacts**, country labels, individual appeals, sharing controls, a header timer, bottom background/timeline/sources/existing-efforts sections and a configurable footer. The X follow link is deliberately left empty rather than inventing a real account. Everything in the campaign is fictional. Choose it explicitly; it must never replace the default starter or an existing campaign automatically.
+This optional, ready-filled prompt demonstrates the kit with **three groups with four contacts each, plus two uncategorized contacts (14 total)**, country labels, individual appeals, sharing controls, a header timer, bottom background/timeline/sources/existing-efforts sections and a configurable footer. The X follow link is deliberately left empty rather than inventing a real account. Everything in the campaign is fictional. Choose it explicitly; it must never replace the default starter or an existing campaign automatically.
 
 Upload the whole toolkit ZIP, then paste the entire block below. No live research, real recipients or external action is needed.
 
@@ -30,16 +30,26 @@ Add three sections:
 - “A demonstration, not a live campaign”: Explain that contacts, sources, dates, petition and social links are placeholders and must all be replaced/verified before adapting this into a real campaign. Do not send sample appeals.
 
 GROUPS AND CONTACTS
-Keep groups and contacts in this exact order, with two contacts per group. All contacts have country “Fictional demo country”. Show country below Role. Give each a blank verified date and a reserved sourceUrl https://example.com/willowmere-demo/contacts; do not imply these identities or addresses were verified. Retain distinct stable IDs.
+Keep the three named groups in this exact order, with four contacts per group followed by two uncategorized contacts: 14 contacts total. All contacts have country “Fictional demo country”. Show country below Role. Give each a blank verified date and a reserved sourceUrl https://example.com/willowmere-demo/contacts; do not imply these identities or addresses were verified. Retain distinct stable IDs. Every person, office and organization below is fictional.
 Group 1: Council offices (fictional)
 1. id council-chair; name Willowmere Council Chair (fictional); role Community services review; email council-chair@example.com; priority “Demo first contact”.
 2. id access-office; name Willowmere Access Office (fictional); role Accessibility planning; email access-office@example.com; priority “Demo access questions”.
+3. id library-planning; name Willowmere Library and Neighbourhood Learning Spaces Planning Office (fictional); role Library facilities planning; email library-planning@example.com; priority “Demo long-name layout”.
+4. id evening-services; name Willowmere Evening Services Coordinator (fictional); role Imagined opening-hours review; email evening-services@example.com; priority “Demo opening-hours questions”.
 Group 2: Local press (fictional)
-3. id community-desk; name Willowmere Community Desk (fictional); role Community affairs editor; email community-desk@example.com; priority “Demo story inquiry”.
-4. id radio-producer; name Willowmere Radio Producer (fictional); role Local discussion programme; email radio-producer@example.com; priority “Demo interview inquiry”.
+5. id community-desk; name Willowmere Community Desk (fictional); role Community affairs editor; email community-desk@example.com; priority “Demo story inquiry”.
+6. id radio-producer; name Willowmere Radio Producer (fictional); role Local discussion programme; email radio-producer@example.com; priority “Demo interview inquiry”.
+7. id neighbourhood-review; name Willowmere Neighbourhood Review Community Learning and Accessibility Desk (fictional); role Imagined public-interest features; email neighbourhood-review@example.com; priority “Demo long-name story inquiry”.
+8. id library-podcast; name Willowmere Library Podcast Producer (fictional); role Imagined community conversations; email library-podcast@example.com; priority “Demo audio inquiry”.
 Group 3: Community groups (fictional)
-5. id readers-circle; name Willowmere Readers Circle (fictional); role Reading and literacy activities; email readers-circle@example.com; priority “Demo community feedback”.
-6. id access-network; name Willowmere Access Network (fictional); role Inclusive community spaces; email access-network@example.com; priority “Demo accessibility feedback”.
+9. id readers-circle; name Willowmere Readers Circle (fictional); role Reading and literacy activities; email readers-circle@example.com; priority “Demo community feedback”.
+10. id access-network; name Willowmere Access Network (fictional); role Inclusive community spaces; email access-network@example.com; priority “Demo accessibility feedback”.
+11. id family-learning; name Willowmere Family Learning Circle (fictional); role Imagined family reading activities; email family-learning@example.com; priority “Demo family feedback”.
+12. id quiet-reading; name Willowmere Quiet Reading and Shared Community Spaces Volunteer Collective (fictional); role Imagined quiet-space feedback; email quiet-reading@example.com; priority “Demo long-name community feedback”.
+Uncategorized contacts: set group to the empty string for both; do not add “Uncategorized” to the saved groups array.
+13. id independent-reader; name Willowmere Independent Reader Liaison (fictional); role Imagined individual reader perspective; email independent-reader@example.com; priority “Demo uncategorized contact”.
+14. id access-adviser; name Willowmere Independent Community Access Adviser (fictional); role Imagined independent accessibility perspective; email access-adviser@example.com; priority “Demo uncategorized feedback”.
+The visitor group filters should show All contacts, the three populated named groups, and Uncategorized. Uncategorized is a view of contacts whose group is blank, not a fourth saved group. It appears only when such contacts exist. Empty named groups remain saved but do not have visitor filter buttons. Use the long names above to exercise card wrapping rather than shortening them to fit.
 
 DEFAULT AND INDIVIDUAL APPEALS
 Default subject: [FICTIONAL DEMO — DO NOT SEND] Reviewing the imagined Willowmere library proposal
@@ -59,6 +69,13 @@ Community Desk overrides both subject and body with a fictional-demo inquiry abo
 Radio Producer overrides only the subject: [FICTIONAL DEMO — DO NOT SEND] An imagined library discussion; body blank to inherit.
 Readers Circle overrides both with a fictional-demo request for ideas for an imagined reading area.
 Access Network overrides both with a fictional-demo request for inclusive-design feedback.
+Library Planning and Evening Services inherit both defaults.
+Neighbourhood Review overrides both with a fictional-demo inquiry about an imagined accessibility feature story.
+Library Podcast overrides only the subject: [FICTIONAL DEMO — DO NOT SEND] Imagined library podcast discussion; body blank to inherit.
+Family Learning inherits both defaults.
+Quiet Reading overrides only the body with a fictional-demo request for imagined quiet-space feedback; subject blank to inherit.
+Independent Reader inherits both defaults.
+Access Adviser overrides only the body with a fictional-demo request for an imagined independent access review; subject blank to inherit.
 Every override body must begin with the fictional-demo warning and remain short and respectful. Use only {{recipient}}, {{personalMessage}} and {{name}} placeholders. Keep the personalMessage placeholder on its own line. Do not invent group-level templates: the kit supports defaults and individual contact overrides.
 
 SOURCES, TIMELINE AND HEADER TIMER
@@ -91,7 +108,7 @@ If image generation and file packaging are available, create one original landsc
 If image generation or packaging is unavailable, leave poster, posterAlt and socialImage empty and assets empty; retain the built-in decorative panel. Report the specific limitation and continue without questions or broken references. Do not scrape or hotlink an image or claim all image features were exercised when they were not.
 
 REVIEW, EXPORT AND HANDOFF
-Validate all supported fields and references. Confirm three groups, six unique contacts, country labels, mixed inheritance/overrides, three source records, three timeline items, the fictional header timer (legacy event null), configurable header, sharing text/public URL, enabled bottom sections, two existing-efforts items, footer text/updated date, section content, social links, petition placeholder and optional images. Confirm the X follow URL remains empty. Inspect each recipient draft without sending. Check all emails/links remain on reserved example.com; no real recipient or secret belongs in these files.
+Validate all supported fields and references. Confirm three saved groups with four contacts each and two contacts with blank group (14 unique contacts total), country labels, mixed inheritance/overrides, three source records, three timeline items, the fictional header timer (legacy event null), configurable header, sharing text/public URL, enabled bottom sections, two existing-efforts items, footer text/updated date, section content, social links, petition placeholder and optional images. Confirm the X follow URL remains empty. Inspect all 14 recipient drafts without sending. Check All contacts shows 14 cards, each named-group filter shows its four members, and Uncategorized shows only the two blank-group contacts. Confirm filters never change the selected recipient or draft, and the form identifies a selection outside the active filter. Select a contact and confirm its draft is prepared before focus/scroll moves to the noneditable form heading, not a text field. Confirm there are no floating review bars or repeated email CTAs. In a review-only copy, remove the two blank-group contacts and confirm Uncategorized disappears; leave a named group empty and confirm its button disappears while its saved group data remains. Restore the complete main demo afterward. Check that a real named group called “Uncategorized” would remain distinct from blank-group contacts; do not add that extra group to this demo. Report browser-only checks as unperformed if no browser is available. Check all emails/links remain on reserved example.com; no real recipient or secret belongs in these files.
 Use app/tools/export-campaign.cjs following app/workflow/ai.md with a fresh output directory outside the project. Return the complete portable <campaign-id>-project.zip, site-only <campaign-id>-website.zip, <campaign-id>-editable-backup.zip and a separate review summary. The project must reopen independently and retain the editor, current campaign/media, toolkit and all prompts. Check archive layout/checksums and backup media round-trip. Website ZIP contains root index.html and only selected public assets, not editor/source/unused media.
 Report tests actually run; real-browser checks that could not run remain explicitly unperformed. Never equate simulated tests with browser verification. If file generation is unavailable, state the blocker and provide reviewable campaign data, not an invented download link.
 Explain Save to ZIP versus Download website ZIP and how to reopen the project or reupload it for the guided update workflow. Mark the whole result as fictional and unsuitable for real outreach. Do not present placeholder links or addresses as working services. This optional demo does not replace the repository starter unless I explicitly ask to use it.

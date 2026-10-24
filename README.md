@@ -50,7 +50,7 @@ Upload your **newest complete project ZIP** and say: “Read prompts/GUIDED_UPDA
 
 You can also say: “Use this campaign as a starting point for a different case, keeping these relevant contacts.” The assistant preserves your original, creates a new campaign ID, confirms which contacts to retain and rechecks their suitability. It replaces or clears old-case facts, sources, dates, images, appeal overrides and sharing details rather than silently carrying them into the new cause. It asks which route you mean only if unclear.
 
-Want a fuller fictional example first? Use **[ALL_FEATURES_DEMO.md](prompts/ALL_FEATURES_DEMO.md)**: three groups, six contacts, country labels, individual appeals, sharing, a header timer, bottom background/timeline/sources/existing-efforts sections and a configurable footer. It is opt-in, uses reserved example addresses, and is not for real outreach.
+Want a fuller fictional example first? Use **[ALL_FEATURES_DEMO.md](prompts/ALL_FEATURES_DEMO.md)**: three groups with four contacts each plus two uncategorized contacts (14 total), country labels, individual appeals, sharing, a header timer, bottom background/timeline/sources/existing-efforts sections and a configurable footer. It is opt-in, uses reserved example addresses, and is not for real outreach.
 
 #### For assistants receiving this kit
 
@@ -67,6 +67,12 @@ Not every assistant automatically reads bundled instructions or has file tools. 
 3. Click the outlined text to edit it. Use the sidebar for images, contacts and page settings, then check **Visitor preview**.
 4. Choose **Save to ZIP** and wait for the download to finish. Keep this **updated project ZIP**.
 5. When you want a hosting package, choose **Download website ZIP**. This exports the current valid visitor-facing site; it does not publish it or save your editable project. Use **Save to ZIP** separately before closing.
+
+The consolidated appeal form appears **before the contacts**. On desktop, your name and own words are on the left; recipient search, the selected contact’s details, subject and message are on the right. Narrow screens stack the columns. Open the recipient picker to browse **all contacts**, or type to filter them—you do not need to know a name first. Choose a listed contact; typing a query does not change the recipient or permit an arbitrary email address. Choosing from the picker updates the draft without jumping away from the form.
+
+Click anywhere on a contact card (except its independent public-source link), or select its native radio control, to prepare that contact’s draft and move to the noneditable form heading. This does not focus a text field or request a mobile keyboard. Cards and the form picker stay synchronized. Group buttons only filter the card list; they never change the recipient, draft or scroll position. The picker still includes all contacts, and selecting a contact outside the active group does not change that filter. There are no floating review bars or repeated email buttons. Manually edited subject/body fields are kept separately per recipient while the page stays open. Your name and own words are retained; edited fields must be adjusted directly if personalization changes. Reloading clears drafts. Nothing is sent automatically.
+
+Visitors can filter recipient cards using **All contacts**, populated group buttons and **Uncategorized** when any contacts have no group. Empty groups remain saved for editing but do not show visitor buttons. These filters organize individual recipient choices; they do not send to a group.
 
 No installation, terminal, server or AI account is needed. **All fields** opens the full form if you prefer that way of editing. Contacts have an optional **Country** field below **Role** in both editing forms; a supplied country also appears below the role on the public card. Leave it blank when unnecessary or unknown.
 

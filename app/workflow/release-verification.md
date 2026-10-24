@@ -2,6 +2,14 @@
 
 Date: 20 October 2026. Environment: Linux workspace, Node.js **v24.19.0**. This pass prepares documentation and local checks; it does not certify a release, establish licensing rights or claim browser acceptance.
 
+## October 23 consolidated-form revision
+
+The new form keeps name and own words on the left and places the all-contact searchable picker, selected details, subject and message on the right, stacking on mobile. Whole-card selection returns to the form; public-source links stay independent. Form-picker selection stays in place, synchronizes the card radios and preserves the active group filter and separate recipient drafts. Existing campaign data/schema/media and V5 exports are preserved. The generic toolkit passes **125/125 Node tests**, plus build, JavaScript syntax and release/checksum checks. The separate V6 demo review records archive and unchanged V5 campaign/media checks; the counts below are historical. No real-browser acceptance is claimed. The [browser checklist](verification.md) covers browse-before-search, unmatched queries, keyboard dismissal/selection, long names, card whitespace/source links and hidden-group selection.
+
+## October 23 direct-navigation revision
+
+The generic toolkit passes 120/120 Node tests after replacing the review bars with checked-radio navigation to the noneditable form heading. Build, syntax and release/checksum checks were rerun. DOM tests assert filters never navigate or select recipients and retain independent drafts. No new real-browser pass is claimed; see [verification gaps](verification.md).
+
 ## Completed checks
 
 - The baseline automated suite passed **50/50**. The public-export privacy revision passed **52/52**. After the AI/portable-project workflow, browser project saving and boundary fixes, the generic-toolkit suite passed **69 tests, 69 passed, 0 failed**. These cover validation, rendering, archive defenses, data preservation and simulated editor behavior. See [the test report](../tests/TEST-REPORT.md) for their scope and limitations.

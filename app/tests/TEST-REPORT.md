@@ -1,3 +1,21 @@
+# Consolidated recipient form revision — 23 October 2026
+
+The requested UI adds a desktop two-column form (name/own words left; all-contact searchable picker, selected details and message fields right), stacked on narrow screens. Card bodies select a recipient and return to the form; public-source links remain independent. The form picker synchronizes with native card radios without navigating or changing the active group filter. Per-recipient edited drafts remain separate. Campaign schema, content and media are unchanged.
+
+Final automated verification: **125/125 Node tests passed**, with build, JavaScript syntax and release/checksum checks. Five new deterministic DOM tests cover browse/filter/cancel/keyboard selection, hidden-group synchronization, per-recipient drafts, and card/link event routing; these are simulations, not native browser checks. The 120/120 result below belongs to the preceding direct-navigation revision, not this revision. No real-browser checks were performed for this revision; the existing socket and local-project access restrictions were not bypassed. Actual responsive rendering, native keyboard/screen-reader behavior, offline startup, clipboard, mail handlers and downloads remain unverified. See the expanded [browser checklist](../workflow/verification.md).
+
+---
+
+# Prior direct recipient-to-form navigation — 23 October 2026
+
+Prior direct-navigation toolkit: **120/120 Node tests passed**. A checked radio change prepares the selected draft, then focuses the noneditable form heading with preventScroll and scrolls it into view. Startup and personalization do not navigate. Group buttons filter only; repeated filters do not change selection, draft or focus/scroll. The form retains selected-recipient identity. Floating/sticky review bars, reserved space and their viewport/resize/focus listeners are removed; no repeated email CTAs remain.
+
+DOM simulations cover draft-before-focus ordering, unchecked changes, repeated selection/filtering, noneditable focus, independent subject/body edits, intentionally empty drafts, name/own-words retention and no-JavaScript static content. Timeline accent lines, Month day, Year formatting, SVG sharing icons and compact timer are preserved. Date, escaping and timezone regressions remain passing.
+
+No real-browser check was performed for this revision. Prior local browser startup was denied by socket permissions and the alternate browser could not reach the local project. Those restrictions were not bypassed. Actual mobile/desktop layout, safe areas, keyboard behavior, offline file:// startup, clipboard, mail handlers and browser downloads remain unverified. These automated checks do not certify accessibility or production readiness.
+
+---
+
 # Visual-editor revision verification
 
 Date: 20 October 2026. This is a local prototype, not a production-readiness or accessibility certification.

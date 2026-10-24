@@ -7,7 +7,7 @@ const PROJECT_FILES=[
  'campaign.schema.json','editor.html','app/setup/editor.css','app/setup/editor.js','app/setup/index.html','app/setup/visual.js',
  'app/src/archive.js','app/src/core.js','app/src/project.js','app/src/site.css',
  'app/tests/TEST-REPORT.md','app/tests/ai-export.test.cjs','app/tests/core.test.cjs','app/tests/editor-integration.test.cjs',
- 'app/tests/project-save.test.cjs','app/tests/public-export.test.cjs','app/tests/recipient-cards.test.cjs','app/tests/revision-data.test.cjs','app/tests/revision-review.test.cjs','app/tests/visual-review.test.cjs',
+ 'app/tests/project-save.test.cjs','app/tests/public-export.test.cjs','app/tests/recipient-cards.test.cjs','app/tests/form-navigation.test.cjs','app/tests/timeline-style.test.cjs','app/tests/share-icons.test.cjs','app/tests/revision-data.test.cjs','app/tests/revision-review.test.cjs','app/tests/visual-review.test.cjs',
  'app/tools/build.cjs','app/tools/check-release.cjs','app/tools/export-campaign.cjs','app/tools/project-bundle.cjs',
  'app/workflow/ai.md','app/workflow/campaign-format.md','app/workflow/manual.md','app/workflow/publish-cloudflare.md',
  'app/workflow/release-checklist.md','app/workflow/release-verification.md','app/workflow/review-and-recovery.md','app/workflow/verification.md'

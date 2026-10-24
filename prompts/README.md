@@ -7,7 +7,7 @@ Upload the **whole project ZIP** and tell the assistant what you want. For a new
 
 - **[GUIDED_UPDATE_WORKFLOW.md](GUIDED_UPDATE_WORKFLOW.md)** updates your newest customized project without repeating the creation interview. Contact changes preserve stable IDs, order and groups. It also handles an explicitly different case using chosen contacts from an existing project, preserving the original and checking for old-case carryover.
 
-- **[ALL_FEATURES_DEMO.md](ALL_FEATURES_DEMO.md)** is an opt-in, entirely fictional loaded example: three groups, six contacts, countries, individual appeals, sharing, header timer, bottom background/timeline/sources/existing-efforts sections, footer and optional images. The X follow URL stays empty because no real account should be invented. Reserved example addresses and visible demo warnings make it a safe preview, not a real campaign or replacement for the starter.
+- **[ALL_FEATURES_DEMO.md](ALL_FEATURES_DEMO.md)** is an opt-in, entirely fictional loaded example: three groups with four contacts each plus two uncategorized contacts (14 total), countries, individual appeals, sharing, header timer, bottom background/timeline/sources/existing-efforts sections, footer and optional images. The X follow URL stays empty because no real account should be invented. Reserved example addresses and visible demo warnings make it a safe preview, not a real campaign or replacement for the starter.
 
 “Finished” means a generated review package, **not** approval to publish or email anyone. Test drafts without sending them. A public email address is not permission for bulk mail: send only a genuine, relevant, personally reviewed inquiry and respect the recipient's published contact guidance.
 
